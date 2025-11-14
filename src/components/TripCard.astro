@@ -32,27 +32,30 @@ const statusLabels: Record<Trip['status'], string> = {
   past: 'Παλαιότερη'
 };
 ---
-<article class="glass-panel p-6 flex flex-col gap-5 transition duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-brand-pine/40">
+<article class="glass-panel p-6 flex flex-col gap-5 transition duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-brand-pine/30 bg-gradient-to-br from-brand-cloud via-white to-brand-cloud">
   <div class="flex flex-wrap items-center justify-between gap-3">
     <div>
-      <p class="text-sm text-brand-mist uppercase tracking-[0.2em]">{formattedDate}</p>
-      <p class="text-lg font-semibold text-brand-rocky">{trip.location}</p>
+      <p class="text-xs uppercase tracking-[0.35em] text-brand-moss">{formattedDate}</p>
+      <p class="text-lg font-semibold text-brand-rocky heading-font">{trip.location}</p>
     </div>
-    <span class={`text-xs font-semibold px-3 py-1 rounded-full border ${typeStyles[trip.type]} `}>
+    <span class={`inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full border shadow-sm ${typeStyles[trip.type]} `}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m6 15 3.5-4.5L13 15l3-3 2 2" />
+      </svg>
       {typeLabels[trip.type]}
     </span>
   </div>
   <div>
-    <h3 class="text-2xl font-semibold text-brand-rocky">{trip.title}</h3>
-    <p class="mt-2 text-brand-mist">{trip.shortDescription}</p>
+    <h3 class="text-2xl font-semibold text-brand-rocky heading-font">{trip.title}</h3>
+    <p class="mt-2 text-brand-mist leading-relaxed">{trip.shortDescription}</p>
   </div>
   <div class="space-y-3">
     <div class="flex items-center gap-3 text-sm text-brand-mist">
-      <span class="uppercase tracking-[0.3em] text-xs text-brand-mist">Δυσκολία</span>
+      <span class="uppercase tracking-[0.3em] text-xs text-brand-river">Δυσκολία</span>
       <div class="flex gap-1" aria-label={`Επίπεδο δυσκολίας ${trip.difficulty} από 5`}>
         {Array.from({ length: 5 }).map((_, index) => (
           <span
-            class={`h-2.5 w-8 rounded-full transition ${index < trip.difficulty ? 'bg-brand-terracotta shadow-inner shadow-brand-terracotta/40' : 'bg-brand-river/70'}`}
+            class={`h-2.5 w-8 rounded-full transition ${index < trip.difficulty ? 'bg-brand-terracotta shadow-inner shadow-brand-terracotta/40' : 'bg-brand-river/40'}`}
           ></span>
         ))}
       </div>
@@ -60,19 +63,19 @@ const statusLabels: Record<Trip['status'], string> = {
     <div class="grid grid-cols-2 gap-4 text-sm text-brand-rocky">
       <div>
         <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Απόσταση</p>
-        <p class="text-lg font-semibold">{trip.distanceKm} km</p>
+        <p class="text-lg font-semibold heading-font">{trip.distanceKm} km</p>
       </div>
       <div>
         <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Υψομετρική</p>
-        <p class="text-lg font-semibold">{trip.elevationGain} m</p>
+        <p class="text-lg font-semibold heading-font">{trip.elevationGain} m</p>
       </div>
       <div>
         <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Αρχηγός</p>
-        <p class="text-lg font-semibold">{trip.leader}</p>
+        <p class="text-lg font-semibold heading-font">{trip.leader}</p>
       </div>
       <div>
         <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Κατάσταση</p>
-        <p class="text-lg font-semibold">{statusLabels[trip.status]}</p>
+        <p class="text-lg font-semibold heading-font">{statusLabels[trip.status]}</p>
       </div>
     </div>
   </div>

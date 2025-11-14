@@ -34,7 +34,7 @@ const navLinks = [
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -45,28 +45,45 @@ const navLinks = [
     </div>
     <div class="relative flex min-h-screen flex-col">
       <header class="section-padding pb-6">
-        <div class="glass-panel px-6 py-6 lg:py-4">
-          <div class="flex items-center justify-between gap-6">
-            <a href="/" class="text-lg font-semibold tracking-[0.2em] text-brand-pine uppercase">Φ.Ο.Ο.Γ</a>
-            <button
-              id="nav-toggle"
-              class="lg:hidden inline-flex items-center gap-2 rounded-full border border-brand-pine/20 px-4 py-2 text-sm font-semibold text-brand-rocky hover:text-brand-terracotta"
-            >
-              Μενού
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
-              </svg>
-            </button>
-            <nav id="nav-menu" class="hidden flex-wrap gap-4 text-sm font-semibold text-brand-rocky lg:flex">
-              {navLinks.map((link) => (
+        <div class="glass-panel px-6 py-6 lg:py-5">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <a href="/" class="text-2xl font-semibold text-brand-pine heading-font flex items-center gap-3">
+                Φ.Ο.Ο.Γ
+                <span class="playful-pill">since 1974</span>
+              </a>
+              <p class="text-sm text-brand-mist mt-1">Ορέξα για κορυφές, παρέα για πάντα.</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <button
+                id="nav-toggle"
+                class="lg:hidden inline-flex items-center gap-2 rounded-full border border-brand-pine/30 px-4 py-2 text-sm font-semibold text-brand-rocky hover:text-brand-terracotta"
+              >
+                Μενού
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+                </svg>
+              </button>
+              <nav id="nav-menu" class="hidden flex-wrap items-center gap-3 text-sm font-semibold text-brand-rocky lg:flex">
+                {navLinks.map((link) => (
+                  <a
+                    href={link.href}
+                    class="rounded-full bg-brand-cloud px-4 py-2 border border-brand-river/10 shadow-sm shadow-brand-river/10 transition hover:-translate-y-0.5 hover:text-brand-terracotta"
+                  >
+                    {link.label}
+                  </a>
+                ))}
                 <a
-                  href={link.href}
-                  class="rounded-full border border-transparent px-4 py-2 transition hover:border-brand-pine/50 hover:text-brand-pine"
+                  href="/trips"
+                  class="hidden lg:inline-flex items-center gap-2 rounded-full bg-brand-terracotta px-5 py-2 text-sm font-semibold text-brand-cloud shadow-brand-terracotta/30 shadow-lg hover:translate-y-0.5"
                 >
-                  {link.label}
+                  Νέα εξόρμηση
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+                  </svg>
                 </a>
-              ))}
-            </nav>
+              </nav>
+            </div>
           </div>
           <nav
             id="nav-menu-mobile"
@@ -80,6 +97,12 @@ const navLinks = [
                 {link.label}
               </a>
             ))}
+            <a
+              href="/trips"
+              class="rounded-2xl bg-brand-terracotta/90 text-brand-cloud px-4 py-3 text-center font-semibold shadow-md"
+            >
+              Νέα εξόρμηση
+            </a>
           </nav>
         </div>
       </header>

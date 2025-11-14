@@ -7,11 +7,15 @@ interface Props {
 
 const { title, eyebrow, subtitle } = Astro.props;
 ---
-<div class="text-center max-w-3xl mx-auto mb-10">
+<div class="text-center max-w-3xl mx-auto mb-12">
   {eyebrow && (
-    <p class="text-sm uppercase tracking-[0.3em] text-brand-pine mb-3">{eyebrow}</p>
+    <div class="flex items-center justify-center gap-2 mb-2">
+      <span class="h-2 w-2 rounded-full bg-brand-terracotta"></span>
+      <p class="text-xs uppercase tracking-[0.4em] text-brand-pine">{eyebrow}</p>
+      <span class="h-2 w-2 rounded-full bg-brand-moss"></span>
+    </div>
   )}
-  <h2 class="text-3xl sm:text-4xl font-semibold text-brand-rocky">{title}</h2>
+  <h2 class="text-3xl sm:text-4xl font-semibold text-brand-rocky heading-font">{title}</h2>
   {subtitle && <p class="mt-4 text-brand-mist text-lg">{subtitle}</p>}
-  <div class="mt-6 h-1 w-20 mx-auto bg-gradient-to-r from-brand-moss to-brand-terracotta rounded-full" aria-hidden="true"></div>
+  <div class="squiggle-divider mt-6 mx-auto w-32" aria-hidden="true"></div>
 </div>

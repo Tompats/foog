@@ -7,23 +7,23 @@ interface Props {
 
 const { coach } = Astro.props;
 ---
-<div class="glass-panel p-6 flex flex-col gap-4 text-center transition duration-300 hover:-translate-y-1 hover:border-brand-pine/50">
-  <img src={coach.photoUrl} alt={coach.name} class="mx-auto h-28 w-28 rounded-full object-cover ring-4 ring-brand-river/60" loading="lazy" />
+<div class="glass-panel p-6 flex flex-col gap-4 text-center transition duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-brand-pine/40 bg-gradient-to-b from-white to-brand-cloud">
+  <img src={coach.photoUrl} alt={coach.name} class="mx-auto h-28 w-28 rounded-[30px] object-cover ring-4 ring-brand-river/40" loading="lazy" />
   <div>
-    <p class="text-sm uppercase tracking-[0.3em] text-brand-pine">{coach.role}</p>
-    <h3 class="text-2xl font-semibold text-brand-rocky">{coach.name}</h3>
+    <p class="text-xs uppercase tracking-[0.4em] text-brand-moss">{coach.role}</p>
+    <h3 class="text-2xl font-semibold text-brand-rocky heading-font">{coach.name}</h3>
   </div>
   <p class="text-brand-mist text-sm leading-relaxed">{coach.bio}</p>
   <div class="flex flex-wrap justify-center gap-2">
     {coach.certifications.map((cert) => (
-      <span class="text-xs px-3 py-1 rounded-full border border-brand-river/70 text-brand-rocky bg-brand-river/60">
+      <span class="text-xs px-3 py-1 rounded-full border border-brand-river/30 text-brand-rocky bg-brand-cloud shadow-sm">
         {cert}
       </span>
     ))}
   </div>
   <div class="flex flex-wrap justify-center gap-2">
     {coach.specialties.map((spec) => (
-      <span class="text-xs uppercase tracking-[0.2em] text-brand-pine border border-brand-pine/40 rounded-full px-3 py-1 bg-brand-pine/10">
+      <span class="text-xs uppercase tracking-[0.2em] text-brand-pine border border-brand-pine/30 rounded-full px-3 py-1 bg-brand-moss/20">
         {spec}
       </span>
     ))}

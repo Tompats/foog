@@ -16,23 +16,23 @@ const latestReports = [...trips]
 
 const features = [
   {
-    title: 'Προτεραιότητα η ασφάλεια',
-    body: 'Πιστοποιημένοι προπονητές, αυστηρή αξιολόγηση διαδρομών και συνεχής επίγνωση χιονοστιβάδων.',
+    title: 'Ασφάλεια με χαμόγελο',
+    body: 'IFMGA οδηγοί, playful drills και πρακτική σε πραγματικό χιόνι κρατούν τα χαμόγελα μεγάλα και τους κινδύνους μικρούς.',
     icon: 'shield'
   },
   {
-    title: 'Δράση όλο τον χρόνο',
-    body: 'Ορειβατικό σκι, πεζοπορίες σε παγετώνες, φθινοπωρινές αναρριχήσεις και χειμερινή προπόνηση.',
+    title: 'Εποχές γεμάτες χρώμα',
+    body: 'Από καλοκαιρινά bivouac μέχρι σκι του ηλιοστασίου, το ημερολόγιο μας είναι μια παλέτα περιπέτειας.',
     icon: 'seasons'
   },
   {
-    title: 'Μέντορες & σεμινάρια',
-    body: 'Πρακτική καθοδήγηση, επανάληψη τεχνικών διάσωσης και κύκλοι για νέους αρχηγούς.',
+    title: 'Στρατόπεδα περιπέτειας',
+    body: 'Mini expeds, σχολές σχοινιού και βραδιές χαρτογράφησης σε καλύβες με ζεστή σοκολάτα.',
     icon: 'compass'
   },
   {
-    title: 'Κοινότητα & νεολαία',
-    body: 'Υποτροφίες, νέοι φύλακες βουνού και ομάδες ενδιαφέροντος ανοίγουν το αλπικό σε όλους.',
+    title: 'Κοινότητα χωρίς όρια',
+    body: 'Affinity ομάδες, youth stewards και οικογένειες που γεμίζουν τα μονοπάτια με γέλια.',
     icon: 'community'
   }
 ];
@@ -40,24 +40,24 @@ const features = [
 <BaseLayout>
   <section class="section-padding pt-10">
     <div class="glass-panel px-8 py-14 lg:px-12 lg:py-20 overflow-hidden relative">
-      <div class="absolute inset-y-0 right-0 w-1/2 opacity-20 pointer-events-none hidden lg:block">
+      <div class="absolute inset-y-0 right-0 w-1/2 opacity-30 pointer-events-none hidden lg:block">
         <svg viewBox="0 0 400 400" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 320L120 180L200 260L320 120L400 200V400H0Z" fill="url(#grad)" />
+          <path d="M0 360L120 210L200 290L320 150L400 220V400H0Z" fill="url(#grad)" />
           <defs>
             <linearGradient id="grad" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.6" />
-              <stop offset="100%" stop-color="#f97316" stop-opacity="0.3" />
+              <stop offset="0%" stop-color="#A7C957" stop-opacity="0.6" />
+              <stop offset="100%" stop-color="#E26D5A" stop-opacity="0.4" />
             </linearGradient>
           </defs>
         </svg>
       </div>
       <p class="text-sm uppercase tracking-[0.3em] text-brand-pine">Φ.Ο.Ο.Γ · Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών</p>
-      <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-brand-rocky max-w-3xl">
-        Μέντορες των βουνών, κυνηγοί πούδρας και αφηγητές γραμμών ονείρου.
+      <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-brand-rocky heading-font max-w-3xl">
+        Κάμπινγκ, σχοινιά και γέλια σε κάθε κορυφή.
       </h1>
       <p class="mt-6 text-lg text-brand-mist max-w-2xl">
-        Είμαστε κοινότητα εθελοντών που προσφέρει προγράμματα επιπέδου οδηγών, εκπαίδευση ασφάλειας
-        και αξέχαστες εξορμήσεις από τον Όλυμπο μέχρι τις Άλπεις του Καναδά.
+        Ξεκινήσαμε ως παρέα εξερευνητών και συνεχίζουμε να σχεδιάζουμε ταξίδια που μυρίζουν έλατο,
+        καραμέλα και υψόμετρο. Αν αγαπάς τα χιονοπέδιλα όσο και τη φωτιά στο καταφύγιο, είσαι δικός μας άνθρωπος.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a
@@ -72,6 +72,20 @@ const features = [
         >
           Γίνε μέλος
         </a>
+      </div>
+      <div class="mt-8 grid gap-4 sm:grid-cols-3 text-center">
+        <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
+          <p class="text-3xl font-bold text-brand-pine heading-font">120+</p>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Εξορμήσεις/έτος</p>
+        </div>
+        <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
+          <p class="text-3xl font-bold text-brand-terracotta heading-font">48</p>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Μέντορες</p>
+        </div>
+        <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
+          <p class="text-3xl font-bold text-brand-moss heading-font">∞</p>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Ιστορίες φωτιάς</p>
+        </div>
       </div>
     </div>
   </section>
@@ -121,8 +135,8 @@ const features = [
       </div>
       <div class="grid gap-6">
         {features.map((feature) => (
-          <div class="glass-panel p-6 flex items-start gap-4 transition hover:-translate-y-1">
-            <div class="h-12 w-12 rounded-2xl bg-brand-river/70 flex items-center justify-center text-brand-pine">
+          <div class="glass-panel p-6 flex items-start gap-4 transition hover:-translate-y-1 bg-white/90">
+            <div class="h-12 w-12 rounded-2xl bg-brand-cloud flex items-center justify-center text-brand-pine shadow-inner">
               {feature.icon === 'shield' && (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 3 4.5 6v6c0 5.25 3.75 9.75 7.5 10.5 3.75-.75 7.5-5.25 7.5-10.5V6L12 3Z" />
@@ -146,7 +160,7 @@ const features = [
               )}
             </div>
             <div>
-              <h3 class="text-xl font-semibold text-brand-rocky">{feature.title}</h3>
+              <h3 class="text-xl font-semibold text-brand-rocky heading-font">{feature.title}</h3>
               <p class="text-brand-mist text-sm mt-2">{feature.body}</p>
             </div>
           </div>

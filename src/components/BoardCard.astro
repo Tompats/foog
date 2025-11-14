@@ -7,11 +7,11 @@ interface Props {
 
 const { member } = Astro.props;
 ---
-<div class="glass-panel p-6 flex items-center gap-6 transition duration-300 hover:-translate-y-1 hover:border-brand-pine/40">
-  <img src={member.photoUrl} alt={member.name} class="h-20 w-20 rounded-2xl object-cover ring-4 ring-brand-river/70" loading="lazy" />
+<div class="glass-panel p-6 flex items-center gap-6 transition duration-300 hover:-translate-y-1 hover:border-brand-pine/30 bg-white">
+  <img src={member.photoUrl} alt={member.name} class="h-20 w-20 rounded-[24px] object-cover ring-4 ring-brand-river/40" loading="lazy" />
   <div>
-    <p class="text-sm uppercase tracking-[0.3em] text-brand-pine">{member.role}</p>
-    <h3 class="text-xl font-semibold text-brand-rocky">{member.name}</h3>
+    <p class="text-xs uppercase tracking-[0.4em] text-brand-moss">{member.role}</p>
+    <h3 class="text-xl font-semibold text-brand-rocky heading-font">{member.name}</h3>
     <p class="text-brand-mist text-sm mt-2">{member.bio}</p>
   </div>
 </div>
