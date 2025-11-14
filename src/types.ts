@@ -1,4 +1,4 @@
-export type TripType = 'hiking' | 'mountaineering' | 'ski' | 'climbing';
+export type TripType = 'hiking' | 'mountaineering' | 'ski';
 
 export interface Trip {
   slug: string;

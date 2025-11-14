@@ -1,5 +1,5 @@
 ---
-import type { Trip } from '../types';
+import type { Trip } from "../types";
 
 interface Props {
   trip: Trip;
@@ -7,37 +7,37 @@ interface Props {
 
 const { trip } = Astro.props;
 
-const formattedDate = new Intl.DateTimeFormat('el-GR', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric'
+const formattedDate = new Intl.DateTimeFormat("el-GR", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
 }).format(new Date(trip.date));
 
-const typeStyles: Record<Trip['type'], string> = {
-  hiking: 'bg-brand-pine/10 text-brand-pine border-brand-pine/40',
-  mountaineering: 'bg-brand-moss/15 text-brand-moss border-brand-moss/40',
-  ski: 'bg-brand-moss/10 text-brand-rocky border-brand-moss/40',
-  climbing: 'bg-brand-terracotta/10 text-brand-terracotta border-brand-terracotta/40'
+const typeStyles: Record<Trip["type"], string> = {
+  hiking: "bg-brand-pine/10 text-brand-pine border-brand-pine/40",
+  mountaineering: "bg-brand-moss/15 text-brand-moss border-brand-moss/40",
+  ski: "bg-brand-terracotta/10 text-brand-terracotta border-brand-terracotta/40",
 };
 
-const typeLabels: Record<Trip['type'], string> = {
-  hiking: 'Πεζοπορία',
-  mountaineering: 'Ορειβασία',
-  ski: 'Σκι',
-  climbing: 'Αναρρίχηση'
+const typeLabels: Record<Trip["type"], string> = {
+  hiking: "Πεζοπορία",
+  mountaineering: "Ορειβασία",
+  ski: "Ski & Snowboard",
 };
-const typeImages: Record<Trip['type'], string> = {
-  hiking: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=60',
-  mountaineering: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60',
-  ski: 'https://images.unsplash.com/photo-1482192597420-4817fdd7e8b0?auto=format&fit=crop&w=800&q=60',
-  climbing: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=60'
+const typeImages: Record<Trip["type"], string> = {
+  hiking:
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=70",
+  mountaineering:
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=70",
+  ski: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1200&q=70",
 };
 
-const statusLabels: Record<Trip['status'], string> = {
-  upcoming: 'Επόμενη',
-  past: 'Παλαιότερη'
+const statusLabels: Record<Trip["status"], string> = {
+  upcoming: "Επόμενη",
+  past: "Παλαιότερη",
 };
 ---
+
 <article
   class="glass-panel p-0 overflow-hidden transition duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-brand-pine/30"
   data-trip-card
@@ -45,66 +45,127 @@ const statusLabels: Record<Trip['status'], string> = {
   data-difficulty={trip.difficulty}
 >
   <div class="h-40 w-full overflow-hidden relative">
-    <img src={typeImages[trip.type]} alt={trip.title} class="h-full w-full object-cover" loading="lazy" />
-    <div class="absolute inset-0 bg-gradient-to-t from-brand-river/70 via-transparent to-transparent"></div>
-  </div>
-  <div class="p-6 flex flex-col gap-5 bg-gradient-to-br from-brand-river/10 via-brand-cloud to-brand-river/5">
-  <div class="flex flex-wrap items-center justify-between gap-3">
-    <div>
-      <p class="text-xs uppercase tracking-[0.35em] text-brand-moss">{formattedDate}</p>
-      <p class="text-lg font-semibold text-brand-rocky heading-font">{trip.location}</p>
-    </div>
-    <span class={`inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full border shadow-sm ${typeStyles[trip.type]} `}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m6 15 3.5-4.5L13 15l3-3 2 2" />
-      </svg>
-      {typeLabels[trip.type]}
-    </span>
-  </div>
-  <div>
-    <h3 class="text-2xl font-semibold text-brand-rocky heading-font">{trip.title}</h3>
-    <p class="mt-2 text-brand-mist leading-relaxed">{trip.shortDescription}</p>
-  </div>
-  <div class="space-y-3">
-    <div class="flex items-center gap-3 text-sm text-brand-mist">
-      <span class="uppercase tracking-[0.3em] text-xs text-brand-river">Δυσκολία</span>
-      <div class="flex gap-1" aria-label={`Επίπεδο δυσκολίας ${trip.difficulty} από 5`}>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <span
-            class={`h-2.5 w-8 rounded-full transition ${index < trip.difficulty ? 'bg-brand-terracotta shadow-inner shadow-brand-terracotta/40' : 'bg-brand-river/40'}`}
-          ></span>
-        ))}
-      </div>
-    </div>
-    <div class="grid grid-cols-2 gap-4 text-sm text-brand-rocky">
-      <div>
-        <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Απόσταση</p>
-        <p class="text-lg font-semibold heading-font">{trip.distanceKm} km</p>
-      </div>
-      <div>
-        <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Υψομετρική</p>
-        <p class="text-lg font-semibold heading-font">{trip.elevationGain} m</p>
-      </div>
-      <div>
-        <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Αρχηγός</p>
-        <p class="text-lg font-semibold heading-font">{trip.leader}</p>
-      </div>
-      <div>
-        <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Κατάσταση</p>
-        <p class="text-lg font-semibold heading-font">{statusLabels[trip.status]}</p>
-      </div>
-    </div>
-  </div>
-  <div class="pt-2">
-    <a
-      href={`/trips/${trip.slug}`}
-      class="inline-flex items-center gap-2 text-sm font-semibold text-brand-pine rounded-full border border-brand-pine/20 px-4 py-2 transition hover:-translate-y-0.5 hover:border-brand-terracotta hover:text-brand-terracotta"
+    <img
+      src={typeImages[trip.type]}
+      alt={trip.title}
+      class="h-full w-full object-cover"
+      loading="lazy"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-brand-river/70 via-transparent to-transparent"
     >
-      Λεπτομέρειες
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
-      </svg>
-    </a>
+    </div>
   </div>
+  <div
+    class="p-6 flex flex-col gap-5 bg-gradient-to-br from-brand-river/10 via-brand-cloud to-brand-river/5"
+  >
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <p
+          class="text-s font-bold uppercase tracking-[0.35em] text-brand-mossDarker"
+        >
+          {formattedDate}
+        </p>
+        <p class="text-lg font-semibold text-brand-rocky heading-font">
+          {trip.location}
+        </p>
+      </div>
+      <span
+        class={`inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full border shadow-sm ${typeStyles[trip.type]} `}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="h-3.5 w-3.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m6 15 3.5-4.5L13 15l3-3 2 2"></path>
+        </svg>
+        {typeLabels[trip.type]}
+      </span>
+    </div>
+    <div>
+      <h3 class="text-2xl font-semibold text-brand-rocky heading-font">
+        {trip.title}
+      </h3>
+      <p class="mt-2 text-brand-mist leading-relaxed">
+        {trip.shortDescription}
+      </p>
+    </div>
+    <div class="space-y-3">
+      <div class="flex items-center gap-3 text-sm text-brand-mist">
+        <span class="uppercase tracking-[0.3em] text-xs text-brand-river"
+          >Δυσκολία</span
+        >
+        <div
+          class="flex gap-1"
+          aria-label={`Επίπεδο δυσκολίας ${trip.difficulty} από 5`}
+        >
+          {
+            Array.from({ length: 5 }).map((_, index) => (
+              <span
+                class={`h-2.5 w-8 rounded-full transition ${index < trip.difficulty ? "bg-brand-terracotta shadow-inner shadow-brand-terracotta/40" : "bg-brand-river/40"}`}
+              />
+            ))
+          }
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4 text-sm text-brand-rocky">
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+            Απόσταση
+          </p>
+          <p class="text-lg font-semibold heading-font">{trip.distanceKm} km</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+            Υψομετρική
+          </p>
+          <p class="text-lg font-semibold heading-font">
+            {trip.elevationGain} m
+          </p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+            Αρχηγός
+          </p>
+          <p class="text-lg font-semibold heading-font">{trip.leader}</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+            Κατάσταση
+          </p>
+          <p class="text-lg font-semibold heading-font">
+            {statusLabels[trip.status]}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="pt-2">
+      <a
+        href={`/trips/${trip.slug}`}
+        class="inline-flex items-center gap-2 text-sm font-semibold text-brand-pine rounded-full border border-brand-pine/20 px-4 py-2 transition hover:-translate-y-0.5 hover:border-brand-terracotta hover:text-brand-terracotta"
+      >
+        Λεπτομέρειες
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 12h14m-6-6 6 6-6 6"></path>
+        </svg>
+      </a>
+    </div>
   </div>
 </article>

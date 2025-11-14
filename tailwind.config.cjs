@@ -12,6 +12,7 @@ module.exports = {
           terracotta: '#E26D5A',
           river: '#4C6A6D',
           moss: '#A7C957',
+          mossDarker:'#96b44e',
           rocky: '#1C1C1C',
           mist: '#6F888B'
         }

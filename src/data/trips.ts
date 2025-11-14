@@ -12,7 +12,7 @@ export const trips: Trip[] = [
     leader: 'Maya Chen',
     status: 'upcoming',
     shortDescription: 'Ανάβαση με φώκιες δίπλα σε παγετώνες και κατηφόρα σε ανάλαφρο χιόνι με υποστήριξη από τους προπονητές μας.',
-    location: 'Glacier Basin, Βρετανική Κολομβία'
+    location: 'Χιονοδρομικό Παρνασσού'
   },
   {
     slug: 'midnight-alpine-classic',
@@ -25,7 +25,7 @@ export const trips: Trip[] = [
     leader: 'Lars Nyberg',
     status: 'upcoming',
     shortDescription: 'Δεμένα σχοινιά διασχίζουν μικτό πεδίο προς την κορυφή Ivory με ροζ ανατολές στις κορυφογραμμές.',
-    location: 'Ivory Range, Ουάσινγκτον'
+    location: 'Μύτικας, Όλυμπος'
   },
   {
     slug: 'carrie-pass-late-winter',
@@ -38,20 +38,20 @@ export const trips: Trip[] = [
     leader: 'Priya Anand',
     status: 'upcoming',
     shortDescription: 'Ήπια διαδρομή με snowshoe και πεζοπορία μέσα από αλπικά λιβάδια και παγωμένες λίμνες.',
-    location: 'Όροι Olympic, Ουάσινγκτον'
+    location: 'Μακρυνόρεμα, Πήλιο'
   },
   {
     slug: 'granite-arete-mentorship',
     title: 'Μέρα Μέντορινγκ στη Γρανιτένια Ακρώρεια',
     date: '2024-09-18',
-    type: 'climbing',
+    type: 'mountaineering',
     difficulty: 5,
     elevationGain: 500,
     distanceKm: 6,
     leader: 'Silvia Prado',
     status: 'past',
     shortDescription: 'Προχωρημένες ομάδες τοποθετούν ασφάλειες στη Βόρεια Ακρώρεια ενώ καθοδηγούν νέα στελέχη ανάβασης.',
-    location: 'Bugaboos, Βρετανική Κολομβία'
+    location: 'Μετέωρα, Καλαμπάκα'
   },
   {
     slug: 'solstice-glacier-glide',
@@ -64,7 +64,7 @@ export const trips: Trip[] = [
     leader: 'Aaron Wells',
     status: 'upcoming',
     shortDescription: 'Ταχύτατη περιοδεία σε παγετώνα με στόχο την πιο φωτεινή μέρα και ανανέωση δεξιοτήτων διάσωσης σε κρεβάς.',
-    location: 'Wapta Icefield, Αλμπέρτα'
+    location: 'Χιονοδρομικό Βασιλίτσας'
   },
   {
     slug: 'ember-peak-linkup',
@@ -77,6 +77,6 @@ export const trips: Trip[] = [
     leader: 'Noah Delaroche',
     status: 'past',
     shortDescription: 'Κλασικός συνδυασμός βράχου και χιονιού με χρυσαφένια ανατολή πάνω από την οροσειρά Coast.',
-    location: 'Κορυφογραμμή Coast, BC'
+    location: 'Τύμφη, Δρακόλιμνη'
   }
 ];
