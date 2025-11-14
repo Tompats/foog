@@ -1,6 +1,6 @@
 # Φ.Ο.Ο.Γ – Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών
 
-Στατικός ιστότοπος σε [Astro](https://astro.build/) + [TypeScript](https://www.typescriptlang.org/) με [Tailwind CSS](https://tailwindcss.com/). Το design βασίζεται στην παλέτα δασικού πράσινου (#2F5D46), ουρανού (#6CB7E8) και χρυσής ανατολής (#F4A340) πάνω σε ατμοσφαιρικά υπόβαθρα ομίχλης.
+Στατικός ιστότοπος σε [Astro](https://astro.build/) + [TypeScript](https://www.typescriptlang.org/) με [Tailwind CSS](https://tailwindcss.com/). Το design βασίζεται στην παλέτα Mountain Pine (#356859), Cloud White (#FDFAF6), Terracotta Peak (#E26D5A), River Rock Grey (#4C6A6D) και Moss Green (#A7C957) με κύριο κείμενο Rocky Black (#1C1C1C).
 
 ## Τεχνολογίες
 - Astro 5 (static output έτοιμο για GitHub Pages)

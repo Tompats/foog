@@ -14,10 +14,10 @@ const formattedDate = new Intl.DateTimeFormat('el-GR', {
 }).format(new Date(trip.date));
 
 const typeStyles: Record<Trip['type'], string> = {
-  hiking: 'bg-brand-forest/10 text-brand-forest border-brand-forest/40',
-  mountaineering: 'bg-brand-sky/15 text-brand-sky border-brand-sky/40',
-  ski: 'bg-brand-sky/10 text-brand-rock border-brand-sky/40',
-  climbing: 'bg-brand-sunrise/10 text-brand-sunrise border-brand-sunrise/40'
+  hiking: 'bg-brand-pine/10 text-brand-pine border-brand-pine/40',
+  mountaineering: 'bg-brand-moss/15 text-brand-moss border-brand-moss/40',
+  ski: 'bg-brand-moss/10 text-brand-rocky border-brand-moss/40',
+  climbing: 'bg-brand-terracotta/10 text-brand-terracotta border-brand-terracotta/40'
 };
 
 const typeLabels: Record<Trip['type'], string> = {
@@ -32,46 +32,46 @@ const statusLabels: Record<Trip['status'], string> = {
   past: 'Παλαιότερη'
 };
 ---
-<article class="glass-panel p-6 flex flex-col gap-5 transition duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-brand-forest/40">
+<article class="glass-panel p-6 flex flex-col gap-5 transition duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-brand-pine/40">
   <div class="flex flex-wrap items-center justify-between gap-3">
     <div>
-      <p class="text-sm text-brand-fog uppercase tracking-[0.2em]">{formattedDate}</p>
-      <p class="text-lg font-semibold text-brand-rock">{trip.location}</p>
+      <p class="text-sm text-brand-mist uppercase tracking-[0.2em]">{formattedDate}</p>
+      <p class="text-lg font-semibold text-brand-rocky">{trip.location}</p>
     </div>
     <span class={`text-xs font-semibold px-3 py-1 rounded-full border ${typeStyles[trip.type]} `}>
       {typeLabels[trip.type]}
     </span>
   </div>
   <div>
-    <h3 class="text-2xl font-semibold text-brand-rock">{trip.title}</h3>
-    <p class="mt-2 text-brand-fog">{trip.shortDescription}</p>
+    <h3 class="text-2xl font-semibold text-brand-rocky">{trip.title}</h3>
+    <p class="mt-2 text-brand-mist">{trip.shortDescription}</p>
   </div>
   <div class="space-y-3">
-    <div class="flex items-center gap-3 text-sm text-brand-fog">
-      <span class="uppercase tracking-[0.3em] text-xs text-brand-fog">Δυσκολία</span>
+    <div class="flex items-center gap-3 text-sm text-brand-mist">
+      <span class="uppercase tracking-[0.3em] text-xs text-brand-mist">Δυσκολία</span>
       <div class="flex gap-1" aria-label={`Επίπεδο δυσκολίας ${trip.difficulty} από 5`}>
         {Array.from({ length: 5 }).map((_, index) => (
           <span
-            class={`h-2.5 w-8 rounded-full transition ${index < trip.difficulty ? 'bg-brand-sunrise shadow-inner shadow-brand-sunrise/40' : 'bg-brand-sand/70'}`}
+            class={`h-2.5 w-8 rounded-full transition ${index < trip.difficulty ? 'bg-brand-terracotta shadow-inner shadow-brand-terracotta/40' : 'bg-brand-river/70'}`}
           ></span>
         ))}
       </div>
     </div>
-    <div class="grid grid-cols-2 gap-4 text-sm text-brand-rock">
+    <div class="grid grid-cols-2 gap-4 text-sm text-brand-rocky">
       <div>
-        <p class="text-xs uppercase tracking-[0.3em] text-brand-fog">Απόσταση</p>
+        <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Απόσταση</p>
         <p class="text-lg font-semibold">{trip.distanceKm} km</p>
       </div>
       <div>
-        <p class="text-xs uppercase tracking-[0.3em] text-brand-fog">Υψομετρική</p>
+        <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Υψομετρική</p>
         <p class="text-lg font-semibold">{trip.elevationGain} m</p>
       </div>
       <div>
-        <p class="text-xs uppercase tracking-[0.3em] text-brand-fog">Αρχηγός</p>
+        <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Αρχηγός</p>
         <p class="text-lg font-semibold">{trip.leader}</p>
       </div>
       <div>
-        <p class="text-xs uppercase tracking-[0.3em] text-brand-fog">Κατάσταση</p>
+        <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Κατάσταση</p>
         <p class="text-lg font-semibold">{statusLabels[trip.status]}</p>
       </div>
     </div>
@@ -79,7 +79,7 @@ const statusLabels: Record<Trip['status'], string> = {
   <div class="pt-2">
     <a
       href={`#trip-${trip.slug}`}
-      class="inline-flex items-center gap-2 text-sm font-semibold text-brand-forest rounded-full border border-brand-forest/20 px-4 py-2 transition hover:-translate-y-0.5 hover:border-brand-sunrise hover:text-brand-sunrise"
+      class="inline-flex items-center gap-2 text-sm font-semibold text-brand-pine rounded-full border border-brand-pine/20 px-4 py-2 transition hover:-translate-y-0.5 hover:border-brand-terracotta hover:text-brand-terracotta"
     >
       Λεπτομέρειες
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5">

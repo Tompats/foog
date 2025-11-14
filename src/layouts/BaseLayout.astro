@@ -38,30 +38,30 @@ const navLinks = [
       rel="stylesheet"
     />
   </head>
-  <body class="relative min-h-screen text-brand-rock">
+  <body class="relative min-h-screen text-brand-rocky">
     <div class="absolute inset-0 -z-10">
-      <div class="h-96 w-full bg-gradient-to-b from-brand-sky/30 via-transparent to-transparent blur-3xl"></div>
-      <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-white/70 to-transparent pointer-events-none"></div>
+      <div class="h-96 w-full bg-gradient-to-b from-brand-moss/30 via-transparent to-transparent blur-3xl"></div>
+      <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-brand-river/20 to-transparent pointer-events-none"></div>
     </div>
     <div class="relative flex min-h-screen flex-col">
       <header class="section-padding pb-6">
         <div class="glass-panel px-6 py-6 lg:py-4">
           <div class="flex items-center justify-between gap-6">
-            <a href="/" class="text-lg font-semibold tracking-[0.2em] text-brand-forest uppercase">Φ.Ο.Ο.Γ</a>
+            <a href="/" class="text-lg font-semibold tracking-[0.2em] text-brand-pine uppercase">Φ.Ο.Ο.Γ</a>
             <button
               id="nav-toggle"
-              class="lg:hidden inline-flex items-center gap-2 rounded-full border border-brand-forest/20 px-4 py-2 text-sm font-semibold text-brand-rock hover:text-brand-sunrise"
+              class="lg:hidden inline-flex items-center gap-2 rounded-full border border-brand-pine/20 px-4 py-2 text-sm font-semibold text-brand-rocky hover:text-brand-terracotta"
             >
               Μενού
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
               </svg>
             </button>
-            <nav id="nav-menu" class="hidden flex-wrap gap-4 text-sm font-semibold text-brand-rock lg:flex">
+            <nav id="nav-menu" class="hidden flex-wrap gap-4 text-sm font-semibold text-brand-rocky lg:flex">
               {navLinks.map((link) => (
                 <a
                   href={link.href}
-                  class="rounded-full border border-transparent px-4 py-2 transition hover:border-brand-forest/50 hover:text-brand-forest"
+                  class="rounded-full border border-transparent px-4 py-2 transition hover:border-brand-pine/50 hover:text-brand-pine"
                 >
                   {link.label}
                 </a>
@@ -70,12 +70,12 @@ const navLinks = [
           </div>
           <nav
             id="nav-menu-mobile"
-            class="mt-4 hidden flex-col gap-2 text-sm font-semibold text-brand-rock lg:hidden"
+            class="mt-4 hidden flex-col gap-2 text-sm font-semibold text-brand-rocky lg:hidden"
           >
             {navLinks.map((link) => (
               <a
                 href={link.href}
-                class="rounded-2xl border border-brand-sand/60 bg-white/70 px-4 py-3 transition hover:border-brand-sunrise/60 hover:text-brand-sunrise"
+                class="rounded-2xl border border-brand-river/40 bg-brand-cloud px-4 py-3 transition hover:border-brand-terracotta/60 hover:text-brand-terracotta"
               >
                 {link.label}
               </a>
@@ -89,19 +89,19 @@ const navLinks = [
       <footer class="section-padding">
         <div class="glass-panel px-6 py-8 grid gap-8 lg:grid-cols-3">
           <div>
-            <h3 class="text-xl font-semibold text-brand-rock">Πάντα έτοιμοι για περιπέτεια.</h3>
-            <p class="text-brand-fog mt-2">Εβδομαδιαίες συναντήσεις, ανανέωση γνώσεων χιονοστιβάδων και φροντίδα των αγαπημένων μας βουνών.</p>
+            <h3 class="text-xl font-semibold text-brand-rocky">Πάντα έτοιμοι για περιπέτεια.</h3>
+            <p class="text-brand-mist mt-2">Εβδομαδιαίες συναντήσεις, ανανέωση γνώσεων χιονοστιβάδων και φροντίδα των αγαπημένων μας βουνών.</p>
           </div>
-          <div class="space-y-2 text-brand-fog">
-            <a href="/trips" class="block hover:text-brand-forest">Εξορμήσεις</a>
-            <a href="/join" class="block hover:text-brand-forest">Γίνε μέλος</a>
-            <a href="/contact" class="block hover:text-brand-forest">Επικοινωνία</a>
-            <a href="/history" class="block hover:text-brand-forest">Ασφάλεια &amp; Εκπαίδευση</a>
+          <div class="space-y-2 text-brand-mist">
+            <a href="/trips" class="block hover:text-brand-pine">Εξορμήσεις</a>
+            <a href="/join" class="block hover:text-brand-pine">Γίνε μέλος</a>
+            <a href="/contact" class="block hover:text-brand-pine">Επικοινωνία</a>
+            <a href="/history" class="block hover:text-brand-pine">Ασφάλεια &amp; Εκπαίδευση</a>
           </div>
-          <div class="text-brand-fog space-y-2">
-            <p>Ηλ. ταχυδρομείο: <a href="mailto:info@mountains.club" class="font-semibold text-brand-forest">info@mountains.club</a></p>
-            <p>Κοινωνικά: <a href="#" class="hover:text-brand-forest">Instagram</a> · <a href="#" class="hover:text-brand-forest">Facebook</a></p>
-            <p class="text-sm text-brand-fog">Τα ορεινά σπορ ενέχουν κινδύνους· συμμετέχετε εντός των ορίων σας και σύμφωνα με τα πρωτόκολλα του Φ.Ο.Ο.Γ.</p>
+          <div class="text-brand-mist space-y-2">
+            <p>Ηλ. ταχυδρομείο: <a href="mailto:info@mountains.club" class="font-semibold text-brand-pine">info@mountains.club</a></p>
+            <p>Κοινωνικά: <a href="#" class="hover:text-brand-pine">Instagram</a> · <a href="#" class="hover:text-brand-pine">Facebook</a></p>
+            <p class="text-sm text-brand-mist">Τα ορεινά σπορ ενέχουν κινδύνους· συμμετέχετε εντός των ορίων σας και σύμφωνα με τα πρωτόκολλα του Φ.Ο.Ο.Γ.</p>
           </div>
         </div>
       </footer>

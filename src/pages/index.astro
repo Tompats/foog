@@ -51,24 +51,24 @@ const features = [
           </defs>
         </svg>
       </div>
-      <p class="text-sm uppercase tracking-[0.3em] text-brand-forest">Φ.Ο.Ο.Γ · Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών</p>
-      <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-brand-rock max-w-3xl">
+      <p class="text-sm uppercase tracking-[0.3em] text-brand-pine">Φ.Ο.Ο.Γ · Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών</p>
+      <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-brand-rocky max-w-3xl">
         Μέντορες των βουνών, κυνηγοί πούδρας και αφηγητές γραμμών ονείρου.
       </h1>
-      <p class="mt-6 text-lg text-brand-fog max-w-2xl">
+      <p class="mt-6 text-lg text-brand-mist max-w-2xl">
         Είμαστε κοινότητα εθελοντών που προσφέρει προγράμματα επιπέδου οδηγών, εκπαίδευση ασφάλειας
         και αξέχαστες εξορμήσεις από τον Όλυμπο μέχρι τις Άλπεις του Καναδά.
       </p>
       <div class="mt-10 flex flex-wrap gap-4">
         <a
           href="/trips"
-          class="inline-flex items-center justify-center rounded-full bg-brand-sunrise px-8 py-3 text-base font-semibold text-brand-rock shadow-lg shadow-brand-sunrise/40 transition hover:scale-105"
+          class="inline-flex items-center justify-center rounded-full bg-brand-terracotta px-8 py-3 text-base font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 transition hover:scale-105"
         >
           Δες τις επόμενες εξορμήσεις
         </a>
         <a
           href="/join"
-          class="inline-flex items-center justify-center rounded-full border border-brand-forest/30 px-8 py-3 text-base font-semibold text-brand-forest hover:border-brand-sunrise hover:text-brand-sunrise transition"
+          class="inline-flex items-center justify-center rounded-full border border-brand-pine/30 px-8 py-3 text-base font-semibold text-brand-pine hover:border-brand-terracotta hover:text-brand-terracotta transition"
         >
           Γίνε μέλος
         </a>
@@ -86,7 +86,7 @@ const features = [
     <div class="mt-10 text-center">
       <a
         href="/trips"
-        class="inline-flex items-center gap-2 rounded-full border border-brand-forest/30 px-6 py-3 text-sm font-semibold text-brand-forest hover:border-brand-sunrise hover:text-brand-sunrise"
+        class="inline-flex items-center gap-2 rounded-full border border-brand-pine/30 px-6 py-3 text-sm font-semibold text-brand-pine hover:border-brand-terracotta hover:text-brand-terracotta"
       >
         Όλες οι εξορμήσεις
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -100,7 +100,7 @@ const features = [
     <div class="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-center">
       <div>
         <SectionHeader eyebrow="Ταυτότητα" title="Ρίζες στην υπευθυνότητα" subtitle="Από το 1974 υπερασπιζόμαστε την ασφάλεια, το άγριο χιόνι και τις φιλίες ζωής." />
-        <div class="glass-panel p-8 space-y-4 text-brand-fog">
+        <div class="glass-panel p-8 space-y-4 text-brand-mist">
           <p>
             Από τα εργαστήρια της Τετάρτης μέχρι τις εβδομαδιαίες εκστρατείες σε παγετώνες, πιστεύουμε ότι η
             κοινή γνώση κρατά τα βουνά προσβάσιμα και ασφαλή. Οι αρχηγοί εξορμήσεων αξιολογούνται κάθε χρόνο και
@@ -111,7 +111,7 @@ const features = [
             Τα μέλη απολαμβάνουν ανανεώσεις γνώσεων χιονοστιβάδων, κύκλους mentoring, εκπτώσεις σε ορειβατικά
             καταφύγια και ζωντανή κοινότητα συνομιλιών με ενημέρωση σε πραγματικό χρόνο.
           </p>
-          <a href="/history" class="inline-flex items-center gap-2 text-brand-forest font-semibold">
+          <a href="/history" class="inline-flex items-center gap-2 text-brand-pine font-semibold">
             Δες όλη την ιστορία
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
@@ -122,7 +122,7 @@ const features = [
       <div class="grid gap-6">
         {features.map((feature) => (
           <div class="glass-panel p-6 flex items-start gap-4 transition hover:-translate-y-1">
-            <div class="h-12 w-12 rounded-2xl bg-brand-sand/70 flex items-center justify-center text-brand-forest">
+            <div class="h-12 w-12 rounded-2xl bg-brand-river/70 flex items-center justify-center text-brand-pine">
               {feature.icon === 'shield' && (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 3 4.5 6v6c0 5.25 3.75 9.75 7.5 10.5 3.75-.75 7.5-5.25 7.5-10.5V6L12 3Z" />
@@ -146,8 +146,8 @@ const features = [
               )}
             </div>
             <div>
-              <h3 class="text-xl font-semibold text-brand-rock">{feature.title}</h3>
-              <p class="text-brand-fog text-sm mt-2">{feature.body}</p>
+              <h3 class="text-xl font-semibold text-brand-rocky">{feature.title}</h3>
+              <p class="text-brand-mist text-sm mt-2">{feature.body}</p>
             </div>
           </div>
         ))}
@@ -160,10 +160,10 @@ const features = [
     <div class="grid gap-6 md:grid-cols-3">
       {latestReports.map((report) => (
         <div class="glass-panel p-6 flex flex-col gap-3 hover:-translate-y-1 transition">
-          <p class="text-sm text-brand-fog">{new Date(report.date).toLocaleDateString('el-GR')}</p>
-          <h3 class="text-xl font-semibold text-brand-rock">{report.title}</h3>
-          <p class="text-brand-fog text-sm">{report.shortDescription}</p>
-          <a href="/trips" class="text-sm font-semibold text-brand-forest">Διάβασε την αναφορά →</a>
+          <p class="text-sm text-brand-mist">{new Date(report.date).toLocaleDateString('el-GR')}</p>
+          <h3 class="text-xl font-semibold text-brand-rocky">{report.title}</h3>
+          <p class="text-brand-mist text-sm">{report.shortDescription}</p>
+          <a href="/trips" class="text-sm font-semibold text-brand-pine">Διάβασε την αναφορά →</a>
         </div>
       ))}
     </div>

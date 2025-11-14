@@ -8,46 +8,46 @@ import SectionHeader from '../components/SectionHeader.astro';
     <div class="grid gap-10 lg:grid-cols-2">
       <div class="space-y-6">
         <div class="glass-panel p-6 space-y-3">
-          <h3 class="text-xl font-semibold text-brand-rock">Στοιχεία ομίλου</h3>
-          <p class="text-brand-fog">Λέσχη Φ.Ο.Ο.Γ., Ολύμπου 12, Γιαννιτσά 58100</p>
-          <p class="text-brand-fog">Συναντήσεις: Τετάρτες 18:00–21:00 · Αίθουσα ασφάλειας & αποθήκη εξοπλισμού</p>
-          <p class="text-brand-fog">Email: <a href="mailto:info@mountains.club">info@mountains.club</a></p>
-          <p class="text-brand-fog">Τηλέφωνο: +30 23820 00000</p>
+          <h3 class="text-xl font-semibold text-brand-rocky">Στοιχεία ομίλου</h3>
+          <p class="text-brand-mist">Λέσχη Φ.Ο.Ο.Γ., Ολύμπου 12, Γιαννιτσά 58100</p>
+          <p class="text-brand-mist">Συναντήσεις: Τετάρτες 18:00–21:00 · Αίθουσα ασφάλειας & αποθήκη εξοπλισμού</p>
+          <p class="text-brand-mist">Email: <a href="mailto:info@mountains.club">info@mountains.club</a></p>
+          <p class="text-brand-mist">Τηλέφωνο: +30 23820 00000</p>
         </div>
-        <div class="glass-panel h-64 flex items-center justify-center text-brand-fog text-center">
+        <div class="glass-panel h-64 flex items-center justify-center text-brand-mist text-center">
           <p>Προσωρινός χάρτης<br />Ενσωματώστε δικό σας embed ή στατική εικόνα πριν την έκδοση.</p>
         </div>
       </div>
       <div class="glass-panel p-8">
-        <h3 class="text-2xl font-semibold text-brand-rock mb-4">Στείλε μήνυμα</h3>
+        <h3 class="text-2xl font-semibold text-brand-rocky mb-4">Στείλε μήνυμα</h3>
         <form method="POST" action="https://example.com/contact-form" class="space-y-4">
           <!-- Replace action with the club's static form endpoint (e.g., Formspree) -->
           <div>
-            <label for="name" class="text-sm text-brand-fog">Ονοματεπώνυμο</label>
+            <label for="name" class="text-sm text-brand-mist">Ονοματεπώνυμο</label>
             <input
               id="name"
               name="name"
               type="text"
               required
-              class="mt-1 w-full rounded-2xl border border-brand-sand/80 bg-white text-brand-rock"
+              class="mt-1 w-full rounded-2xl border border-brand-river/30 bg-brand-cloud text-brand-rocky placeholder-brand-mist"
             />
           </div>
           <div>
-            <label for="email" class="text-sm text-brand-fog">Ηλ. ταχυδρομείο</label>
+            <label for="email" class="text-sm text-brand-mist">Ηλ. ταχυδρομείο</label>
             <input
               id="email"
               name="email"
               type="email"
               required
-              class="mt-1 w-full rounded-2xl border border-brand-sand/80 bg-white text-brand-rock"
+              class="mt-1 w-full rounded-2xl border border-brand-river/30 bg-brand-cloud text-brand-rocky placeholder-brand-mist"
             />
           </div>
           <div>
-            <label for="subject" class="text-sm text-brand-fog">Θέμα</label>
+            <label for="subject" class="text-sm text-brand-mist">Θέμα</label>
             <select
               id="subject"
               name="subject"
-              class="mt-1 w-full rounded-2xl border border-brand-sand/80 bg-white text-brand-rock"
+              class="mt-1 w-full rounded-2xl border border-brand-river/30 bg-brand-cloud text-brand-rocky"
             >
               <option value="trips">Ερώτηση για εξόρμηση</option>
               <option value="membership">Συνδρομή</option>
@@ -55,18 +55,18 @@ import SectionHeader from '../components/SectionHeader.astro';
             </select>
           </div>
           <div>
-            <label for="message" class="text-sm text-brand-fog">Μήνυμα</label>
+            <label for="message" class="text-sm text-brand-mist">Μήνυμα</label>
             <textarea
               id="message"
               name="message"
               rows="4"
-              class="mt-1 w-full rounded-2xl border border-brand-sand/80 bg-white text-brand-rock"
+              class="mt-1 w-full rounded-2xl border border-brand-river/30 bg-brand-cloud text-brand-rocky"
               required
             ></textarea>
           </div>
           <button
             type="submit"
-            class="w-full rounded-full bg-brand-sunrise px-6 py-3 text-center font-semibold text-brand-rock shadow-lg shadow-brand-sunrise/40 hover:scale-105"
+            class="w-full rounded-full bg-brand-terracotta px-6 py-3 text-center font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 hover:scale-105"
           >
             Αποστολή
           </button>
