@@ -3,7 +3,8 @@ export type TripType = 'hiking' | 'mountaineering' | 'ski';
 export interface Trip {
   slug: string;
   title: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   type: TripType;
   difficulty: 1 | 2 | 3 | 4 | 5;
   elevationGain: number;
@@ -12,6 +13,7 @@ export interface Trip {
   status: 'upcoming' | 'past';
   shortDescription: string;
   location: string;
+  activities: string[];
 }
 
 export interface Coach {

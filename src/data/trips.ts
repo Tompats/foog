@@ -4,7 +4,8 @@ export const trips: Trip[] = [
   {
     slug: 'sunrise-ridge-tour',
     title: 'Περιήγηση Σκι στην Κορυφογραμμή Sunrise',
-    date: '2025-02-08',
+    startDate: '2025-02-08',
+    endDate: '2025-02-10',
     type: 'ski',
     difficulty: 3,
     elevationGain: 1200,
@@ -12,12 +13,14 @@ export const trips: Trip[] = [
     leader: 'Maya Chen',
     status: 'upcoming',
     shortDescription: 'Ανάβαση με φώκιες δίπλα σε παγετώνες και κατηφόρα σε ανάλαφρο χιόνι με υποστήριξη από τους προπονητές μας.',
-    location: 'Χιονοδρομικό Παρνασσού'
+    location: 'Χιονοδρομικό Παρνασσού',
+    activities: ['Ski tour Mt. Gerontovrachos', 'Avalanche refreshers', 'Κατάβαση Καρπενήσιου']
   },
   {
     slug: 'midnight-alpine-classic',
     title: 'Μεσονύκτια Αλπική Κλασική Διαδρομή',
-    date: '2025-03-15',
+    startDate: '2025-03-15',
+    endDate: '2025-03-17',
     type: 'mountaineering',
     difficulty: 4,
     elevationGain: 1800,
@@ -25,12 +28,14 @@ export const trips: Trip[] = [
     leader: 'Lars Nyberg',
     status: 'upcoming',
     shortDescription: 'Δεμένα σχοινιά διασχίζουν μικτό πεδίο προς την κορυφή Ivory με ροζ ανατολές στις κορυφογραμμές.',
-    location: 'Μύτικας, Όλυμπος'
+    location: 'Μύτικας, Όλυμπος',
+    activities: ['Ανάβαση Λιβαδάκι - Σκολιό', 'Camp στα Πριόνια', 'Αντίσκηνα στον Λαιμό']
   },
   {
     slug: 'carrie-pass-late-winter',
     title: 'Χειμερινή Διάσχιση του Περάσματος Carrie',
-    date: '2025-04-05',
+    startDate: '2025-04-05',
+    endDate: '2025-04-06',
     type: 'hiking',
     difficulty: 2,
     elevationGain: 900,
@@ -38,12 +43,14 @@ export const trips: Trip[] = [
     leader: 'Priya Anand',
     status: 'upcoming',
     shortDescription: 'Ήπια διαδρομή με snowshoe και πεζοπορία μέσα από αλπικά λιβάδια και παγωμένες λίμνες.',
-    location: 'Μακρυνόρεμα, Πήλιο'
+    location: 'Μακρυνόρεμα, Πήλιο',
+    activities: ['Διαδρομή Μακρυνόρεμα', 'Εργαστήριο χάρτη & πυξίδας']
   },
   {
     slug: 'granite-arete-mentorship',
     title: 'Μέρα Μέντορινγκ στη Γρανιτένια Ακρώρεια',
-    date: '2024-09-18',
+    startDate: '2024-09-18',
+    endDate: '2024-09-19',
     type: 'mountaineering',
     difficulty: 5,
     elevationGain: 500,
@@ -51,12 +58,14 @@ export const trips: Trip[] = [
     leader: 'Silvia Prado',
     status: 'past',
     shortDescription: 'Προχωρημένες ομάδες τοποθετούν ασφάλειες στη Βόρεια Ακρώρεια ενώ καθοδηγούν νέα στελέχη ανάβασης.',
-    location: 'Μετέωρα, Καλαμπάκα'
+    location: 'Μετέωρα, Καλαμπάκα',
+    activities: ['Multi-pitch στο Δούπι', 'Σεμινάριο τοποθέτησης friends']
   },
   {
     slug: 'solstice-glacier-glide',
     title: 'Παγετώνας του Θερινού Ηλιοστασίου',
-    date: '2024-12-20',
+    startDate: '2024-12-20',
+    endDate: '2024-12-22',
     type: 'ski',
     difficulty: 4,
     elevationGain: 1400,
@@ -64,12 +73,14 @@ export const trips: Trip[] = [
     leader: 'Aaron Wells',
     status: 'upcoming',
     shortDescription: 'Ταχύτατη περιοδεία σε παγετώνα με στόχο την πιο φωτεινή μέρα και ανανέωση δεξιοτήτων διάσωσης σε κρεβάς.',
-    location: 'Χιονοδρομικό Βασιλίτσας'
+    location: 'Χιονοδρομικό Βασιλίτσας',
+    activities: ['Ski & snowboard park sessions', 'Χιονοδρομία προς Σμόλικα']
   },
   {
     slug: 'ember-peak-linkup',
     title: 'Σύνδεση Κορυφών Ember',
-    date: '2024-07-12',
+    startDate: '2024-07-12',
+    endDate: '2024-07-14',
     type: 'mountaineering',
     difficulty: 3,
     elevationGain: 1500,
@@ -77,6 +88,7 @@ export const trips: Trip[] = [
     leader: 'Noah Delaroche',
     status: 'past',
     shortDescription: 'Κλασικός συνδυασμός βράχου και χιονιού με χρυσαφένια ανατολή πάνω από την οροσειρά Coast.',
-    location: 'Τύμφη, Δρακόλιμνη'
+    location: 'Τύμφη, Δρακόλιμνη',
+    activities: ['Διάσχιση Κακαρδίτσα', 'Loop στη Δρακόλιμνη']
   }
 ];

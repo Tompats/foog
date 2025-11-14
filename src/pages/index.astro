@@ -6,12 +6,12 @@ import { trips } from '../data/trips';
 
 const upcomingTrips = [...trips]
   .filter((trip) => trip.status === 'upcoming')
-  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
   .slice(0, 4);
 
 const latestReports = [...trips]
   .filter((trip) => trip.status === 'past')
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
   .slice(0, 3);
 
 const features = [
@@ -174,7 +174,7 @@ const features = [
     <div class="grid gap-6 md:grid-cols-3">
       {latestReports.map((report) => (
         <div class="glass-panel p-6 flex flex-col gap-3 hover:-translate-y-1 transition bg-brand-river/5">
-          <p class="text-sm text-brand-mist">{new Date(report.date).toLocaleDateString('el-GR')}</p>
+          <p class="text-sm text-brand-mist">{new Date(report.startDate).toLocaleDateString('el-GR')}</p>
           <h3 class="text-xl font-semibold text-brand-rocky">{report.title}</h3>
           <p class="text-brand-mist text-sm">{report.shortDescription}</p>
           <a href="/trips" class="text-sm font-semibold text-brand-pine">Διάβασε την αναφορά →</a>

@@ -7,11 +7,25 @@ interface Props {
 
 const { trip } = Astro.props;
 
-const formattedDate = new Intl.DateTimeFormat("el-GR", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-}).format(new Date(trip.date));
+const monthFormatter = new Intl.DateTimeFormat("el-GR", { month: "short" });
+const dayFormatter = new Intl.DateTimeFormat("el-GR", { day: "2-digit" });
+const yearFormatter = new Intl.DateTimeFormat("el-GR", { year: "numeric" });
+const startDate = new Date(trip.startDate);
+const endDate = new Date(trip.endDate);
+
+const isSameDay = startDate.getTime() === endDate.getTime();
+const isSameMonthYear =
+  startDate.getMonth() === endDate.getMonth() &&
+  startDate.getFullYear() === endDate.getFullYear();
+
+let formattedDate = `${dayFormatter.format(startDate)} ${monthFormatter.format(startDate)} ${yearFormatter.format(startDate)}`;
+if (!isSameDay) {
+  if (isSameMonthYear) {
+    formattedDate = `${dayFormatter.format(startDate)}-${dayFormatter.format(endDate)} ${monthFormatter.format(startDate)} ${yearFormatter.format(startDate)}`;
+  } else {
+    formattedDate = `${dayFormatter.format(startDate)} ${monthFormatter.format(startDate)} ${yearFormatter.format(startDate)} - ${dayFormatter.format(endDate)} ${monthFormatter.format(endDate)} ${yearFormatter.format(endDate)}`;
+  }
+}
 
 const typeStyles: Record<Trip["type"], string> = {
   hiking: "bg-brand-pine/10 text-brand-pine border-brand-pine/40",
@@ -22,7 +36,7 @@ const typeStyles: Record<Trip["type"], string> = {
 const typeLabels: Record<Trip["type"], string> = {
   hiking: "Πεζοπορία",
   mountaineering: "Ορειβασία",
-  ski: "Ski & Snowboard",
+  ski: "Σκι & Snowboard",
 };
 const typeImages: Record<Trip["type"], string> = {
   hiking:
@@ -62,7 +76,7 @@ const statusLabels: Record<Trip["status"], string> = {
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div>
         <p
-          class="text-s font-bold uppercase tracking-[0.35em] text-brand-mossDarker"
+          class="text-s font-bold uppercase tracking-[0.35em] text-brand-mossDark"
         >
           {formattedDate}
         </p>
