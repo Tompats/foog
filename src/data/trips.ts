@@ -50,7 +50,6 @@ export const trips: Trip[] = [
     slug: 'granite-arete-mentorship',
     title: 'Μέρα Μέντορινγκ στη Γρανιτένια Ακρώρεια',
     startDate: '2024-09-18',
-    endDate: '2024-09-19',
     type: 'mountaineering',
     difficulty: 5,
     elevationGain: 500,

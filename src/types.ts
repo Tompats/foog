@@ -4,7 +4,7 @@ export interface Trip {
   slug: string;
   title: string;
   startDate: string;
-  endDate: string;
+  endDate?: string;
   type: TripType;
   difficulty: 1 | 2 | 3 | 4 | 5;
   elevationGain: number;

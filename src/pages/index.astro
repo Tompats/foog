@@ -36,6 +36,29 @@ const features = [
     icon: 'community'
   }
 ];
+
+const heroGallery = [
+  {
+    src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=70',
+    alt: 'Ορειβάτες σε μικτή διαδρομή με ανατολή',
+    caption: 'Alpine start στον Όλυμπο'
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=70',
+    alt: 'Παρέα κατασκηνώνει δίπλα σε λίμνη στο λυκόφως',
+    caption: 'Βραδινό bivouac στην Τύμφη'
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=70',
+    alt: 'Πεζοπόροι σε δάσος με χρυσαφένιο φως',
+    caption: 'Φθινοπωρινή πορεία στη Βάλια Κάλντα'
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=70',
+    alt: 'Σκιέρ κατεβαίνει πλαγιά με πούδρα',
+    caption: 'Πούδρα στην Βασιλίτσα'
+  }
+];
 ---
 <BaseLayout>
   <section class="section-padding pt-10">
@@ -85,6 +108,56 @@ const features = [
         <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
           <p class="text-3xl font-bold text-brand-moss heading-font">∞</p>
           <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Ιστορίες φωτιάς</p>
+        </div>
+      </div>
+      <div class="mt-12 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Φωτογραφικά στιγμιότυπα</p>
+            <h3 class="text-xl font-semibold text-brand-rocky heading-font">Τελευταίες λήψεις από την παρέα</h3>
+          </div>
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-brand-river/30 text-brand-mist hover:text-brand-terracotta hover:border-brand-terracotta transition"
+              aria-label="Προηγούμενη φωτογραφία"
+              data-gallery-prev
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 6 9 12l6 6" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-brand-river/30 text-brand-mist hover:text-brand-terracotta hover:border-brand-terracotta transition"
+              aria-label="Επόμενη φωτογραφία"
+              data-gallery-next
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m9 6 6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="relative">
+          <div class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory" data-gallery-track>
+            {heroGallery.map((photo) => (
+              <figure
+                class="min-w-[75%] sm:min-w-[320px] lg:min-w-[360px] snap-start shrink-0"
+                data-gallery-card
+              >
+                <div class="relative h-56 sm:h-64 rounded-3xl overflow-hidden">
+                  <img src={photo.src} alt={photo.alt} class="h-full w-full object-cover" loading="lazy" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-brand-river/70 via-transparent to-transparent" />
+                  <figcaption class="absolute bottom-4 left-4 text-brand-cloud text-sm font-semibold">
+                    {photo.caption}
+                  </figcaption>
+                </div>
+              </figure>
+            ))}
+          </div>
+          <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-brand-river/50 via-brand-river/0 to-transparent hidden sm:block" />
+          <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-brand-river/50 via-brand-river/0 to-transparent hidden sm:block" />
         </div>
       </div>
     </div>
@@ -182,4 +255,27 @@ const features = [
       ))}
     </div>
   </section>
+
+  <script>
+    (() => {
+      const track = document.querySelector('[data-gallery-track]');
+      if (!track) return;
+      const prevButton = document.querySelector('[data-gallery-prev]');
+      const nextButton = document.querySelector('[data-gallery-next]');
+
+      const getStep = () => {
+        const card = track.querySelector('[data-gallery-card]');
+        const gap = 16; // matches gap-4
+        return card ? card.clientWidth + gap : 320;
+      };
+
+      prevButton?.addEventListener('click', () => {
+        track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+      });
+
+      nextButton?.addEventListener('click', () => {
+        track.scrollBy({ left: getStep(), behavior: 'smooth' });
+      });
+    })();
+  </script>
 </BaseLayout>
