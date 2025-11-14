@@ -112,9 +112,17 @@ const heroGallery = [
       </div>
       <div class="mt-12 space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Φωτογραφικά στιγμιότυπα</p>
-            <h3 class="text-xl font-semibold text-brand-rocky heading-font">Τελευταίες λήψεις από την παρέα</h3>
+          <div class="flex items-center gap-4">
+            <img
+              src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=60"
+              alt="Placeholder camp photo"
+              class="hidden sm:block h-16 w-16 rounded-2xl object-cover shadow-lg shadow-brand-river/40"
+              loading="lazy"
+            />
+            <div>
+              <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Φωτογραφικά στιγμιότυπα</p>
+              <h3 class="text-xl font-semibold text-brand-rocky heading-font">Τελευταίες λήψεις από την παρέα</h3>
+            </div>
           </div>
           <div class="flex gap-2">
             <button
@@ -140,7 +148,7 @@ const heroGallery = [
           </div>
         </div>
         <div class="relative">
-          <div class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory" data-gallery-track>
+          <div class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" data-gallery-track>
             {heroGallery.map((photo) => (
               <figure
                 class="min-w-[75%] sm:min-w-[320px] lg:min-w-[360px] snap-start shrink-0"
@@ -278,4 +286,13 @@ const heroGallery = [
       });
     })();
   </script>
+  <style>
+    .scrollbar-hide {
+      scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
 </BaseLayout>
