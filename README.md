@@ -1,46 +1,33 @@
-# Astro Starter Kit: Basics
+# Φ.Ο.Ο.Γ – Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών
 
-```sh
-npm create astro@latest -- --template basics
+Στατικός ιστότοπος σε [Astro](https://astro.build/) + [TypeScript](https://www.typescriptlang.org/) με [Tailwind CSS](https://tailwindcss.com/). Το design βασίζεται στην παλέτα δασικού πράσινου (#2F5D46), ουρανού (#6CB7E8) και χρυσής ανατολής (#F4A340) πάνω σε ατμοσφαιρικά υπόβαθρα ομίχλης.
+
+## Τεχνολογίες
+- Astro 5 (static output έτοιμο για GitHub Pages)
+- TypeScript με δομημένα αρχεία δεδομένων (εκδρομές, προπονητές, διοίκηση)
+- Tailwind CSS + plugins Forms/Typograpy για γυάλινα panels και micro-interactions
+- HTML φόρμα επικοινωνίας έτοιμη για υπηρεσίες τύπου Formspree
+
+## Εκκίνηση
+```bash
+npm install
+npm run dev
 ```
+Άνοιξε το `http://localhost:4321` για προεπισκόπηση.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+### Build παραγωγής
+```bash
+npm run build
 ```
+Το αποτέλεσμα βρίσκεται στον φάκελο `dist/`.
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Δομή περιεχομένου
+- `src/data/` – τυποποιημένα δεδομένα για εξορμήσεις, προπονητές, μέλη Δ.Σ.
+- `src/components/` – κάρτες και headers που επαναχρησιμοποιούνται
+- `src/pages/` – διαδρομές: `/`, `/trips`, `/history`, `/coaches`, `/board`, `/join`, `/gallery`, `/contact`
+- `src/layouts/BaseLayout.astro` – κοινό layout με navigation & footer
 
-## 🧞 Commands
+Ενημέρωσε εικόνες, συνδρομές, διευθύνσεις και το action της φόρμας πριν τη δημοσίευση.
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Deploy
+Η ροή εργασίας `.github/workflows/deploy.yml` εκτελεί build και ανεβάζει το `dist/` στο GitHub Pages. Προσαρμόστε το branch/ repo name στις ρυθμίσεις σας.

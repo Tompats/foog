@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+
+const timeline = [
+  {
+    year: '1974',
+    title: 'Ίδρυση Φ.Ο.Ο.Γ.',
+    description: 'Αναρριχητές και σκιέρ των Πιερίων ίδρυσαν έναν εθελοντικό όμιλο με επίκεντρο την ασφαλή αλπική μετακίνηση.'
+  },
+  {
+    year: '1988',
+    title: 'Πρώτο σεμινάριο παγετώνα',
+    description: 'Ξεκίνησε το πρόγραμμα Glacier Foundations με διάσωση από κρεβάς και συστήματα σχοινιών.'
+  },
+  {
+    year: '2003',
+    title: 'Ταμείο υποτροφιών νέων',
+    description: 'Δημιουργήθηκε κεφάλαιο για εξοπλισμό, εκπαίδευση χιονοστιβάδων και mentoring νέων ορειβατών.'
+  },
+  {
+    year: '2016',
+    title: 'Συμφωνία προστασίας χιονιού',
+    description: 'Υπογράφηκαν μνημόνια συνεργασίας με δασαρχεία και τοπικές κοινότητες για φροντίδα των αλπικών ζωνών.'
+  },
+  {
+    year: '2022',
+    title: 'Υβριδική μάθηση',
+    description: 'Ζωντανές μεταδόσεις μαθημάτων χιονοστιβάδων και διαδικτυακά εργαστήρια σχεδιασμού διαδρομών άνοιξαν την πρόσβαση παντού.'
+  }
+];
+---
+<BaseLayout
+  title="Ιστορία"
+  description="Ανακάλυψε τις δεκαετίες ευθύνης, εκπαίδευσης και αλπικών περιπετειών που έχτισαν τον Φ.Ο.Ο.Γ."
+>
+  <section class="section-padding">
+    <SectionHeader eyebrow="Ιστορία" title="Πορεία του ομίλου" subtitle="Από αυτοσχέδιες ομάδες σχοινιού σε σύγχρονο κέντρο εκπαίδευσης" />
+    <div class="glass-panel p-8">
+      <article class="prose max-w-none">
+        <p>
+          Ο Φ.Ο.Ο.Γ. γεννήθηκε στα μέσα της δεκαετίας του ’70 όταν περιπόλοι σκι, ορειβατικοί οδηγοί και
+          φοιτητές αποφάσισαν να μοιραστούν ελεύθερα κρίσιμη γνώση. Σήμερα πραγματοποιεί πάνω από 120 εξορμήσεις
+          τον χρόνο, διατηρεί κύκλους mentoring και διεκδικεί χρηματοδοτήσεις για πρόγνωση χιονοστιβάδων.
+        </p>
+        <p>
+          Τα εκπαιδευτικά μας προγράμματα συνδυάζουν ψηφιακά εργαστήρια σχεδιασμού διαδρομής με πρακτικές μέρες
+          σε βουνά των Βαλκανίων και της Βόρειας Αμερικής. Δίνουμε αξία στη συμπερίληψη, την ανταποδοτική σχέση
+          με το περιβάλλον και την καθαρή χαρά μιας πορείας στην κόψη της ράχης.
+        </p>
+      </article>
+      <div class="mt-10 grid gap-6 lg:grid-cols-2">
+        <img
+          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"
+          alt="Ιστορική ανάβαση"
+          class="rounded-2xl object-cover h-64 w-full"
+          loading="lazy"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80"
+          alt="Κατάβαση με σκι"
+          class="rounded-2xl object-cover h-64 w-full"
+          loading="lazy"
+        />
+      </div>
+    </div>
+    <div class="mt-12 space-y-4">
+      {timeline.map((item) => (
+        <div class="glass-panel p-6 flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-8">
+          <p class="text-3xl font-black text-brand-forest">{item.year}</p>
+          <div>
+            <h3 class="text-xl font-semibold text-brand-rock">{item.title}</h3>
+            <p class="text-brand-fog">{item.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

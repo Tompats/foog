@@ -1,0 +1,117 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const defaultName = 'Φ.Ο.Ο.Γ - Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών';
+const pageTitle = title ? `${title} | ${defaultName}` : defaultName;
+const metaDescription =
+  description ??
+  'Εθελοντικός ορειβατικός όμιλος Γιαννιτσών με εξορμήσεις, εκπαίδευση ασφάλειας σε χιόνι και ανοιχτή κοινότητα φυσιολατρών.';
+
+const navLinks = [
+  { href: '/', label: 'Αρχική' },
+  { href: '/trips', label: 'Εξορμήσεις' },
+  { href: '/history', label: 'Ιστορία' },
+  { href: '/coaches', label: 'Προπονητές' },
+  { href: '/board', label: 'Διοίκηση' },
+  { href: '/join', label: 'Γίνε μέλος' },
+  { href: '/gallery', label: 'Γκαλερί' },
+  { href: '/contact', label: 'Επικοινωνία' }
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="relative min-h-screen text-brand-rock">
+    <div class="absolute inset-0 -z-10">
+      <div class="h-96 w-full bg-gradient-to-b from-brand-sky/30 via-transparent to-transparent blur-3xl"></div>
+      <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-white/70 to-transparent pointer-events-none"></div>
+    </div>
+    <div class="relative flex min-h-screen flex-col">
+      <header class="section-padding pb-6">
+        <div class="glass-panel px-6 py-6 lg:py-4">
+          <div class="flex items-center justify-between gap-6">
+            <a href="/" class="text-lg font-semibold tracking-[0.2em] text-brand-forest uppercase">Φ.Ο.Ο.Γ</a>
+            <button
+              id="nav-toggle"
+              class="lg:hidden inline-flex items-center gap-2 rounded-full border border-brand-forest/20 px-4 py-2 text-sm font-semibold text-brand-rock hover:text-brand-sunrise"
+            >
+              Μενού
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+              </svg>
+            </button>
+            <nav id="nav-menu" class="hidden flex-wrap gap-4 text-sm font-semibold text-brand-rock lg:flex">
+              {navLinks.map((link) => (
+                <a
+                  href={link.href}
+                  class="rounded-full border border-transparent px-4 py-2 transition hover:border-brand-forest/50 hover:text-brand-forest"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+          <nav
+            id="nav-menu-mobile"
+            class="mt-4 hidden flex-col gap-2 text-sm font-semibold text-brand-rock lg:hidden"
+          >
+            {navLinks.map((link) => (
+              <a
+                href={link.href}
+                class="rounded-2xl border border-brand-sand/60 bg-white/70 px-4 py-3 transition hover:border-brand-sunrise/60 hover:text-brand-sunrise"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </header>
+      <main class="flex-1 pb-20">
+        <slot />
+      </main>
+      <footer class="section-padding">
+        <div class="glass-panel px-6 py-8 grid gap-8 lg:grid-cols-3">
+          <div>
+            <h3 class="text-xl font-semibold text-brand-rock">Πάντα έτοιμοι για περιπέτεια.</h3>
+            <p class="text-brand-fog mt-2">Εβδομαδιαίες συναντήσεις, ανανέωση γνώσεων χιονοστιβάδων και φροντίδα των αγαπημένων μας βουνών.</p>
+          </div>
+          <div class="space-y-2 text-brand-fog">
+            <a href="/trips" class="block hover:text-brand-forest">Εξορμήσεις</a>
+            <a href="/join" class="block hover:text-brand-forest">Γίνε μέλος</a>
+            <a href="/contact" class="block hover:text-brand-forest">Επικοινωνία</a>
+            <a href="/history" class="block hover:text-brand-forest">Ασφάλεια &amp; Εκπαίδευση</a>
+          </div>
+          <div class="text-brand-fog space-y-2">
+            <p>Ηλ. ταχυδρομείο: <a href="mailto:info@mountains.club" class="font-semibold text-brand-forest">info@mountains.club</a></p>
+            <p>Κοινωνικά: <a href="#" class="hover:text-brand-forest">Instagram</a> · <a href="#" class="hover:text-brand-forest">Facebook</a></p>
+            <p class="text-sm text-brand-fog">Τα ορεινά σπορ ενέχουν κινδύνους· συμμετέχετε εντός των ορίων σας και σύμφωνα με τα πρωτόκολλα του Φ.Ο.Ο.Γ.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script>
+      const toggle = document.getElementById('nav-toggle');
+      const mobile = document.getElementById('nav-menu-mobile');
+      toggle?.addEventListener('click', () => {
+        mobile?.classList.toggle('hidden');
+      });
+    </script>
+  </body>
+</html>

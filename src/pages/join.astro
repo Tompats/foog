@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+
+const benefits = [
+  'Προτεραιότητα σε εξορμήσεις και σεμινάρια περιορισμένων θέσεων',
+  'Εκπτώσεις σε εκπαιδεύσεις χιονοστιβάδων, κρεβάς και διασώσεις σχοινιού',
+  'Πρόσβαση στη δανειστική βιβλιοθήκη εξοπλισμού και σε συνεργαζόμενες προσφορές',
+  'Κύκλοι καθοδήγησης, ομάδες ενδιαφέροντος και υποτροφίες νεολαίας'
+];
+
+const steps = [
+  'Συμπλήρωσε την αίτηση μέλους ώστε να γνωρίσουμε τους στόχους σου.',
+  'Κατέβαλε την ετήσια συνδρομή και τυχόν προαιρετική δωρεά στο ταμείο υποτροφιών.',
+  'Παρακολούθησε βραδιά εισαγωγής ασφάλειας ή διαδικτυακή ενημέρωση.',
+  'Μπες στο Slack της κοινότητας, δήλωσε συμμετοχή σε εξορμήσεις και σχεδίασε στόχους.'
+];
+---
+<BaseLayout title="Γίνε μέλος" description="Γίνε μέλος του Φ.Ο.Ο.Γ. και απόλαυσε εκπαίδευση, mentoring και αλπικές περιπέτειες.">
+  <section class="section-padding">
+    <SectionHeader eyebrow="Μέλος" title="Γίνε μέλος" subtitle="Ανοιχτό σε σκιέρ, αναρριχητές, πεζοπόρους και νέους ορειβάτες" />
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div class="glass-panel p-8 space-y-5">
+        <h3 class="text-2xl font-semibold text-brand-rock">Γιατί να έρθεις στον Φ.Ο.Ο.Γ.;</h3>
+        <ul class="space-y-3 text-brand-fog">
+          {benefits.map((benefit) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2 w-2 rounded-full bg-brand-sunrise"></span>
+              <span>{benefit}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-6">
+          <h4 class="text-xl font-semibold text-brand-rock">Ενδεικτικές συνδρομές</h4>
+          <div class="mt-4 grid gap-4">
+            <div class="rounded-2xl border border-brand-sand/80 bg-white/70 p-4">
+              <p class="text-sm uppercase tracking-[0.3em] text-brand-fog">Ατομική</p>
+              <p class="text-3xl font-bold text-brand-rock">$85<span class="text-base font-normal text-brand-fog"> / έτος</span></p>
+              <p class="text-sm text-brand-fog">Όλα τα βασικά προνόμια και πρόσβαση στα παράθυρα εγγραφής.</p>
+            </div>
+            <div class="rounded-2xl border border-brand-sunrise/60 bg-brand-sunrise/15 p-4">
+              <p class="text-sm uppercase tracking-[0.3em] text-brand-rock/80">Οικογενειακή</p>
+              <p class="text-3xl font-bold text-brand-rock">$140<span class="text-base font-normal text-brand-rock/80"> / έτος</span></p>
+              <p class="text-sm text-brand-rock/80">Καλύπτει δύο ενήλικες και εξαρτώμενα μέλη για όλες τις δράσεις.</p>
+            </div>
+            <div class="rounded-2xl border border-brand-sand/80 bg-white/70 p-4">
+              <p class="text-sm uppercase tracking-[0.3em] text-brand-fog">Φοιτητικό / υποτροφία</p>
+              <p class="text-3xl font-bold text-brand-rock">$40<span class="text-base font-normal text-brand-fog"> / έτος</span></p>
+              <p class="text-sm text-brand-fog">Μειωμένη συνδρομή μέσω δωρεών · περιορισμένες θέσεις ανά σεζόν.</p>
+            </div>
+            <p class="text-xs text-brand-fog">/* Ενημερώστε τα ποσά βάσει των εγκεκριμένων συνδρομών */</p>
+          </div>
+        </div>
+      </div>
+      <div class="glass-panel p-8 space-y-6">
+        <h3 class="text-2xl font-semibold text-brand-rock">Βήματα εγγραφής</h3>
+        <ol class="space-y-4">
+          {steps.map((step, index) => (
+            <li class="flex gap-4">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-sky/20 text-brand-forest font-semibold">
+                {index + 1}
+              </span>
+              <p class="text-brand-rock">{step}</p>
+            </li>
+          ))}
+        </ol>
+        <div class="rounded-2xl border border-brand-sky/50 bg-brand-sky/15 p-6 text-center">
+          <p class="text-brand-rock">Έτοιμος/η για νέες κορυφές;</p>
+          <a
+            href="/contact"
+            class="mt-4 inline-flex items-center justify-center rounded-full bg-brand-sunrise px-6 py-3 font-semibold text-brand-rock shadow-lg shadow-brand-sunrise/40 hover:scale-105"
+          >
+            Επικοινώνησε με την ομάδα μελών
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,90 @@
+---
+import type { Trip } from '../types';
+
+interface Props {
+  trip: Trip;
+}
+
+const { trip } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat('el-GR', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric'
+}).format(new Date(trip.date));
+
+const typeStyles: Record<Trip['type'], string> = {
+  hiking: 'bg-brand-forest/10 text-brand-forest border-brand-forest/40',
+  mountaineering: 'bg-brand-sky/15 text-brand-sky border-brand-sky/40',
+  ski: 'bg-brand-sky/10 text-brand-rock border-brand-sky/40',
+  climbing: 'bg-brand-sunrise/10 text-brand-sunrise border-brand-sunrise/40'
+};
+
+const typeLabels: Record<Trip['type'], string> = {
+  hiking: 'Πεζοπορία',
+  mountaineering: 'Ορειβασία',
+  ski: 'Σκι',
+  climbing: 'Αναρρίχηση'
+};
+
+const statusLabels: Record<Trip['status'], string> = {
+  upcoming: 'Επόμενη',
+  past: 'Παλαιότερη'
+};
+---
+<article class="glass-panel p-6 flex flex-col gap-5 transition duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-brand-forest/40">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <p class="text-sm text-brand-fog uppercase tracking-[0.2em]">{formattedDate}</p>
+      <p class="text-lg font-semibold text-brand-rock">{trip.location}</p>
+    </div>
+    <span class={`text-xs font-semibold px-3 py-1 rounded-full border ${typeStyles[trip.type]} `}>
+      {typeLabels[trip.type]}
+    </span>
+  </div>
+  <div>
+    <h3 class="text-2xl font-semibold text-brand-rock">{trip.title}</h3>
+    <p class="mt-2 text-brand-fog">{trip.shortDescription}</p>
+  </div>
+  <div class="space-y-3">
+    <div class="flex items-center gap-3 text-sm text-brand-fog">
+      <span class="uppercase tracking-[0.3em] text-xs text-brand-fog">Δυσκολία</span>
+      <div class="flex gap-1" aria-label={`Επίπεδο δυσκολίας ${trip.difficulty} από 5`}>
+        {Array.from({ length: 5 }).map((_, index) => (
+          <span
+            class={`h-2.5 w-8 rounded-full transition ${index < trip.difficulty ? 'bg-brand-sunrise shadow-inner shadow-brand-sunrise/40' : 'bg-brand-sand/70'}`}
+          ></span>
+        ))}
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4 text-sm text-brand-rock">
+      <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-brand-fog">Απόσταση</p>
+        <p class="text-lg font-semibold">{trip.distanceKm} km</p>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-brand-fog">Υψομετρική</p>
+        <p class="text-lg font-semibold">{trip.elevationGain} m</p>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-brand-fog">Αρχηγός</p>
+        <p class="text-lg font-semibold">{trip.leader}</p>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-brand-fog">Κατάσταση</p>
+        <p class="text-lg font-semibold">{statusLabels[trip.status]}</p>
+      </div>
+    </div>
+  </div>
+  <div class="pt-2">
+    <a
+      href={`#trip-${trip.slug}`}
+      class="inline-flex items-center gap-2 text-sm font-semibold text-brand-forest rounded-full border border-brand-forest/20 px-4 py-2 transition hover:-translate-y-0.5 hover:border-brand-sunrise hover:text-brand-sunrise"
+    >
+      Λεπτομέρειες
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+      </svg>
+    </a>
+  </div>
+</article>

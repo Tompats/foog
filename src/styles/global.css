@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply font-sans bg-brand-mist text-brand-rock min-h-screen;
+  background-image: var(--bg-gradient);
+  --bg-gradient: radial-gradient(circle at 20% 20%, rgba(108, 183, 232, 0.25), transparent 55%),
+    radial-gradient(circle at 80% 0%, rgba(244, 163, 64, 0.25), transparent 40%),
+    linear-gradient(135deg, #f8f9f6 0%, #e7e3d8 60%, #f8f9f6 100%);
+  background-attachment: fixed;
+}
+
+a {
+  @apply text-brand-forest hover:text-brand-sunrise transition-colors;
+}
+
+.glass-panel {
+  @apply bg-white/80 border border-brand-sand/70 backdrop-blur-xl rounded-2xl shadow-lg shadow-brand-forest/5;
+}
+
+.section-padding {
+  @apply py-16 px-6 sm:px-8 lg:px-12;
+}
+
+.prose {
+  @apply prose-slate;
+}
+
+details summary {
+  @apply cursor-pointer list-none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}

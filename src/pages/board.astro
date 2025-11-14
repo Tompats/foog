@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import BoardCard from '../components/BoardCard.astro';
+import { board } from '../data/board';
+---
+<BaseLayout title="Διοίκηση" description="Γνώρισε τα μέλη του Διοικητικού Συμβουλίου που καθοδηγούν την αποστολή και την ασφάλεια του Φ.Ο.Ο.Γ.">
+  <section class="section-padding">
+    <SectionHeader eyebrow="Διοίκηση" title="Διοικητικό Συμβούλιο" subtitle="Εθελοντές που εκλέγονται κάθε δύο χρόνια" />
+    <div class="grid gap-6">
+      {board.map((member) => (
+        <BoardCard member={member} />
+      ))}
+    </div>
+  </section>
+</BaseLayout>
