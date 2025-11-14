@@ -26,6 +26,12 @@ const typeLabels: Record<Trip['type'], string> = {
   ski: 'Σκι',
   climbing: 'Αναρρίχηση'
 };
+const typeImages: Record<Trip['type'], string> = {
+  hiking: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=60',
+  mountaineering: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60',
+  ski: 'https://images.unsplash.com/photo-1482192597420-4817fdd7e8b0?auto=format&fit=crop&w=800&q=60',
+  climbing: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=60'
+};
 
 const statusLabels: Record<Trip['status'], string> = {
   upcoming: 'Επόμενη',
@@ -33,11 +39,16 @@ const statusLabels: Record<Trip['status'], string> = {
 };
 ---
 <article
-  class="glass-panel p-6 flex flex-col gap-5 transition duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-brand-pine/30 bg-gradient-to-br from-brand-river/10 via-brand-cloud to-brand-river/5"
+  class="glass-panel p-0 overflow-hidden transition duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-brand-pine/30"
   data-trip-card
   data-type={trip.type}
   data-difficulty={trip.difficulty}
 >
+  <div class="h-40 w-full overflow-hidden relative">
+    <img src={typeImages[trip.type]} alt={trip.title} class="h-full w-full object-cover" loading="lazy" />
+    <div class="absolute inset-0 bg-gradient-to-t from-brand-river/70 via-transparent to-transparent"></div>
+  </div>
+  <div class="p-6 flex flex-col gap-5 bg-gradient-to-br from-brand-river/10 via-brand-cloud to-brand-river/5">
   <div class="flex flex-wrap items-center justify-between gap-3">
     <div>
       <p class="text-xs uppercase tracking-[0.35em] text-brand-moss">{formattedDate}</p>
@@ -94,5 +105,6 @@ const statusLabels: Record<Trip['status'], string> = {
         <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
       </svg>
     </a>
+  </div>
   </div>
 </article>
