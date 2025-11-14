@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title?: string;
@@ -7,23 +7,23 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const defaultName = 'Φ.Ο.Ο.Γ - Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών';
+const defaultName = "Φ.Ο.Ο.Γ - Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών";
 const pageTitle = title ? `${title} | ${defaultName}` : defaultName;
 const metaDescription =
   description ??
-  'Εθελοντικός ορειβατικός όμιλος Γιαννιτσών με εξορμήσεις, εκπαίδευση ασφάλειας σε χιόνι και ανοιχτή κοινότητα φυσιολατρών.';
+  "Εθελοντικός ορειβατικός όμιλος Γιαννιτσών με εξορμήσεις, εκπαίδευση ασφάλειας σε χιόνι και ανοιχτή κοινότητα φυσιολατρών.";
 
 const navLinks = [
-  { href: '/', label: 'Αρχική' },
-  { href: '/trips', label: 'Εξορμήσεις' },
-  { href: '/history', label: 'Ιστορία' },
-  { href: '/coaches', label: 'Προπονητές' },
-  { href: '/board', label: 'Διοίκηση' },
-  { href: '/join', label: 'Γίνε μέλος' },
-  { href: '/gallery', label: 'Γκαλερί' },
-  { href: '/contact', label: 'Επικοινωνία' }
+  { href: "/", label: "Αρχική" },
+  { href: "/trips", label: "Εξορμήσεις" },
+  { href: "/history", label: "Ποιοι είμαστε" },
+  { href: "/coaches", label: "Προπονητές" },
+  { href: "/join", label: "Γίνε μέλος" },
+  { href: "/gallery", label: "Γκαλερί" },
+  { href: "/contact", label: "Επικοινωνία" },
 ];
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -40,100 +40,191 @@ const navLinks = [
   </head>
   <body class="relative min-h-screen text-brand-rocky">
     <div class="absolute inset-0 -z-10">
-      <div class="h-96 w-full bg-gradient-to-b from-brand-moss/25 via-transparent to-transparent blur-3xl"></div>
-      <div class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-brand-river/50 to-transparent pointer-events-none"></div>
+      <div
+        class="h-96 w-full bg-gradient-to-b from-brand-moss/25 via-transparent to-transparent blur-3xl"
+      >
+      </div>
+      <div
+        class="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-brand-river/50 to-transparent pointer-events-none"
+      >
+      </div>
       <div class="absolute inset-x-0 bottom-0 pointer-events-none opacity-85">
-        <svg viewBox="0 0 1440 280" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+        <svg
+          viewBox="0 0 1440 280"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-full h-full"
+        >
           <path
             d="M0 220L80 190L180 210L260 150L360 190L460 130L560 200L660 140L760 210L860 160L960 210L1040 150L1160 190L1260 130L1360 180L1440 140V280H0Z"
-            fill="url(#mountainGrad)"
-          />
+            fill="url(#mountainGrad)"></path>
           <defs>
             <linearGradient id="mountainGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#356859" stop-opacity="0.7" />
-              <stop offset="100%" stop-color="#FDF8EE" stop-opacity="0.3" />
+              <stop offset="0%" stop-color="#356859" stop-opacity="0.7"></stop>
+              <stop offset="100%" stop-color="#FDF8EE" stop-opacity="0.3"
+              ></stop>
             </linearGradient>
           </defs>
         </svg>
       </div>
     </div>
     <div class="relative flex min-h-screen flex-col">
-      <header class="section-padding pb-6">
+      <header class="section-padding pb-6 relative z-40">
         <div class="glass-panel px-6 py-6 lg:py-5">
-          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div
+            class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
+          >
             <div>
-              <a href="/" class="text-2xl font-semibold text-brand-pine heading-font flex items-center gap-3">
+              <a
+                href="/"
+                class="text-2xl font-semibold text-brand-pine heading-font flex items-center gap-3"
+              >
                 Φ.Ο.Ο.Γ
                 <span class="playful-pill">since 1974</span>
               </a>
-              <p class="text-sm text-brand-mist mt-1">Ορέξα για κορυφές, παρέα για πάντα.</p>
+              <p class="text-sm text-brand-mist mt-1">
+                Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών
+              </p>
             </div>
             <div class="flex items-center gap-3">
               <button
                 id="nav-toggle"
+                type="button"
+                aria-controls="nav-menu-mobile"
+                aria-expanded="false"
                 class="lg:hidden inline-flex items-center gap-2 rounded-full border border-brand-pine/30 px-4 py-2 text-sm font-semibold text-brand-rocky hover:text-brand-terracotta"
               >
                 Μενού
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-5 w-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"></path>
                 </svg>
               </button>
-              <nav id="nav-menu" class="hidden flex-wrap items-center gap-3 text-sm font-semibold text-brand-rocky lg:flex">
-                {navLinks.map((link) => (
-                  <a
-                    href={link.href}
-                    class="rounded-full bg-brand-cloud px-4 py-2 border border-brand-river/10 shadow-sm shadow-brand-river/10 transition hover:-translate-y-0.5 hover:text-brand-terracotta"
-                  >
-                    {link.label}
-                  </a>
-                ))}
+              <nav
+                id="nav-menu"
+                class="hidden flex-wrap items-center gap-3 text-sm font-semibold text-brand-rocky lg:flex"
+              >
+                {
+                  navLinks.map((link) => (
+                    <a
+                      href={link.href}
+                      class="rounded-full bg-brand-cloud px-4 py-2 border border-brand-river/10 shadow-sm shadow-brand-river/10 transition hover:-translate-y-0.5 hover:text-brand-terracotta"
+                    >
+                      {link.label}
+                    </a>
+                  ))
+                }
               </nav>
             </div>
           </div>
           <nav
             id="nav-menu-mobile"
-            class="mt-4 hidden flex-col gap-2 text-sm font-semibold text-brand-rocky lg:hidden"
+            class="mt-4 hidden grid gap-3 text-sm font-semibold text-brand-rocky lg:hidden max-h-[70vh] overflow-y-auto pr-1 scrollbar-hide"
           >
-            {navLinks.map((link) => (
-              <a
-                href={link.href}
-                class="rounded-2xl border border-brand-river/40 bg-brand-cloud px-4 py-3 transition hover:border-brand-terracotta/60 hover:text-brand-terracotta"
-              >
-                {link.label}
-              </a>
-            ))}
+            {
+              navLinks.map((link) => (
+                <a
+                  href={link.href}
+                  data-nav-mobile-link
+                  class="w-full rounded-2xl border border-brand-river/40 bg-brand-cloud px-4 py-3 text-center transition hover:border-brand-terracotta/60 hover:text-brand-terracotta"
+                >
+                  {link.label}
+                </a>
+              ))
+            }
           </nav>
         </div>
       </header>
+      <div
+        id="nav-overlay"
+        class="fixed inset-0 bg-brand-river/50 backdrop-blur-sm z-30 hidden lg:hidden"
+      >
+      </div>
       <main class="flex-1 pb-20">
         <slot />
       </main>
       <footer class="section-padding">
         <div class="glass-panel px-6 py-8 grid gap-8 lg:grid-cols-3">
           <div>
-            <h3 class="text-xl font-semibold text-brand-rocky">Πάντα έτοιμοι για περιπέτεια.</h3>
-            <p class="text-brand-mist mt-2">Εβδομαδιαίες συναντήσεις, ανανέωση γνώσεων χιονοστιβάδων και φροντίδα των αγαπημένων μας βουνών.</p>
+            <h3 class="text-xl font-semibold text-brand-rocky">
+              Πάντα έτοιμοι για περιπέτεια.
+            </h3>
+            <p class="text-brand-mist mt-2">
+              Εβδομαδιαίες συναντήσεις, ανανέωση γνώσεων χιονοστιβάδων και
+              φροντίδα των αγαπημένων μας βουνών.
+            </p>
           </div>
           <div class="space-y-2 text-brand-mist">
             <a href="/trips" class="block hover:text-brand-pine">Εξορμήσεις</a>
             <a href="/join" class="block hover:text-brand-pine">Γίνε μέλος</a>
-            <a href="/contact" class="block hover:text-brand-pine">Επικοινωνία</a>
-            <a href="/history" class="block hover:text-brand-pine">Ασφάλεια &amp; Εκπαίδευση</a>
+            <a href="/contact" class="block hover:text-brand-pine"
+              >Επικοινωνία</a
+            >
+            <a href="/history" class="block hover:text-brand-pine"
+              >Ασφάλεια &amp; Εκπαίδευση</a
+            >
           </div>
           <div class="text-brand-mist space-y-2">
-            <p>Ηλ. ταχυδρομείο: <a href="mailto:info@mountains.club" class="font-semibold text-brand-pine">info@mountains.club</a></p>
-            <p>Κοινωνικά: <a href="#" class="hover:text-brand-pine">Instagram</a> · <a href="#" class="hover:text-brand-pine">Facebook</a></p>
-            <p class="text-sm text-brand-mist">Τα ορεινά σπορ ενέχουν κινδύνους· συμμετέχετε εντός των ορίων σας και σύμφωνα με τα πρωτόκολλα του Φ.Ο.Ο.Γ.</p>
+            <p>
+              Ηλ. ταχυδρομείο: <a
+                href="mailto:info@mountains.club"
+                class="font-semibold text-brand-pine">info@mountains.club</a>
+            </p>
+            <p>
+              Κοινωνικά: <a href="#" class="hover:text-brand-pine">Instagram</a>
+              · <a href="#" class="hover:text-brand-pine">Facebook</a>
+            </p>
+            <p class="text-sm text-brand-mist">
+              Τα ορεινά σπορ ενέχουν κινδύνους· συμμετέχετε εντός των ορίων σας
+              και σύμφωνα με τα πρωτόκολλα του Φ.Ο.Ο.Γ.
+            </p>
           </div>
         </div>
       </footer>
     </div>
     <script>
-      const toggle = document.getElementById('nav-toggle');
-      const mobile = document.getElementById('nav-menu-mobile');
-      toggle?.addEventListener('click', () => {
-        mobile?.classList.toggle('hidden');
-      });
+      (() => {
+        const toggle = document.getElementById("nav-toggle");
+        const mobile = document.getElementById("nav-menu-mobile");
+        const overlay = document.getElementById("nav-overlay");
+        const body = document.body;
+
+        if (!toggle || !mobile) return;
+
+        const setOpen = (isOpen) => {
+          mobile.classList.toggle("hidden", !isOpen);
+          overlay?.classList.toggle("hidden", !isOpen);
+          body.classList.toggle("overflow-hidden", isOpen);
+          toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        };
+
+        const isOpen = () => !mobile.classList.contains("hidden");
+
+        toggle.addEventListener("click", () => {
+          setOpen(!isOpen());
+        });
+
+        overlay?.addEventListener("click", () => setOpen(false));
+
+        mobile.querySelectorAll("[data-nav-mobile-link]").forEach((link) => {
+          link.addEventListener("click", () => setOpen(false));
+        });
+
+        window.addEventListener("resize", () => {
+          if (window.innerWidth >= 1024) {
+            setOpen(false);
+            body.classList.remove("overflow-hidden");
+          }
+        });
+      })();
     </script>
   </body>
 </html>

@@ -74,27 +74,45 @@ const heroGallery = [
           </defs>
         </svg>
       </div>
-      <p class="text-sm uppercase tracking-[0.3em] text-brand-pine">Φ.Ο.Ο.Γ · Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών</p>
-      <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-brand-rocky heading-font max-w-3xl">
-        Κάμπινγκ, σχοινιά και γέλια σε κάθε κορυφή.
-      </h1>
-      <p class="mt-6 text-lg text-brand-mist max-w-2xl">
-        Ξεκινήσαμε ως παρέα εξερευνητών και συνεχίζουμε να σχεδιάζουμε ταξίδια που μυρίζουν έλατο,
-        καραμέλα και υψόμετρο. Αν αγαπάς τα χιονοπέδιλα όσο και τη φωτιά στο καταφύγιο, είσαι δικός μας άνθρωπος.
-      </p>
-      <div class="mt-10 flex flex-wrap gap-4">
-        <a
-          href="/trips"
-          class="inline-flex items-center justify-center rounded-full bg-brand-terracotta px-8 py-3 text-base font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
-        >
-          Δες τις επόμενες εξορμήσεις
-        </a>
-        <a
-          href="/join"
-          class="inline-flex items-center justify-center rounded-full border border-brand-pine/30 px-8 py-3 text-base font-semibold text-brand-pine hover:border-brand-terracotta hover:text-brand-terracotta transition"
-        >
-          Γίνε μέλος
-        </a>
+      <div class="grid gap-8 lg:grid-cols-[minmax(0,1.25fr),480px] lg:items-center">
+        <div>
+          <p class="text-sm uppercase tracking-[0.3em] text-brand-pine">Φ.Ο.Ο.Γ · Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών</p>
+          <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-brand-rocky heading-font max-w-3xl">
+            Τα όρη με καλούν και πρέπει να πάω.
+          </h1>
+          <p class="mt-6 text-lg text-brand-mist max-w-2xl">
+            Ξεκινήσαμε ως παρέα εξερευνητών και συνεχίζουμε να σχεδιάζουμε ταξίδια που μυρίζουν έλατο,
+            καραμέλα και υψόμετρο. Αν αγαπάς τα χιονοπέδιλα όσο και τη φωτιά στο καταφύγιο, είσαι δικός μας άνθρωπος.
+          </p>
+          <div class="mt-10 flex flex-wrap gap-4">
+            <a
+              href="/trips"
+              class="inline-flex items-center justify-center rounded-full bg-brand-terracotta px-8 py-3 text-base font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
+            >
+              Δες τις επόμενες εξορμήσεις
+            </a>
+            <a
+              href="/join"
+              class="inline-flex items-center justify-center rounded-full border border-brand-pine/30 px-8 py-3 text-base font-semibold text-brand-pine hover:border-brand-terracotta hover:text-brand-terracotta transition"
+            >
+              Γίνε μέλος
+            </a>
+          </div>
+        </div>
+        <figure class="relative mt-4 lg:mt-0">
+          <div class="relative rounded-[32px] overflow-hidden shadow-2xl shadow-brand-river/40 border border-brand-river/30 h-80 lg:h-96 bg-brand-river/10">
+            <img
+              src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=70"
+              alt="Ορειβάτης κοιτάζει κορυφή στο ηλιοβασίλεμα"
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-river/60"></div>
+            <figcaption class="absolute bottom-4 left-4 text-brand-cloud text-sm font-semibold">
+              Χειμερινό παράθυρο κορυφής
+            </figcaption>
+          </div>
+        </figure>
       </div>
       <div class="mt-8 grid gap-4 sm:grid-cols-3 text-center">
         <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
@@ -112,17 +130,9 @@ const heroGallery = [
       </div>
       <div class="mt-12 space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-4">
-          <div class="flex items-center gap-4">
-            <img
-              src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=60"
-              alt="Placeholder camp photo"
-              class="hidden sm:block h-16 w-16 rounded-2xl object-cover shadow-lg shadow-brand-river/40"
-              loading="lazy"
-            />
-            <div>
-              <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Φωτογραφικά στιγμιότυπα</p>
-              <h3 class="text-xl font-semibold text-brand-rocky heading-font">Τελευταίες λήψεις από την παρέα</h3>
-            </div>
+          <div>
+            <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Φωτογραφικά στιγμιότυπα</p>
+            <h3 class="text-xl font-semibold text-brand-rocky heading-font">Τελευταίες λήψεις από την παρέα</h3>
           </div>
           <div class="flex gap-2">
             <button
@@ -164,8 +174,6 @@ const heroGallery = [
               </figure>
             ))}
           </div>
-          <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-brand-river/50 via-brand-river/0 to-transparent hidden sm:block" />
-          <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-brand-river/50 via-brand-river/0 to-transparent hidden sm:block" />
         </div>
       </div>
     </div>
@@ -286,13 +294,4 @@ const heroGallery = [
       });
     })();
   </script>
-  <style>
-    .scrollbar-hide {
-      scrollbar-width: none;
-    }
-
-    .scrollbar-hide::-webkit-scrollbar {
-      display: none;
-    }
-  </style>
 </BaseLayout>

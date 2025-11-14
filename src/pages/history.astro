@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
+import BoardCard from '../components/BoardCard.astro';
+import { board } from '../data/board';
 
 const timeline = [
   {
@@ -73,6 +75,19 @@ const timeline = [
             <p class="text-brand-mist">{item.description}</p>
           </div>
         </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-padding pt-0">
+    <SectionHeader
+      eyebrow="Διοίκηση"
+      title="Ποιοι μας καθοδηγούν"
+      subtitle="Εθελοντές που εκλέγονται κάθε δύο χρόνια και κρατούν τον όμιλο σε τροχιά ανάπτυξης"
+    />
+    <div class="grid gap-6">
+      {board.map((member) => (
+        <BoardCard member={member} />
       ))}
     </div>
   </section>
