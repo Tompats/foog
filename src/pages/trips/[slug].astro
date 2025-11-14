@@ -1,0 +1,197 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TripCard from "../../components/TripCard.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { trips } from "../../data/trips";
+
+export async function getStaticPaths() {
+  return trips.map((trip) => ({ params: { slug: trip.slug } }));
+}
+
+const { slug } = Astro.params;
+const trip = trips.find((item) => item.slug === slug);
+
+if (!trip) {
+  throw new Error("Trip not found");
+}
+
+const relatedTrips = trips
+  .filter((item) => item.slug !== trip.slug && item.type === trip.type)
+  .slice(0, 3);
+
+const startDateLabel = new Date(trip.startDate).toLocaleDateString("el-GR");
+const endDateLabel = trip.endDate
+  ? new Date(trip.endDate).toLocaleDateString("el-GR")
+  : null;
+const hasDistinctEndDate = !!trip.endDate && trip.endDate !== trip.startDate;
+const tripDateLabel = hasDistinctEndDate && endDateLabel
+  ? `${startDateLabel} – ${endDateLabel}`
+  : startDateLabel;
+
+const itinerary = [
+  "Συνάντηση και έλεγχος εξοπλισμού στην βάση (07:00).",
+  "Ανάβαση προς το καταφύγιο με στάσεις για εκπαίδευση (09:30).",
+  "Πρακτική ασφάλειας/δέσιμο σχοινιών σε σημείο θέας (12:00).",
+  "Παράθυρο κορυφής και φωτογραφίες, επιστροφή στο camp (14:30).",
+  "Κλείσιμο με ζεστό ρόφημα και ανατροφοδότηση (17:00).",
+];
+
+const gear = [
+  "Σακίδιο 35L",
+  "Κράνος και μποντριέ",
+  "Στρώσεις ρουχισμού (τεχνικός/ζεστός)",
+  "Σετ ασφαλείας: ARVA, φτυάρι, προμνήμα",
+  "Κιτ πρώτων βοηθειών και φακός κεφαλής",
+];
+
+const badges = [
+  `${trip.type.toUpperCase()} LINE`,
+  `${trip.difficulty}/5 difficulty`,
+  trip.status === "upcoming" ? "OPEN SPOTS" : "COMPLETED LOG",
+];
+---
+
+<BaseLayout title={trip.title} description={trip.shortDescription}>
+  <section class="section-padding pt-6">
+    <div
+      class="glass-panel px-8 py-10 lg:py-12 lg:px-12 flex flex-col gap-6 bg-brand-river/30"
+    >
+      <div class="flex flex-wrap items-center gap-3">
+        {
+          badges.map((badge) => (
+            <span class="playful-pill bg-brand-cloud text-brand-pine border-brand-river/20">
+              {badge}
+            </span>
+          ))
+        }
+      </div>
+      <div class="flex flex-col gap-4">
+        <p
+          class="text-m font-semibold uppercase tracking-[0.3em] text-brand-mossDark"
+        >
+          {tripDateLabel}
+        </p>
+        <h1
+          class="text-4xl lg:text-5xl font-semibold text-brand-cloud heading-font"
+        >
+          {trip.title}
+        </h1>
+        <p class="text-brand-mist text-lg max-w-3xl">{trip.shortDescription}</p>
+        {
+          trip.activities.length > 0 && (
+            <div class="flex flex-wrap gap-2">
+              {trip.activities.map((activity) => (
+                <span class="playful-pill bg-brand-cloud/80 text-brand-pine border-brand-river/30">
+                  {activity}
+                </span>
+              ))}
+            </div>
+          )
+        }
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 text-brand-cloud">
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+            Τοποθεσία
+          </p>
+          <p class="text-xl font-semibold">{trip.location}</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+            Απόσταση
+          </p>
+          <p class="text-xl font-semibold">{trip.distanceKm} km</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+            Υψομετρική
+          </p>
+          <p class="text-xl font-semibold">{trip.elevationGain} m</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+            Αρχηγός
+          </p>
+          <p class="text-xl font-semibold">{trip.leader}</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 rounded-full bg-brand-terracotta px-6 py-3 font-semibold text-brand-cloud shadow-md shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
+        >
+          Δήλωσε συμμετοχή
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            class="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5 12h14m-6-6 6 6-6 6"></path>
+          </svg>
+        </a>
+        <a
+          href="/trips"
+          class="inline-flex items-center gap-2 rounded-full border border-brand-cloud/40 px-6 py-3 font-semibold text-brand-cloud hover:border-brand-terracotta"
+        >
+          Πίσω στις εξορμήσεις
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding grid gap-8 lg:grid-cols-2">
+    <div class="glass-panel p-8 space-y-4">
+      <h2 class="text-2xl font-semibold text-brand-rocky heading-font">
+        Σενάριο ημέρας
+      </h2>
+      <ul class="space-y-3 text-brand-mist">
+        {
+          itinerary.map((item) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2.5 w-2.5 rounded-full bg-brand-moss" />
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="glass-panel p-8 space-y-4">
+      <h2 class="text-2xl font-semibold text-brand-rocky heading-font">
+        Τι να έχεις μαζί
+      </h2>
+      <ul class="space-y-3 text-brand-mist">
+        {
+          gear.map((item) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2.5 w-2.5 rounded-md bg-brand-terracotta" />
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  {
+    relatedTrips.length > 0 && (
+      <section class="section-padding">
+        <SectionHeader
+          eyebrow="Συγγενείς προτάσεις"
+          title="Παρόμοιες διαδρομές"
+          subtitle="Αν σου άρεσε αυτή η εξόρμηση, ρίξε μια ματιά και στις παρακάτω"
+        />
+        <div class="grid gap-6 lg:grid-cols-3">
+          {relatedTrips.map((related) => (
+            <TripCard trip={related} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

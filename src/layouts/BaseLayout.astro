@@ -176,7 +176,8 @@ const navLinks = [
             <p>
               Ηλ. ταχυδρομείο: <a
                 href="mailto:info@mountains.club"
-                class="font-semibold text-brand-pine">info@mountains.club</a>
+                class="font-semibold text-brand-pine">info@mountains.club</a
+              >
             </p>
             <p>
               Κοινωνικά: <a href="#" class="hover:text-brand-pine">Instagram</a>
@@ -199,7 +200,7 @@ const navLinks = [
 
         if (!toggle || !mobile) return;
 
-        const setOpen = (isOpen) => {
+        const setOpen = (isOpen: boolean | undefined) => {
           mobile.classList.toggle("hidden", !isOpen);
           overlay?.classList.toggle("hidden", !isOpen);
           body.classList.toggle("overflow-hidden", isOpen);
