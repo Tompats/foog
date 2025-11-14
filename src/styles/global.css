@@ -48,6 +48,10 @@ a {
   height: 8px;
 }
 
+.filter-active {
+  @apply border-brand-terracotta bg-brand-terracotta/20 text-brand-terracotta;
+}
+
 details summary {
   @apply cursor-pointer list-none;
 }
