@@ -114,7 +114,7 @@ const features = [
     <div class="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-center">
       <div>
         <SectionHeader eyebrow="Ταυτότητα" title="Ρίζες στην υπευθυνότητα" subtitle="Από το 1974 υπερασπιζόμαστε την ασφάλεια, το άγριο χιόνι και τις φιλίες ζωής." />
-        <div class="glass-panel p-8 space-y-4 text-brand-mist">
+        <div class="glass-panel p-8 space-y-4 text-brand-mist bg-brand-river/5">
           <p>
             Από τα εργαστήρια της Τετάρτης μέχρι τις εβδομαδιαίες εκστρατείες σε παγετώνες, πιστεύουμε ότι η
             κοινή γνώση κρατά τα βουνά προσβάσιμα και ασφαλή. Οι αρχηγοί εξορμήσεων αξιολογούνται κάθε χρόνο και
@@ -135,7 +135,7 @@ const features = [
       </div>
       <div class="grid gap-6">
         {features.map((feature) => (
-          <div class="glass-panel p-6 flex items-start gap-4 transition hover:-translate-y-1 bg-white/90">
+          <div class="glass-panel p-6 flex items-start gap-4 transition hover:-translate-y-1 bg-brand-cloud/95">
             <div class="h-12 w-12 rounded-2xl bg-brand-cloud flex items-center justify-center text-brand-pine shadow-inner">
               {feature.icon === 'shield' && (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -173,7 +173,7 @@ const features = [
     <SectionHeader eyebrow="Αναφορές" title="Πρόσφατες αναφορές εξορμήσεων" subtitle="Στιγμές από κορυφές και γραμμές σκι" />
     <div class="grid gap-6 md:grid-cols-3">
       {latestReports.map((report) => (
-        <div class="glass-panel p-6 flex flex-col gap-3 hover:-translate-y-1 transition">
+        <div class="glass-panel p-6 flex flex-col gap-3 hover:-translate-y-1 transition bg-brand-river/5">
           <p class="text-sm text-brand-mist">{new Date(report.date).toLocaleDateString('el-GR')}</p>
           <h3 class="text-xl font-semibold text-brand-rocky">{report.title}</h3>
           <p class="text-brand-mist text-sm">{report.shortDescription}</p>
