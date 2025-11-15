@@ -6,17 +6,25 @@ interface Props {
 }
 
 const { coach } = Astro.props;
+const avatarWrapperClasses =
+  "mx-auto h-28 w-28 rounded-[30px] ring-4 ring-brand-river/40 overflow-hidden flex items-center justify-center bg-brand-cloud text-brand-river";
 ---
 
 <div
   class="glass-panel p-6 flex flex-col gap-4 text-center transition duration-300 hover:-translate-y-1 hover:shadow-glow hover:border-brand-pine/40 bg-gradient-to-b from-brand-river/5 to-brand-cloud"
 >
-  <img
-    src={coach.photoUrl}
-    alt={coach.name}
-    class="mx-auto h-28 w-28 rounded-[30px] object-cover ring-4 ring-brand-river/40"
-    loading="lazy"
-  />
+  <div class={avatarWrapperClasses}>
+    {
+      coach.photoUrl ? (
+        <img src={coach.photoUrl} alt={coach.name} class="h-full w-full object-cover" loading="lazy" />
+      ) : (
+        <>
+          <i class="fa-solid fa-user text-4xl" aria-hidden="true"></i>
+          <span class="sr-only">Φωτογραφία προπονητή δεν είναι διαθέσιμη</span>
+        </>
+      )
+    }
+  </div>
   <div>
     <p class="text-xs uppercase tracking-[0.4em] text-brand-moss">
       {coach.role}

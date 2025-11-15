@@ -19,7 +19,7 @@ export interface Trip {
 export interface Coach {
   name: string;
   role: string;
-  photoUrl: string;
+  photoUrl?: string;
   certifications?: string[];
   bio: string;
   specialties: string[];
@@ -28,6 +28,6 @@ export interface Coach {
 export interface BoardMember {
   name: string;
   role: string;
-  photoUrl: string;
+  photoUrl?: string;
   bio: string;
 }
