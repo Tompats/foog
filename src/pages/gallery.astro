@@ -12,6 +12,7 @@ import photoGrammos from "../assets/images/foog-grammos.jpeg";
 import photoPaiko from "../assets/images/foog-katharismos-paiko.jpg";
 import photoSkiJunior from "../assets/images/foog-ski-junior.jpg";
 import photoVoras from "../assets/images/foog-voras-profitis-hlias.jpg";
+import grammosVideo from "../assets/videos/foog-grammos-video.mp4";
 import { instagramPosts } from "../data/instagram";
 
 interface InstagramEmbedResult {
@@ -21,7 +22,16 @@ interface InstagramEmbedResult {
   error?: string;
 }
 
-const gallery = [
+interface GalleryItem {
+  title: string;
+  subtitle: string;
+  image?: string;
+  video?: string;
+  poster?: string;
+  alt?: string;
+}
+
+const gallery: GalleryItem[] = [
   {
     title: "Προπόνηση σκι στο Μπόροβιτς",
     subtitle: "Χιονοδρομία · 2024",
@@ -71,6 +81,12 @@ const gallery = [
     alt: "Αθλητές του Φ.Ο.Ο.Γ. σε ανάβαση στον Γράμμο",
   },
   {
+    title: "Δρακόλιμνη Γκιστόβα",
+    subtitle: "Video highlight · 2024",
+    video: grammosVideo,
+    alt: "Βίντεο με μέλη του Φ.Ο.Ο.Γ. στον Γράμμο",
+  },
+  {
     title: "Καθαρισμός μονοπατιού στο Πάικο",
     subtitle: "Περιβαλλοντική δράση · 2024",
     image: photoPaiko.src,
@@ -90,49 +106,8 @@ const gallery = [
   },
 ];
 
-const instagramAccessToken = import.meta.env.INSTAGRAM_OEMBED_TOKEN;
-
-const instagramEmbeds: InstagramEmbedResult[] = await (async () => {
-  if (!instagramPosts.length) return [];
-  if (!instagramAccessToken) {
-    return instagramPosts.map((post) => ({
-      ...post,
-      html: null,
-      error: "INSTAGRAM_OEMBED_TOKEN not set",
-    }));
-  }
-
-  return Promise.all(
-    instagramPosts.map(async (post) => {
-      try {
-        const apiUrl = new URL(
-          "https://graph.facebook.com/v17.0/instagram_oembed"
-        );
-        apiUrl.searchParams.set("url", post.url);
-        apiUrl.searchParams.set("omitscript", "true");
-        apiUrl.searchParams.set("access_token", instagramAccessToken);
-
-        const response = await fetch(apiUrl.toString());
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-        const data = await response.json();
-        return {
-          ...post,
-          html: data.html ?? null,
-        } as InstagramEmbedResult;
-      } catch (error) {
-        return {
-          ...post,
-          html: null,
-          error: error instanceof Error ? error.message : "Σφάλμα",
-        } as InstagramEmbedResult;
-      }
-    })
-  );
-})();
-
-const hasInstagramHtml = instagramEmbeds.some((embed) => Boolean(embed.html));
+const photoGallery = gallery.filter((item) => item.image && !item.video);
+const videoGallery = gallery.filter((item) => item.video);
 ---
 
 <BaseLayout
@@ -145,22 +120,68 @@ const hasInstagramHtml = instagramEmbeds.some((embed) => Boolean(embed.html));
       title="Γκαλερί"
       subtitle="Πέρασε τον δείκτη για λεζάντες και έμπνευση νέων γραμμών"
     />
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="space-y-10">
+      <div>
+        <h3
+          class="mb-4 text-sm font-semibold uppercase tracking-wide text-brand-river"
+        >
+          Φωτογραφίες
+        </h3>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            photoGallery.map((item) => (
+              <figure class="group relative h-64 overflow-hidden rounded-2xl">
+                <img
+                  src={item.image}
+                  alt={item.alt ?? item.title}
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <figcaption class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4">
+                  <p class="text-white font-semibold">{item.title}</p>
+                  <p class="text-sm text-brand-river">{item.subtitle}</p>
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+
       {
-        gallery.map((item) => (
-          <figure class="group relative h-64 overflow-hidden rounded-2xl">
-            <img
-              src={item.image}
-              alt={item.alt ?? item.title}
-              class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-              loading="lazy"
-            />
-            <figcaption class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4">
-              <p class="text-white font-semibold">{item.title}</p>
-              <p class="text-sm text-brand-river">{item.subtitle}</p>
-            </figcaption>
-          </figure>
-        ))
+        videoGallery.length > 0 && (
+          <div>
+            <h3 class="mb-4 text-sm font-semibold uppercase tracking-wide text-brand-river">
+              Βίντεο Highlights
+            </h3>
+            <div class="max-w-5xl">
+              <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {videoGallery.map((item) => (
+                  <figure class="flex w-full max-w-[18rem] flex-col gap-3 text-left">
+                    <div class="aspect-[9/16] w-full overflow-hidden rounded-2xl bg-black">
+                      <video
+                        class="h-full w-full object-cover"
+                        preload="metadata"
+                        muted
+                        loop
+                        playsinline
+                        controls
+                        poster={item.poster}
+                        aria-label={item.alt ?? item.title}
+                      >
+                        <source src={item.video} type="video/mp4" />Ο περιηγητής
+                        σας δεν υποστηρίζει βίντεο HTML5.
+                      </video>
+                    </div>
+                    <figcaption>
+                      <p class="font-semibold text-slate-900">{item.title}</p>
+                      <p class="text-sm text-brand-river">{item.subtitle}</p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
       }
     </div>
     <p class="mt-8 text-center text-brand-mist text-sm">

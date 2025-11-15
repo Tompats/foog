@@ -59,7 +59,7 @@ export const siteMetadata: SiteMetadata = {
   contactEmail: "info@mountains.club",
   phone: "+30 23820 00000",
   address: {
-    street: "Ολύμπου 12",
+    street: "Ανοιχτού Θεάτρου 8",
     city: "Γιαννιτσά",
     postalCode: "58100",
     region: "Πέλλα",

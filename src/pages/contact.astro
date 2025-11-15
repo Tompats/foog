@@ -1,76 +1,135 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeader from '../components/SectionHeader.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
 ---
-<BaseLayout title="Επικοινωνία" description="Επικοινώνησε με το Δ.Σ., την ομάδα μελών και τους αρχηγούς εξορμήσεων του Φ.Ο.Ο.Γ.">
+
+<BaseLayout
+  title="Επικοινωνία"
+  description="Επικοινώνησε με το Δ.Σ., την ομάδα μελών και τους αρχηγούς εξορμήσεων του Φ.Ο.Ο.Γ."
+>
   <section class="section-padding">
-    <SectionHeader eyebrow="Γεια" title="Επικοινωνία & βάση" subtitle="Στείλε μήνυμα ή πέρασε από τη βραδιά εξοπλισμού" />
+    <SectionHeader
+      eyebrow="Γεια"
+      title="Επικοινωνία & βάση"
+      subtitle="Στείλε μας ένα mail ή έλα απο τα γραφεία μας"
+    />
     <div class="grid gap-10 lg:grid-cols-2">
       <div class="space-y-6">
         <div class="glass-panel p-6 space-y-3">
-          <h3 class="text-xl font-semibold text-brand-rocky">Στοιχεία ομίλου</h3>
-          <p class="text-brand-mist">Λέσχη Φ.Ο.Ο.Γ., Ολύμπου 12, Γιαννιτσά 58100</p>
-          <p class="text-brand-mist">Συναντήσεις: Τετάρτες 18:00–21:00 · Αίθουσα ασφάλειας & αποθήκη εξοπλισμού</p>
-          <p class="text-brand-mist">Email: <a href="mailto:info@mountains.club">info@mountains.club</a></p>
+          <h3 class="text-xl font-semibold text-brand-rocky">
+            Στοιχεία ομίλου
+          </h3>
+          <p class="text-brand-mist">
+            Λέσχη Φ.Ο.Ο.Γ., Ανοιχτού Θεάτρου 8, Γιαννιτσά 58100
+          </p>
+          <p class="text-brand-mist">
+            Συναντήσεις: Τετάρτες 18:30–21:00 · Ξύλινο σπιτάκι
+          </p>
+          <p class="text-brand-mist">
+            Email: <a href="mailto:info@mountains.club">info@mountains.club</a>
+          </p>
           <p class="text-brand-mist">Τηλέφωνο: +30 23820 00000</p>
         </div>
-        <div class="glass-panel h-64 flex items-center justify-center text-brand-mist text-center">
-          <p>Προσωρινός χάρτης<br />Ενσωματώστε δικό σας embed ή στατική εικόνα πριν την έκδοση.</p>
+        <div class="glass-panel space-y-3 overflow-hidden rounded-3xl p-0">
+          <div class="contact-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3020.3926007214395!2d22.411229576016144!3d40.7973657323851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1357cf0023c5ad5d%3A0x66a05dca1921c097!2zzqbPhc-DzrnOv867zrHPhM-BzrnOus-Mz4Igzp_Pgc61zrnOss6xz4TOuc66z4zPgiDOjM68zrnOu86_z4IgzpPOuc6xzr3Ovc65z4TPg8-Ozr0gKM6mLs6fLs6fLs6TKQ!5e0!3m2!1sen!2sgr!4v1763228852047!5m2!1sen!2sgr"
+              title="Χάρτης λέσχης Φ.Ο.Ο.Γ."
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div aria-hidden="true" class="contact-map__ring"></div>
+            <div
+              aria-hidden="true"
+              class="contact-map__glow contact-map__glow--one"
+            >
+            </div>
+            <div
+              aria-hidden="true"
+              class="contact-map__glow contact-map__glow--two"
+            >
+            </div>
+          </div>
+          <div class="px-6 pb-4 text-sm">
+            <a
+              href="https://maps.app.goo.gl/4AAj2mRvftfcaQLw5"
+              target="_blank"
+              rel="noreferrer"
+              class="text-brand-river underline decoration-dotted underline-offset-4"
+            >
+              Άνοιξε στο Google Maps
+            </a>
+          </div>
         </div>
       </div>
-      <div class="glass-panel p-8">
-        <h3 class="text-2xl font-semibold text-brand-rocky mb-4">Στείλε μήνυμα</h3>
-        <form method="POST" action="https://example.com/contact-form" class="space-y-4">
-          <!-- Replace action with the club's static form endpoint (e.g., Formspree) -->
-          <div>
-            <label for="name" class="text-sm text-brand-mist">Ονοματεπώνυμο</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              class="mt-1 w-full rounded-2xl border border-brand-river/30 bg-brand-cloud text-brand-rocky placeholder-brand-mist"
-            />
-          </div>
-          <div>
-            <label for="email" class="text-sm text-brand-mist">Ηλ. ταχυδρομείο</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              class="mt-1 w-full rounded-2xl border border-brand-river/30 bg-brand-cloud text-brand-rocky placeholder-brand-mist"
-            />
-          </div>
-          <div>
-            <label for="subject" class="text-sm text-brand-mist">Θέμα</label>
-            <select
-              id="subject"
-              name="subject"
-              class="mt-1 w-full rounded-2xl border border-brand-river/30 bg-brand-cloud text-brand-rocky"
-            >
-              <option value="trips">Ερώτηση για εξόρμηση</option>
-              <option value="membership">Συνδρομή</option>
-              <option value="coaching">Σεμινάρια & καθοδήγηση</option>
-            </select>
-          </div>
-          <div>
-            <label for="message" class="text-sm text-brand-mist">Μήνυμα</label>
-            <textarea
-              id="message"
-              name="message"
-              rows="4"
-              class="mt-1 w-full rounded-2xl border border-brand-river/30 bg-brand-cloud text-brand-rocky"
-              required
-            ></textarea>
-          </div>
-          <button
-            type="submit"
-            class="w-full rounded-full bg-brand-terracotta px-6 py-3 text-center font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
+      <div class="glass-panel p-8 space-y-6">
+        <div>
+          <h3 class="text-2xl font-semibold text-brand-rocky">
+            Μίλησε με την ομάδα
+          </h3>
+          <p class="mt-2 text-brand-mist">
+            Προτιμάμε τις άμεσες συνομιλίες. Χρησιμοποίησε το κανάλι που σου
+            ταιριάζει και θα απαντήσουμε το συντομότερο.
+          </p>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <a
+            href="mailto:info@mountains.club"
+            class="flex flex-col gap-1 rounded-2xl border border-brand-river/40 bg-brand-cloud/70 p-4 text-brand-rocky transition hover:border-brand-river/70"
           >
-            Αποστολή
-          </button>
-        </form>
+            <span class="text-sm uppercase tracking-wide text-brand-mist"
+              >Email</span
+            >
+            <span class="font-semibold">info@mountains.club</span>
+            <span class="text-sm text-brand-mist">24/7 inbox</span>
+          </a>
+          <a
+            href="tel:+302382000000"
+            class="flex flex-col gap-1 rounded-2xl border border-brand-river/40 bg-brand-cloud/70 p-4 text-brand-rocky transition hover:border-brand-river/70"
+          >
+            <span class="text-sm uppercase tracking-wide text-brand-mist"
+              >Τηλέφωνο</span
+            >
+            <span class="font-semibold">+30 23820 00000</span>
+            <span class="text-sm text-brand-mist">Τετ. 18:00–21:00</span>
+          </a>
+          <a
+            href="https://www.instagram.com/f.o.o.giannitson/"
+            target="_blank"
+            rel="noreferrer"
+            class="flex flex-col gap-1 rounded-2xl border border-brand-river/40 bg-brand-cloud/70 p-4 text-brand-rocky transition hover:border-brand-river/70"
+          >
+            <span class="text-sm uppercase tracking-wide text-brand-mist"
+              >Instagram</span
+            >
+            <span class="font-semibold">@f.o.o.giannitson</span>
+            <span class="text-sm text-brand-mist">Story updates & events</span>
+          </a>
+          <a
+            href="https://www.facebook.com/profile.php?id=100064516099445"
+            target="_blank"
+            rel="noreferrer"
+            class="flex flex-col gap-1 rounded-2xl border border-brand-river/40 bg-brand-cloud/70 p-4 text-brand-rocky transition hover:border-brand-river/70"
+          >
+            <span class="text-sm uppercase tracking-wide text-brand-mist"
+              >Facebook</span
+            >
+            <span class="font-semibold">Φ.Ο.Ο.Γ. κοινότητα</span>
+            <span class="text-sm text-brand-mist">Νέα & ανακοινώσεις</span>
+          </a>
+        </div>
+        <div
+          class="rounded-3xl border border-brand-river/20 bg-brand-cloud/50 p-6"
+        >
+          <p class="font-semibold text-brand-rocky">
+            Θέλεις προσωπική καθοδήγηση;
+          </p>
+          <p class="text-brand-mist">
+            Πέρασε από τα γραφεία μας κάθε Τετάρτη 18:00–21:00. Θα σε υποδεχτούν
+            μέλη του Δ.Σ. και οι αρχηγοί εξορμήσεων για να πούμε από κοντά τις
+            ανάγκες σου και να οργανώσουμε την επόμενη εξόρμηση ή εκπαίδευση.
+          </p>
+        </div>
       </div>
     </div>
   </section>
