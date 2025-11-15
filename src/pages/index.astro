@@ -4,6 +4,10 @@ import TripCard from "../components/TripCard.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import { trips } from "../data/trips";
 import foogVoras from "../assets/images/foog-voras-profitis-hlias.jpg";
+import heroBorovets from "../assets/images/foog-borovets-hiking-2025.jpg";
+import heroBorovetsTwo from "../assets/images/foog-borovets-hiking-2025-2.jpg";
+import heroGrammos from "../assets/images/foog-grammos.jpeg";
+import heroPaiko from "../assets/images/foog-katharismos-paiko.jpg";
 
 const upcomingTrips = [...trips]
   .filter((trip) => trip.status === "upcoming")
@@ -44,24 +48,24 @@ const features = [
 
 const heroGallery = [
   {
-    src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=70",
-    alt: "Ορειβάτες σε μικτή διαδρομή με ανατολή",
-    caption: "Alpine start στον Όλυμπο",
+    src: heroBorovets.src,
+    alt: "Πεζοπορία του Φ.Ο.Ο.Γ. στο Μπόροβιτς",
+    caption: "Μπόροβιτς · Διαδρομή camp 2025",
   },
   {
-    src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=70",
-    alt: "Παρέα κατασκηνώνει δίπλα σε λίμνη στο λυκόφως",
-    caption: "Βραδινό bivouac στην Τύμφη",
+    src: heroBorovetsTwo.src,
+    alt: "Ομάδα βαδίζει προς το τριεθνές",
+    caption: "Βήματα προς το Τριεθνές",
   },
   {
-    src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=70",
-    alt: "Πεζοπόροι σε δάσος με χρυσαφένιο φως",
-    caption: "Φθινοπωρινή πορεία στη Βάλια Κάλντα",
+    src: heroGrammos.src,
+    alt: "Ανάβαση του Φ.Ο.Ο.Γ. στον Γράμμο",
+    caption: "Χειμερινός Γράμμος",
   },
   {
-    src: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=70",
-    alt: "Σκιέρ κατεβαίνει πλαγιά με πούδρα",
-    caption: "Πούδρα στην Βασιλίτσα",
+    src: heroPaiko.src,
+    alt: "Καθαρισμός μονοπατιού από τον Φ.Ο.Ο.Γ.",
+    caption: "Πάικο · Δράση φροντίδας",
   },
 ];
 ---
@@ -417,32 +421,6 @@ const heroGallery = [
           ))
         }
       </div>
-    </div>
-  </section>
-
-  <section class="section-padding">
-    <SectionHeader
-      eyebrow="Αναφορές"
-      title="Πρόσφατες αναφορές εξορμήσεων"
-      subtitle="Στιγμές από κορυφές και γραμμές σκι"
-    />
-    <div class="grid gap-6 md:grid-cols-3">
-      {
-        latestReports.map((report) => (
-          <div class="glass-panel p-6 flex flex-col gap-3 hover:-translate-y-1 transition bg-brand-river/5">
-            <p class="text-sm text-brand-mist">
-              {new Date(report.startDate).toLocaleDateString("el-GR")}
-            </p>
-            <h3 class="text-xl font-semibold text-brand-rocky">
-              {report.title}
-            </h3>
-            <p class="text-brand-mist text-sm">{report.shortDescription}</p>
-            <a href="/trips" class="text-sm font-semibold text-brand-pine">
-              Διάβασε την αναφορά →
-            </a>
-          </div>
-        ))
-      }
     </div>
   </section>
 

@@ -2,8 +2,13 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import photoBorovets from "../assets/images/foog-borovets.jpg";
+import photoBorovetsHiking from "../assets/images/foog-borovets-hiking-2025.jpg";
+import photoBorovetsHikingTwo from "../assets/images/foog-borovets-hiking-2025-2.jpg";
 import photoAthamania from "../assets/images/foog-athamania.jpg";
+import photoAthamaniaRidge from "../assets/images/foog-athamania.jpeg";
 import photoAetomilitsa from "../assets/images/foog-aetomilitsa.jpg";
+import photoAetomilitsaGrammos from "../assets/images/foog-aetomilitsa-grammos-1.jpeg";
+import photoGrammos from "../assets/images/foog-grammos.jpeg";
 import photoPaiko from "../assets/images/foog-katharismos-paiko.jpg";
 import photoSkiJunior from "../assets/images/foog-ski-junior.jpg";
 import photoVoras from "../assets/images/foog-voras-profitis-hlias.jpg";
@@ -24,16 +29,46 @@ const gallery = [
     alt: "Μέλη του Φ.Ο.Ο.Γ. σε χιονοδρομική πλαγιά στο Μπόροβιτς",
   },
   {
+    title: "Ορειβατικό μονοπάτι στο Μπόροβιτς",
+    subtitle: "Χιονοδρομία & πεζοπορία · 2025",
+    image: photoBorovetsHiking.src,
+    alt: "Ομάδα του Φ.Ο.Ο.Γ. σε μονοπάτι στο Μπόροβιτς",
+  },
+  {
+    title: "Άσκηση αντοχής στο Τριεθνές",
+    subtitle: "Πεζοπορία · 2025",
+    image: photoBorovetsHikingTwo.src,
+    alt: "Μέλη βαδίζουν σε χιονισμένη ράχη κοντά στο Μπόροβιτς",
+  },
+  {
     title: "Αναβάσεις στην Αθαμανία",
     subtitle: "Ορειβασία · 2023",
     image: photoAthamania.src,
     alt: "Ομάδα του Φ.Ο.Ο.Γ. στην κορυφογραμμή της Αθαμανίας",
   },
   {
+    title: "Ράχη Αθαμανίας στο πρώτο φως",
+    subtitle: "Ορειβασία · 2024",
+    image: photoAthamaniaRidge.src,
+    alt: "Κορυφογραμμή της Αθαμανίας με μέλη του Φ.Ο.Ο.Γ.",
+  },
+  {
     title: "Αετομηλίτσα στο λυκόφως",
     subtitle: "Πεζοπορία · 2024",
     image: photoAetomilitsa.src,
     alt: "Φ.Ο.Ο.Γ. μελών σε ορεινή στάση στην Αετομηλίτσα",
+  },
+  {
+    title: "Σύνδεση Αετομηλίτσας - Γράμμου",
+    subtitle: "Διήμερο · 2024",
+    image: photoAetomilitsaGrammos.src,
+    alt: "Σημαία του Φ.Ο.Ο.Γ. στον Γράμμο με πανοραμική θέα",
+  },
+  {
+    title: "Κορυφές Γράμμου με χιόνι",
+    subtitle: "Ορειβασία · 2024",
+    image: photoGrammos.src,
+    alt: "Αθλητές του Φ.Ο.Ο.Γ. σε ανάβαση στον Γράμμο",
   },
   {
     title: "Καθαρισμός μονοπατιού στο Πάικο",
@@ -132,76 +167,112 @@ const hasInstagramHtml = instagramEmbeds.some((embed) => Boolean(embed.html));
       Οι φωτογραφίες προέρχονται από τις πρόσφατες δράσεις του Φ.Ο.Ο.Γ.
     </p>
 
-    <!-- {instagramEmbeds.length > 0 && (
+    {instagramEmbeds.length > 0 && (
       <div class="mt-14 space-y-6">
         <div class="text-center space-y-2">
-          <h3 class="text-2xl font-semibold text-brand-rocky heading-font">Στιγμές από το Instagram</h3>
-          <p class="text-brand-mist text-sm">Ζωντανές αναρτήσεις από το <a href="https://www.instagram.com/f.o.o.giannitson/" class="text-brand-pine font-semibold" target="_blank" rel="noreferrer">@f.o.o.giannitson</a>.</p>
+          <h3 class="text-2xl font-semibold text-brand-rocky heading-font">
+            Στιγμές από το Instagram
+          </h3>
+          <p class="text-brand-mist text-sm">
+            Ζωντανές αναρτήσεις από το
+            <a
+              href="https://www.instagram.com/f.o.o.giannitson/"
+              class="text-brand-pine font-semibold"
+              target="_blank"
+              rel="noreferrer"
+              >@f.o.o.giannitson</a
+            >.
+          </p>
         </div>
         <div class="grid gap-6 lg:grid-cols-2">
-          {instagramEmbeds.map((embed) => (
-            <div class="glass-panel p-4 space-y-3">
-              {embed.label && <p class="text-sm font-semibold text-brand-mist">{embed.label}</p>}
-              {embed.html ? (
-                <div class="instagram-embed" set:html={embed.html}></div>
-              ) : (
-                <div class="text-sm text-brand-mist space-y-2">
-                  <p>Δεν ήταν δυνατή η ενσωμάτωση της συγκεκριμένης ανάρτησης.</p>
-                  <a href={embed.url} class="inline-flex items-center gap-2 text-brand-pine font-semibold" target="_blank" rel="noreferrer">
-                    Δες την στο Instagram
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="m7 17 10-10m0 0h-6m6 0v6" />
-                    </svg>
-                  </a>
-                  {embed.error && (
-                    <p class="text-xs">Λεπτομέρειες: {embed.error}</p>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
+          {
+            instagramEmbeds.map((embed) => (
+              <div class="glass-panel p-4 space-y-3">
+                {embed.label && (
+                  <p class="text-sm font-semibold text-brand-mist">
+                    {embed.label}
+                  </p>
+                )}
+                {embed.html ? (
+                  <div class="instagram-embed" set:html={embed.html}></div>
+                ) : (
+                  <div class="text-sm text-brand-mist space-y-2">
+                    <p>
+                      Δεν ήταν δυνατή η ενσωμάτωση της συγκεκριμένης ανάρτησης.
+                    </p>
+                    <a
+                      href={embed.url}
+                      class="inline-flex items-center gap-2 text-brand-pine font-semibold"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Δες την στο Instagram
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        class="h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="m7 17 10-10m0 0h-6m6 0v6"
+                        />
+                      </svg>
+                    </a>
+                    {embed.error && (
+                      <p class="text-xs">Λεπτομέρειες: {embed.error}</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))
+          }
         </div>
         {!instagramAccessToken && (
           <p class="text-center text-xs text-brand-mist">
-            Ορίστε τη μεταβλητή περιβάλλοντος <code>INSTAGRAM_OEMBED_TOKEN</code> για αυτόματη εμφάνιση των embeds μέσω του Instagram oEmbed API.
+            Ορίστε τη μεταβλητή περιβάλλοντος
+            <code>INSTAGRAM_OEMBED_TOKEN</code> για αυτόματη εμφάνιση των embeds
+            μέσω του Instagram oEmbed API.
           </p>
         )}
       </div>
     )}
   </section>
   {hasInstagramHtml && (
-      <script is:inline>
-        {`
-          (() => {
-            const initInstagramEmbed = () => {
-              if (window.__foogInstagramEmbedLoaded) {
-                window.instgrm?.Embeds?.process();
-                return;
-              }
-              const existing = document.querySelector('script[src="https://www.instagram.com/embed.js"]');
-              if (existing) {
-                existing.addEventListener('load', () => window.instgrm?.Embeds?.process(), { once: true });
-                window.__foogInstagramEmbedLoaded = true;
-                return;
-              }
-              const script = document.createElement('script');
-              script.src = 'https://www.instagram.com/embed.js';
-              script.async = true;
-              script.onload = () => {
-                window.__foogInstagramEmbedLoaded = true;
-                window.instgrm?.Embeds?.process();
-              };
-              document.body.appendChild(script);
-            };
-
-            if (document.readyState === 'complete') {
-              initInstagramEmbed();
-            } else {
-              window.addEventListener('load', initInstagramEmbed, { once: true });
+    <script is:inline>
+      {`
+        (() => {
+          const initInstagramEmbed = () => {
+            if (window.__foogInstagramEmbedLoaded) {
+              window.instgrm?.Embeds?.process();
+              return;
             }
-          })();
-        `}
-      </script>
-  )} -->
-  </section>
+            const existing = document.querySelector('script[src="https://www.instagram.com/embed.js"]');
+            if (existing) {
+              existing.addEventListener('load', () => window.instgrm?.Embeds?.process(), { once: true });
+              window.__foogInstagramEmbedLoaded = true;
+              return;
+            }
+            const script = document.createElement('script');
+            script.src = 'https://www.instagram.com/embed.js';
+            script.async = true;
+            script.onload = () => {
+              window.__foogInstagramEmbedLoaded = true;
+              window.instgrm?.Embeds?.process();
+            };
+            document.body.appendChild(script);
+          };
+
+          if (document.readyState === 'complete') {
+            initInstagramEmbed();
+          } else {
+            window.addEventListener('load', initInstagramEmbed, { once: true });
+          }
+        })();
+      `}
+    </script>
+  )}
 </BaseLayout>
