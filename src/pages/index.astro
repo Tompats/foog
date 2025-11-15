@@ -1,89 +1,112 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import TripCard from '../components/TripCard.astro';
-import SectionHeader from '../components/SectionHeader.astro';
-import { trips } from '../data/trips';
-import foogFlag from '../assets/images/foog-flag.jpg';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import TripCard from "../components/TripCard.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import { trips } from "../data/trips";
+import foogVoras from "../assets/images/foog-voras-profitis-hlias.jpg";
 
 const upcomingTrips = [...trips]
-  .filter((trip) => trip.status === 'upcoming')
-  .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+  .filter((trip) => trip.status === "upcoming")
+  .sort(
+    (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+  )
   .slice(0, 4);
 
 const latestReports = [...trips]
-  .filter((trip) => trip.status === 'past')
-  .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
+  .filter((trip) => trip.status === "past")
+  .sort(
+    (a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+  )
   .slice(0, 3);
 
 const features = [
   {
-    title: 'Χειμερινή εκπαίδευση για όλους',
-    body: 'Τμήματα σκι για παιδιά και ενήλικες, με εξοπλισμό που προσφέρει ο Όμιλος και προπονητές που καλλιεργούν δεξιότητες από τα πρώτα βήματα μέχρι τους αγώνες. Οι προπονήσεις γίνονται στο Καϊμάκτσαλαν, τα Τρία-Πέντε Πηγάδια και το Σέλι.',
-    icon: 'shield'
+    title: "Χειμερινή εκπαίδευση για όλους",
+    body: "Τμήματα σκι για παιδιά και ενήλικες, με εξοπλισμό που προσφέρει ο Όμιλος και προπονητές που καλλιεργούν δεξιότητες από τα πρώτα βήματα μέχρι τους αγώνες. Οι προπονήσεις γίνονται στο Καϊμάκτσαλαν, τα Τρία-Πέντε Πηγάδια και το Σέλι.",
+    icon: "shield",
   },
   {
-    title: 'Διαδρομές που ενώνουν',
-    body: 'Μονοήμερες και διήμερες εξορμήσεις από το Πάικο μέχρι τον Παρνασσό, ομάδες πεζοπορίας και ορειβασίας που χωρίζονται ανά εμπειρία για να απολαμβάνουν όλοι το ίδιο μονοπάτι.',
-    icon: 'seasons'
+    title: "Διαδρομές που ενώνουν",
+    body: "Μονοήμερες και διήμερες εξορμήσεις από το Πάικο μέχρι τον Παρνασσό, ομάδες πεζοπορίας και ορειβασίας που χωρίζονται ανά εμπειρία για να απολαμβάνουν όλοι το ίδιο μονοπάτι.",
+    icon: "seasons",
   },
   {
-    title: 'Φύλακες των μονοπατιών',
-    body: 'Καθαρισμοί, δεντροφυτεύσεις, συντήρηση διαδρομών και η αναβίωση του καταφυγίου Αγίας Παρασκευής κρατούν ζωντανή τη σχέση μας με το βουνό.',
-    icon: 'compass'
+    title: "Φύλακες των μονοπατιών",
+    body: "Καθαρισμοί, δεντροφυτεύσεις, συντήρηση διαδρομών και η αναβίωση του καταφυγίου Αγίας Παρασκευής κρατούν ζωντανή τη σχέση μας με το βουνό.",
+    icon: "compass",
   },
   {
-    title: 'Κοινότητα 252 μελών',
-    body: 'Ετήσια συνδρομή 5€, συμμετοχή οικογενειών, αρχάριων και νέων που μοιράζονται εξορμήσεις, ασύρματη επικοινωνία VHF και συνεργασίες με συλλόγους σε Ελλάδα και Βαλκάνια.',
-    icon: 'community'
-  }
+    title: "Κοινότητα 252 μελών",
+    body: "Ετήσια συνδρομή 5€, συμμετοχή οικογενειών, αρχάριων και νέων που μοιράζονται εξορμήσεις, ασύρματη επικοινωνία VHF και συνεργασίες με συλλόγους σε Ελλάδα και Βαλκάνια.",
+    icon: "community",
+  },
 ];
 
 const heroGallery = [
   {
-    src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=70',
-    alt: 'Ορειβάτες σε μικτή διαδρομή με ανατολή',
-    caption: 'Alpine start στον Όλυμπο'
+    src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=70",
+    alt: "Ορειβάτες σε μικτή διαδρομή με ανατολή",
+    caption: "Alpine start στον Όλυμπο",
   },
   {
-    src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=70',
-    alt: 'Παρέα κατασκηνώνει δίπλα σε λίμνη στο λυκόφως',
-    caption: 'Βραδινό bivouac στην Τύμφη'
+    src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=70",
+    alt: "Παρέα κατασκηνώνει δίπλα σε λίμνη στο λυκόφως",
+    caption: "Βραδινό bivouac στην Τύμφη",
   },
   {
-    src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=70',
-    alt: 'Πεζοπόροι σε δάσος με χρυσαφένιο φως',
-    caption: 'Φθινοπωρινή πορεία στη Βάλια Κάλντα'
+    src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=70",
+    alt: "Πεζοπόροι σε δάσος με χρυσαφένιο φως",
+    caption: "Φθινοπωρινή πορεία στη Βάλια Κάλντα",
   },
   {
-    src: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=70',
-    alt: 'Σκιέρ κατεβαίνει πλαγιά με πούδρα',
-    caption: 'Πούδρα στην Βασιλίτσα'
-  }
+    src: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=1600&q=70",
+    alt: "Σκιέρ κατεβαίνει πλαγιά με πούδρα",
+    caption: "Πούδρα στην Βασιλίτσα",
+  },
 ];
 ---
+
 <BaseLayout>
   <section class="section-padding pt-10">
-    <div class="glass-panel px-8 py-14 lg:px-12 lg:py-20 overflow-hidden relative">
-      <div class="absolute inset-y-0 right-0 w-1/2 opacity-30 pointer-events-none hidden lg:block">
-        <svg viewBox="0 0 400 400" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 360L120 210L200 290L320 150L400 220V400H0Z" fill="url(#grad)" />
+    <div
+      class="glass-panel px-8 py-14 lg:px-12 lg:py-20 overflow-hidden relative"
+    >
+      <div
+        class="absolute inset-y-0 right-0 w-1/2 opacity-30 pointer-events-none hidden lg:block"
+      >
+        <svg
+          viewBox="0 0 400 400"
+          class="w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 360L120 210L200 290L320 150L400 220V400H0Z"
+            fill="url(#grad)"></path>
           <defs>
             <linearGradient id="grad" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#A7C957" stop-opacity="0.6" />
-              <stop offset="100%" stop-color="#E26D5A" stop-opacity="0.4" />
+              <stop offset="0%" stop-color="#A7C957" stop-opacity="0.6"></stop>
+              <stop offset="100%" stop-color="#E26D5A" stop-opacity="0.4"
+              ></stop>
             </linearGradient>
           </defs>
         </svg>
       </div>
-      <div class="grid gap-8 lg:grid-cols-[minmax(0,1.25fr),480px] lg:items-center">
+      <div
+        class="grid gap-8 lg:grid-cols-[minmax(0,1.25fr),480px] lg:items-center"
+      >
         <div>
-          <p class="text-sm uppercase tracking-[0.3em] text-brand-pine">Φ.Ο.Ο.Γ · Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών</p>
-          <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-brand-rocky heading-font max-w-3xl">
-            Όταν το πάθος για το βουνό γίνεται πράξη.
+          <p class="text-sm uppercase tracking-[0.3em] text-brand-pine">
+            Φ.Ο.Ο.Γ · Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών
+          </p>
+          <h1
+            class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-brand-rocky heading-font max-w-3xl"
+          >
+            Τα όρη με καλούν...και πρέπει να πάω.
           </h1>
           <p class="mt-6 text-lg text-brand-mist max-w-2xl">
-            Από πέντε φίλους στα Γιαννιτσά το 1973 φτάσαμε σε κοινότητα 252 ενεργών μελών που μοιράζονται
-            εξορμήσεις, σκι και φροντίδα μονοπατιών. Μαθήματα σκι, πεζοπορίες, ποδηλασία 240 χλμ και
+            Από πέντε φίλους στα Γιαννιτσά το 1973 φτάσαμε σε κοινότητα 252
+            ενεργών μελών που μοιράζονται εξορμήσεις, σκι και φροντίδα
+            μονοπατιών. Μαθήματα σκι, πεζοπορίες, ποδηλασία 240 χλμ και
             δεντροφυτεύσεις δίνουν χώρο σε κάθε αρχάριο να αγαπήσει το βουνό.
           </p>
           <div class="mt-10 flex flex-wrap gap-4">
@@ -102,39 +125,56 @@ const heroGallery = [
           </div>
         </div>
         <figure class="relative mt-4 lg:mt-0">
-          <div class="relative rounded-[32px] overflow-hidden shadow-2xl shadow-brand-river/40 border border-brand-river/30 h-80 lg:h-96 bg-brand-river/10">
+          <div
+            class="relative rounded-[32px] overflow-hidden shadow-2xl shadow-brand-river/40 border border-brand-river/30 h-80 lg:h-96 bg-brand-river/10"
+          >
             <img
-              src={foogFlag.src}
+              src={foogVoras.src}
               alt="Σημαία του Φ.Ο.Ο.Γ. σε χιονισμένη κορυφή"
               class="h-full w-full object-cover"
               loading="lazy"
             />
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-river/60"></div>
-            <figcaption class="absolute bottom-4 left-4 text-brand-cloud text-sm font-semibold">
-              Χειμερινό παράθυρο κορυφής
+            <div
+              class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-river/60"
+            >
+            </div>
+            <figcaption
+              class="absolute bottom-4 left-4 text-brand-cloud text-sm font-semibold"
+            >
+              Κορυφή Βόρας – Προφήτης Ηλίας
             </figcaption>
           </div>
         </figure>
       </div>
       <div class="mt-8 grid gap-4 sm:grid-cols-3 text-center">
         <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
-          <p class="text-3xl font-bold text-brand-pine heading-font">120+</p>
-          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Εξορμήσεις/έτος</p>
+          <p class="text-3xl font-bold text-brand-pine heading-font">30+</p>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+            Εξορμησεις/ετος
+          </p>
         </div>
         <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
-          <p class="text-3xl font-bold text-brand-terracotta heading-font">48</p>
-          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Μέντορες</p>
+          <p class="text-3xl font-bold text-brand-terracotta heading-font">
+            250+
+          </p>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Μελη</p>
         </div>
         <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
-          <p class="text-3xl font-bold text-brand-moss heading-font">∞</p>
-          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Ιστορίες φωτιάς</p>
+          <p class="text-5xl font-bold text-brand-moss heading-font">∞</p>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+            Ιστοριες
+          </p>
         </div>
       </div>
       <div class="mt-12 space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Φωτογραφικά στιγμιότυπα</p>
-            <h3 class="text-xl font-semibold text-brand-rocky heading-font">Τελευταίες λήψεις από την παρέα</h3>
+            <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+              Φωτογραφικά στιγμιότυπα
+            </p>
+            <h3 class="text-xl font-semibold text-brand-rocky heading-font">
+              Τελευταίες λήψεις από την παρέα
+            </h3>
           </div>
           <div class="flex gap-2">
             <button
@@ -143,8 +183,18 @@ const heroGallery = [
               aria-label="Προηγούμενη φωτογραφία"
               data-gallery-prev
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 6 9 12l6 6" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 6 9 12l6 6"></path>
               </svg>
             </button>
             <button
@@ -153,28 +203,48 @@ const heroGallery = [
               aria-label="Επόμενη φωτογραφία"
               data-gallery-next
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m9 6 6 6-6 6" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m9 6 6 6-6 6"></path>
               </svg>
             </button>
           </div>
         </div>
         <div class="relative">
-          <div class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" data-gallery-track>
-            {heroGallery.map((photo) => (
-              <figure
-                class="min-w-[75%] sm:min-w-[320px] lg:min-w-[360px] snap-start shrink-0"
-                data-gallery-card
-              >
-                <div class="relative h-56 sm:h-64 rounded-3xl overflow-hidden">
-                  <img src={photo.src} alt={photo.alt} class="h-full w-full object-cover" loading="lazy" />
-                  <div class="absolute inset-0 bg-gradient-to-t from-brand-river/70 via-transparent to-transparent" />
-                  <figcaption class="absolute bottom-4 left-4 text-brand-cloud text-sm font-semibold">
-                    {photo.caption}
-                  </figcaption>
-                </div>
-              </figure>
-            ))}
+          <div
+            class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
+            data-gallery-track
+          >
+            {
+              heroGallery.map((photo) => (
+                <figure
+                  class="min-w-[75%] sm:min-w-[320px] lg:min-w-[360px] snap-start shrink-0"
+                  data-gallery-card
+                >
+                  <div class="relative h-56 sm:h-64 rounded-3xl overflow-hidden">
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      class="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-river/70 via-transparent to-transparent" />
+                    <figcaption class="absolute bottom-4 left-4 text-brand-cloud text-sm font-semibold">
+                      {photo.caption}
+                    </figcaption>
+                  </div>
+                </figure>
+              ))
+            }
           </div>
         </div>
       </div>
@@ -182,11 +252,13 @@ const heroGallery = [
   </section>
 
   <section class="section-padding" id="upcoming-trips">
-    <SectionHeader eyebrow="Σχεδιασμός" title="Επερχόμενες περιπέτειες" subtitle="Μικρές ομάδες, άρτια οργάνωση και υποστήριξη προπονητών" />
+    <SectionHeader
+      eyebrow="Σχεδιασμός"
+      title="Επερχόμενες περιπέτειες"
+      subtitle="Μικρές ομάδες, άρτια οργάνωση και υποστήριξη προπονητών"
+    />
     <div class="grid gap-6 lg:grid-cols-2">
-      {upcomingTrips.map((trip) => (
-        <TripCard trip={trip} />
-      ))}
+      {upcomingTrips.map((trip) => <TripCard trip={trip} />)}
     </div>
     <div class="mt-10 text-center">
       <a
@@ -194,8 +266,18 @@ const heroGallery = [
         class="inline-flex items-center gap-2 rounded-full border border-brand-cloud/50 px-6 py-3 text-sm font-semibold text-brand-cloud hover:border-brand-terracotta hover:text-brand-terracotta"
       >
         Όλες οι εξορμήσεις
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 12h14m-6-6 6 6-6 6"></path>
         </svg>
       </a>
     </div>
@@ -204,99 +286,185 @@ const heroGallery = [
   <section class="section-padding">
     <div class="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-center">
       <div>
-        <SectionHeader eyebrow="Ταυτότητα" title="Ρίζες στα Γιαννιτσά" subtitle="Από το 1973 φέρνουμε τους ανθρώπους κοντά στη φύση με δράσεις αλληλεγγύης και μάθησης." />
+        <SectionHeader
+          eyebrow="Ταυτότητα"
+          title="Ρίζες στα Γιαννιτσά"
+          subtitle="Από το 1973 φέρνουμε τους ανθρώπους κοντά στη φύση με δράσεις αλληλεγγύης και μάθησης."
+        />
         <div class="glass-panel p-8 space-y-4 text-brand-mist bg-brand-river/5">
           <p>
-            Ο Φ.Ο.Ο.Γ. ξεκίνησε από πέντε φυσιολάτρες που το 1973 ονειρεύτηκαν έναν όμιλο με ελεύθερη πρόσβαση στο
-            βουνό και το 1977 απέκτησε καταστατικό με χιονοδρομία, ορειβασία, ποδηλασία βουνού και αναρρίχηση. Η
-            οικονομική κρίση του 2010 περιόρισε τις δράσεις μας, όμως η είσοδος νεότερων εθελοντών ξανάφερε τον
-            παλμό και σήμερα 252 μέλη υποστηρίζουν ένα πρόγραμμα που μεγαλώνει με υπευθυνότητα.
+            Ο Φ.Ο.Ο.Γ. ξεκίνησε από πέντε φυσιολάτρες που το 1973 ονειρεύτηκαν
+            έναν όμιλο με ελεύθερη πρόσβαση στο βουνό και το 1977 απέκτησε
+            καταστατικό με χιονοδρομία, ορειβασία, ποδηλασία βουνού και
+            αναρρίχηση. Η οικονομική κρίση του 2010 περιόρισε τις δράσεις μας,
+            όμως η είσοδος νεότερων εθελοντών ξανάφερε τον παλμό και σήμερα 252
+            μέλη υποστηρίζουν ένα πρόγραμμα που μεγαλώνει με υπευθυνότητα.
           </p>
           <p>
-            Μαθήματα σκι για μικρούς και μεγάλους, πεζοπορίες στο Πάικο, τα Τζουμέρκα, τα Άγραφα, τα Ζαγόρια και
-            μέχρι τη Βάλια Κάλντα, τα δασικά χωριά της Ξάνθης και της Καβάλας και τον Όλυμπο, ποδηλατικές διαδρομές
-            240 χιλιομέτρων, νυχτερινές πορείες στην Πανσέληνο του Κυνηγού και ιστορικά μονοπάτια της 19ης
-            Οκτωβρίου συνδέονται με καθαρισμούς, δεντροφυτεύσεις και συνεργασίες με το δασαρχείο, τον Δήμο Πέλλας
-            και άλλους φορείς και συλλόγους, με τη συμμετοχή και κατοίκων της περιοχής ώστε η φροντίδα της φύσης να
-            μοιράζεται πέρα από τα μέλη.
+            Μαθήματα σκι για μικρούς και μεγάλους, πεζοπορίες στο Πάικο, τα
+            Τζουμέρκα, τα Άγραφα, τα Ζαγόρια και μέχρι τη Βάλια Κάλντα, τα
+            δασικά χωριά της Ξάνθης και της Καβάλας και τον Όλυμπο, ποδηλατικές
+            διαδρομές 240 χιλιομέτρων, νυχτερινές πορείες στην Πανσέληνο του
+            Κυνηγού και ιστορικά μονοπάτια της 19ης Οκτωβρίου συνδέονται με
+            καθαρισμούς, δεντροφυτεύσεις και συνεργασίες με το δασαρχείο, τον
+            Δήμο Πέλλας και άλλους φορείς και συλλόγους, με τη συμμετοχή και
+            κατοίκων της περιοχής ώστε η φροντίδα της φύσης να μοιράζεται πέρα
+            από τα μέλη.
           </p>
-          <a href="/history" class="inline-flex items-center gap-2 text-brand-pine font-semibold">
+          <a
+            href="/history"
+            class="inline-flex items-center gap-2 text-brand-pine font-semibold"
+          >
             Δες όλη την ιστορία
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14m-6-6 6 6-6 6"></path>
             </svg>
           </a>
         </div>
       </div>
       <div class="grid gap-6">
-        {features.map((feature) => (
-          <div class="glass-panel p-6 flex items-start gap-4 transition hover:-translate-y-1 bg-brand-cloud/95">
-            <div class="h-12 w-12 rounded-2xl bg-brand-cloud flex items-center justify-center text-brand-pine shadow-inner">
-              {feature.icon === 'shield' && (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3 4.5 6v6c0 5.25 3.75 9.75 7.5 10.5 3.75-.75 7.5-5.25 7.5-10.5V6L12 3Z" />
-                </svg>
-              )}
-              {feature.icon === 'seasons' && (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m12 6 3-3m-3 3-3-3m3 3V3m3 18 3-3m-3 3-3-3m3 3v-3m6-3-3-3m3 3-3 3m3-3h-3M6 12l-3-3m3 3-3 3m3-3H3" />
-                </svg>
-              )}
-              {feature.icon === 'compass' && (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm2.25-9.75-2 4.5-1.5-1.5-1.5-1.5 4.5-1.5Z" />
-                </svg>
-              )}
-              {feature.icon === 'community' && (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm12 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 21v-3a3 3 0 0 1 3-3h0" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 21v-3a3 3 0 0 0-3-3h-6" />
-                </svg>
-              )}
+        {
+          features.map((feature) => (
+            <div class="glass-panel p-6 flex items-start gap-4 transition hover:-translate-y-1 bg-brand-cloud/95">
+              <div class="h-12 w-12 rounded-2xl bg-brand-cloud flex items-center justify-center text-brand-pine shadow-inner">
+                {feature.icon === "shield" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    class="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 3 4.5 6v6c0 5.25 3.75 9.75 7.5 10.5 3.75-.75 7.5-5.25 7.5-10.5V6L12 3Z"
+                    />
+                  </svg>
+                )}
+                {feature.icon === "seasons" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    class="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="m12 6 3-3m-3 3-3-3m3 3V3m3 18 3-3m-3 3-3-3m3 3v-3m6-3-3-3m3 3-3 3m3-3h-3M6 12l-3-3m3 3-3 3m3-3H3"
+                    />
+                  </svg>
+                )}
+                {feature.icon === "compass" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    class="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm2.25-9.75-2 4.5-1.5-1.5-1.5-1.5 4.5-1.5Z"
+                    />
+                  </svg>
+                )}
+                {feature.icon === "community" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    class="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm12 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 21v-3a3 3 0 0 1 3-3h0"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M18 21v-3a3 3 0 0 0-3-3h-6"
+                    />
+                  </svg>
+                )}
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-brand-rocky heading-font">
+                  {feature.title}
+                </h3>
+                <p class="text-brand-mist text-sm mt-2">{feature.body}</p>
+              </div>
             </div>
-            <div>
-              <h3 class="text-xl font-semibold text-brand-rocky heading-font">{feature.title}</h3>
-              <p class="text-brand-mist text-sm mt-2">{feature.body}</p>
-            </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </section>
 
   <section class="section-padding">
-    <SectionHeader eyebrow="Αναφορές" title="Πρόσφατες αναφορές εξορμήσεων" subtitle="Στιγμές από κορυφές και γραμμές σκι" />
+    <SectionHeader
+      eyebrow="Αναφορές"
+      title="Πρόσφατες αναφορές εξορμήσεων"
+      subtitle="Στιγμές από κορυφές και γραμμές σκι"
+    />
     <div class="grid gap-6 md:grid-cols-3">
-      {latestReports.map((report) => (
-        <div class="glass-panel p-6 flex flex-col gap-3 hover:-translate-y-1 transition bg-brand-river/5">
-          <p class="text-sm text-brand-mist">{new Date(report.startDate).toLocaleDateString('el-GR')}</p>
-          <h3 class="text-xl font-semibold text-brand-rocky">{report.title}</h3>
-          <p class="text-brand-mist text-sm">{report.shortDescription}</p>
-          <a href="/trips" class="text-sm font-semibold text-brand-pine">Διάβασε την αναφορά →</a>
-        </div>
-      ))}
+      {
+        latestReports.map((report) => (
+          <div class="glass-panel p-6 flex flex-col gap-3 hover:-translate-y-1 transition bg-brand-river/5">
+            <p class="text-sm text-brand-mist">
+              {new Date(report.startDate).toLocaleDateString("el-GR")}
+            </p>
+            <h3 class="text-xl font-semibold text-brand-rocky">
+              {report.title}
+            </h3>
+            <p class="text-brand-mist text-sm">{report.shortDescription}</p>
+            <a href="/trips" class="text-sm font-semibold text-brand-pine">
+              Διάβασε την αναφορά →
+            </a>
+          </div>
+        ))
+      }
     </div>
   </section>
 
   <script>
     (() => {
-      const track = document.querySelector('[data-gallery-track]');
+      const track = document.querySelector("[data-gallery-track]");
       if (!track) return;
-      const prevButton = document.querySelector('[data-gallery-prev]');
-      const nextButton = document.querySelector('[data-gallery-next]');
+      const prevButton = document.querySelector("[data-gallery-prev]");
+      const nextButton = document.querySelector("[data-gallery-next]");
 
       const getStep = () => {
-        const card = track.querySelector('[data-gallery-card]');
+        const card = track.querySelector("[data-gallery-card]");
         const gap = 16; // matches gap-4
         return card ? card.clientWidth + gap : 320;
       };
 
-      prevButton?.addEventListener('click', () => {
-        track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+      prevButton?.addEventListener("click", () => {
+        track.scrollBy({ left: -getStep(), behavior: "smooth" });
       });
 
-      nextButton?.addEventListener('click', () => {
-        track.scrollBy({ left: getStep(), behavior: 'smooth' });
+      nextButton?.addEventListener("click", () => {
+        track.scrollBy({ left: getStep(), behavior: "smooth" });
       });
     })();
   </script>
