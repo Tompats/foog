@@ -4,6 +4,7 @@ import TripCard from "../components/TripCard.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import { trips } from "../data/trips";
 import type { TripType } from "../types";
+import { createCollectionPageJsonLd } from "../utils/seo";
 
 const upcomingTrips = [...trips]
   .filter((trip) => trip.status === 'upcoming')
@@ -22,11 +23,17 @@ const typeLabelMap: Record<(typeof tripTypes)[number], string> = {
 };
 const typeFilterOptions: (TripType | "all")[] = ["all", ...tripTypes];
 const difficultyFilterOptions: (number | "all")[] = ["all", ...difficulties];
+
+const tripsStructuredData = createCollectionPageJsonLd(
+  "Χάρτης εξορμήσεων Φ.Ο.Ο.Γ.",
+  Astro.url.href
+);
 ---
 
 <BaseLayout
   title="Εξορμήσεις"
   description="Δες τις επόμενες και παλαιότερες εξορμήσεις του Φ.Ο.Ο.Γ., ταξινόμησε ανά δραστηριότητα και δυσκολία και όρισε τον επόμενο στόχο σου."
+  structuredData={[tripsStructuredData]}
 >
   <section class="section-padding">
     <SectionHeader

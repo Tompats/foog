@@ -3,11 +3,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import TripCard from "../components/TripCard.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import { trips } from "../data/trips";
+import { siteMetadata, organizationId, getSiteBaseUrl } from "../data/site";
+import { withBase } from "../utils/url";
 import foogVoras from "../assets/images/foog-voras-profitis-hlias.jpg";
 import heroBorovets from "../assets/images/foog-borovets-hiking-2025.jpg";
 import heroBorovetsTwo from "../assets/images/foog-borovets-hiking-2025-2.jpg";
-import heroGrammos from "../assets/images/foog-grammos.jpeg";
-import heroPaiko from "../assets/images/foog-katharismos-paiko.jpg";
+import heroGrammos from "../assets/images/foog-aetomilitsa-grammos-1.jpeg";
+import heroBorevetsSki from "../assets/images/foog-borovets.jpg";
+import heroSkiJuniorLesson from "../assets/images/foog-ski-junior.jpg";
 
 const upcomingTrips = [...trips]
   .filter((trip) => trip.status === "upcoming")
@@ -50,27 +53,46 @@ const heroGallery = [
   {
     src: heroBorovets.src,
     alt: "Πεζοπορία του Φ.Ο.Ο.Γ. στο Μπόροβιτς",
-    caption: "Μπόροβιτς · Διαδρομή camp 2025",
+    caption: "Μπόροβιτς · Ορειβασία 2025",
   },
   {
     src: heroBorovetsTwo.src,
-    alt: "Ομάδα βαδίζει προς το τριεθνές",
+    alt: "Ομάδα βαδίζει προς την κορυφή",
     caption: "Βήματα προς το Τριεθνές",
   },
   {
     src: heroGrammos.src,
     alt: "Ανάβαση του Φ.Ο.Ο.Γ. στον Γράμμο",
-    caption: "Χειμερινός Γράμμος",
+    caption: "Ορειβασία · Γράμμος",
   },
   {
-    src: heroPaiko.src,
-    alt: "Καθαρισμός μονοπατιού από τον Φ.Ο.Ο.Γ.",
-    caption: "Πάικο · Δράση φροντίδας",
+    src: heroBorevetsSki.src,
+    alt: "Εκδρομή του Φ.Ο.Ο.Γ. στο Μπόροβιτς",
+    caption: "Μπόροβιτς · 2ήμερο Χιονοδρομίας",
+  },
+  {
+    src: heroSkiJuniorLesson.src,
+    alt: "Προπόνηση μικρής ομάδας στα 3-5 πηγάδια",
+    caption: "Προπόνηση Σκι - 3/5 Πηγάδια",
   },
 ];
+
+const homepageStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${getSiteBaseUrl()}#website`,
+  url: getSiteBaseUrl(),
+  name: siteMetadata.name,
+  alternateName: siteMetadata.shortName,
+  inLanguage: siteMetadata.locale,
+  description: siteMetadata.description,
+  publisher: {
+    "@id": organizationId,
+  },
+};
 ---
 
-<BaseLayout>
+<BaseLayout structuredData={[homepageStructuredData]}>
   <section class="section-padding pt-10">
     <div
       class="glass-panel px-8 py-14 lg:px-12 lg:py-20 overflow-hidden relative"
@@ -109,19 +131,19 @@ const heroGallery = [
           </h1>
           <p class="mt-6 text-lg text-brand-mist max-w-2xl">
             Από πέντε φίλους στα Γιαννιτσά το 1973 φτάσαμε σε κοινότητα 252
-            ενεργών μελών που μοιράζονται εξορμήσεις, σκι και φροντίδα
-            μονοπατιών. Μαθήματα σκι, πεζοπορίες, ποδηλασία 240 χλμ και
-            δεντροφυτεύσεις δίνουν χώρο σε κάθε αρχάριο να αγαπήσει το βουνό.
+            ενεργών μελών που μοιράζονται στιγμές στο βουνό. Μαθήματα σκι,
+            πεζοπορίες, ποδηλασία και δεντροφυτεύσεις δίνουν χώρο σε κάθε
+            αρχάριο να αγαπήσει το βουνό.
           </p>
           <div class="mt-10 flex flex-wrap gap-4">
             <a
-              href="/trips"
+              href={withBase("/trips")}
               class="inline-flex items-center justify-center rounded-full bg-brand-terracotta px-8 py-3 text-base font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
             >
               Δες τις επόμενες εξορμήσεις
             </a>
             <a
-              href="/join"
+              href={withBase("/join")}
               class="inline-flex items-center justify-center rounded-full border border-brand-pine/30 px-8 py-3 text-base font-semibold text-brand-pine hover:border-brand-terracotta hover:text-brand-terracotta transition"
             >
               Γίνε μέλος
@@ -266,7 +288,7 @@ const heroGallery = [
     </div>
     <div class="mt-10 text-center">
       <a
-        href="/trips"
+        href={withBase("/trips")}
         class="inline-flex items-center gap-2 rounded-full border border-brand-cloud/50 px-6 py-3 text-sm font-semibold text-brand-cloud hover:border-brand-terracotta hover:text-brand-terracotta"
       >
         Όλες οι εξορμήσεις
@@ -316,7 +338,7 @@ const heroGallery = [
             από τα μέλη.
           </p>
           <a
-            href="/history"
+            href={withBase("/history")}
             class="inline-flex items-center gap-2 text-brand-pine font-semibold"
           >
             Δες όλη την ιστορία
@@ -341,7 +363,7 @@ const heroGallery = [
           features.map((feature) => (
             <div class="glass-panel p-6 flex items-start gap-4 transition hover:-translate-y-1 bg-brand-cloud/95">
               <div class="h-12 w-12 rounded-full bg-brand-cloud flex items-center justify-center text-brand-pine shadow-inner shrink-0">
-                <i class={`${feature.iconClass} text-2xl`} aria-hidden="true"></i>
+                <i class={`${feature.iconClass} text-2xl`} aria-hidden="true" />
               </div>
               <div>
                 <h3 class="text-xl font-semibold text-brand-rocky heading-font">

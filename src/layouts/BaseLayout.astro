@@ -1,40 +1,117 @@
 ---
 import "../styles/global.css";
+import type { ImageMetadata } from "astro";
+import { getOrganizationJsonLd, siteMetadata } from "../data/site";
+import { withBase } from "../utils/url";
+
+type StructuredData = Record<string, unknown>;
 
 interface Props {
   title?: string;
   description?: string;
+  image?: string | ImageMetadata;
+  noindex?: boolean;
+  structuredData?: StructuredData | StructuredData[];
+  ogType?: "website" | "article" | "event";
 }
 
-const { title, description } = Astro.props;
-const defaultName = "Φ.Ο.Ο.Γ - Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών";
-const pageTitle = title ? `${title} | ${defaultName}` : defaultName;
-const metaDescription =
-  description ??
-  "Εθελοντικός ορειβατικός όμιλος Γιαννιτσών με εξορμήσεις, εκπαίδευση ασφάλειας σε χιόνι και ανοιχτή κοινότητα φυσιολατρών.";
+const {
+  title,
+  description,
+  image,
+  noindex = false,
+  structuredData,
+  ogType = "website",
+} = Astro.props as Props;
+
+const defaultName = siteMetadata.name;
+const pageTitle = title ? `${title} | ${siteMetadata.shortName}` : defaultName;
+const metaDescription = description ?? siteMetadata.description;
 const currentYear = new Date().getFullYear();
+const siteUrl = new URL(siteMetadata.siteUrl);
+const siteOrigin = siteUrl.origin;
+const siteBasePath = siteUrl.pathname.replace(/\/$/, "") || "";
+
+const ensureAbsoluteUrl = (value?: string | null) => {
+  if (!value) return null;
+  try {
+    return new URL(value).href;
+  } catch (error) {
+    const normalized = value.startsWith("/") ? value : `/${value}`;
+    const needsBase =
+      siteBasePath &&
+      !normalized.startsWith(`${siteBasePath}/`) &&
+      normalized !== siteBasePath;
+    const pathWithBase = needsBase ? `${siteBasePath}${normalized}` : normalized;
+    return new URL(pathWithBase, siteOrigin).href;
+  }
+};
+
+const resolveImagePath = (input?: string | ImageMetadata) => {
+  if (!input) return null;
+  if (typeof input === "string") return input;
+  return input.src;
+};
+
+const ogImagePath = resolveImagePath(image) ?? siteMetadata.defaultSocialImage;
+const ogImageUrl = ensureAbsoluteUrl(ogImagePath);
+const canonicalUrl = (Astro as any).canonicalURL?.href ?? Astro.url.href;
+const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
+const additionalStructuredData = Array.isArray(structuredData)
+  ? structuredData.filter(Boolean)
+  : structuredData
+  ? [structuredData]
+  : [];
+const jsonLdEntries = [getOrganizationJsonLd(), ...additionalStructuredData];
 
 const navLinks = [
-  { href: "/", label: "Αρχική" },
-  { href: "/trips", label: "Εξορμήσεις" },
-  { href: "/history", label: "Ποιοι είμαστε" },
-  { href: "/coaches", label: "Προπονητές" },
-  { href: "/join", label: "Γίνε μέλος" },
-  { href: "/gallery", label: "Γκαλερί" },
-  { href: "/contact", label: "Επικοινωνία" },
+  { href: withBase("/"), label: "Αρχική" },
+  { href: withBase("/trips"), label: "Εξορμήσεις" },
+  { href: withBase("/history"), label: "Ποιοι είμαστε" },
+  { href: withBase("/winter-sports"), label: "Χιονδρομία" },
+  { href: withBase("/join"), label: "Γίνε μέλος" },
+  { href: withBase("/gallery"), label: "Γκαλερί" },
+  { href: withBase("/contact"), label: "Επικοινωνία" },
 ];
+
+const homeHref = withBase("/");
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={siteMetadata.language}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={metaDescription} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
+    <meta name="keywords" content={siteMetadata.keywords.join(", ")} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="theme-color" content={siteMetadata.themeColor} />
+    <meta name="author" content={siteMetadata.shortName} />
+    <meta name="application-name" content={siteMetadata.shortName} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang={siteMetadata.language} href={canonicalUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={siteMetadata.locale} />
+    <meta property="og:site_name" content={siteMetadata.tagline} />
+    {ogImageUrl && (
+      <>
+        <meta property="og:image" content={ogImageUrl} />
+        <meta property="og:image:secure_url" content={ogImageUrl} />
+        <meta property="og:image:alt" content={siteMetadata.socialImageAlt} />
+        <meta name="twitter:image" content={ogImageUrl} />
+      </>
+    )}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image:alt" content={siteMetadata.socialImageAlt} />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.png")} />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32x32.png")} />
+    <link rel="apple-touch-icon" href={withBase("/favicon.png")} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -46,6 +123,11 @@ const navLinks = [
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
       referrerpolicy="no-referrer"
     />
+    {jsonLdEntries.map((entry) => (
+      <script type="application/ld+json">
+        {JSON.stringify(entry)}
+      </script>
+    ))}
   </head>
   <body class="relative min-h-screen text-brand-rocky">
     <div class="absolute inset-0 -z-10">
@@ -84,7 +166,7 @@ const navLinks = [
           >
             <div>
               <a
-                href="/"
+                href={homeHref}
                 class="text-2xl font-semibold text-brand-pine heading-font flex items-center gap-3"
               >
                 Φ.Ο.Ο.Γ
@@ -172,12 +254,12 @@ const navLinks = [
             </p>
           </div>
           <div class="space-y-2 text-brand-mist">
-            <a href="/trips" class="block hover:text-brand-pine">Εξορμήσεις</a>
-            <a href="/join" class="block hover:text-brand-pine">Γίνε μέλος</a>
-            <a href="/contact" class="block hover:text-brand-pine"
+            <a href={withBase("/trips")} class="block hover:text-brand-pine">Εξορμήσεις</a>
+            <a href={withBase("/join")} class="block hover:text-brand-pine">Γίνε μέλος</a>
+            <a href={withBase("/contact")} class="block hover:text-brand-pine"
               >Επικοινωνία</a
             >
-            <a href="/history" class="block hover:text-brand-pine"
+            <a href={withBase("/history")} class="block hover:text-brand-pine"
               >Ασφάλεια &amp; Εκπαίδευση</a
             >
           </div>

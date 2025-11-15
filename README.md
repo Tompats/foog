@@ -24,7 +24,7 @@ npm run build
 ## Δομή περιεχομένου
 - `src/data/` – τυποποιημένα δεδομένα για εξορμήσεις, προπονητές, μέλη Δ.Σ.
 - `src/components/` – κάρτες και headers που επαναχρησιμοποιούνται
-- `src/pages/` – διαδρομές: `/`, `/trips`, `/history`, `/coaches`, `/board`, `/join`, `/gallery`, `/contact`
+- `src/pages/` – διαδρομές: `/`, `/trips`, `/history`, `/winter-sports`, `/board`, `/join`, `/gallery`, `/contact`
 - `src/layouts/BaseLayout.astro` – κοινό layout με navigation & footer
 
 Ενημέρωσε εικόνες, συνδρομές, διευθύνσεις και το action της φόρμας πριν τη δημοσίευση.

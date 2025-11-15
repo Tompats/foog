@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import CoachCard from "../components/CoachCard.astro";
+import { coaches } from "../data/coaches";
+---
+
+<BaseLayout
+  title="Χιονδρομία"
+  description="Γνώρισε τους πιστοποιημένους προπονητές σκι, ορειβασίας και αναρρίχησης του Φ.Ο.Ο.Γ."
+>
+  <section class="section-padding">
+    <SectionHeader
+      eyebrow="Χειμερινά Σπορ"
+      title="Σκι & Snowboard στον Φ.Ο.Ο.Γ."
+      subtitle="Εξορμήσεις σε κορυφαία χιονοδρομικά, παροχή εξοπλισμού και καθοδήγηση για κάθε επίπεδο."
+    />
+    <div class="glass-panel space-y-4 px-8 py-10 text-brand-rocky">
+      <p class="text-lg font-semibold text-brand-pine">
+        Χιονδρομία στο κλαμπ μας
+      </p>
+      <p>
+        Η χειμερινή μας ομάδα οργανώνει εξορμήσεις σκι και snowboard για όλα τα
+        επίπεδα, αναλαμβάνοντας μετακινήσεις, εκπαίδευση και την ασφαλή εμπειρία
+        σου στο βουνό.
+      </p>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div
+          class="rounded-2xl border border-brand-river/30 bg-white/70 p-4 shadow-sm"
+        >
+          <p class="font-semibold text-brand-terracotta">
+            3 αγαπημένα χιονοδρομικά
+          </p>
+          <p class="text-sm text-brand-mist">
+            Επισκεπτόμαστε τρία κορυφαία χιονοδρομικά της Βόρειας Ελλάδας με
+            οργανωμένη μετακίνηση και πλάνο διαδρομών.
+          </p>
+        </div>
+        <div
+          class="rounded-2xl border border-brand-river/30 bg-white/70 p-4 shadow-sm"
+        >
+          <p class="font-semibold text-brand-terracotta">
+            Εξοπλισμός & ασφάλεια
+          </p>
+          <p class="text-sm text-brand-mist">
+            Παρέχουμε βασικό εξοπλισμό, συμβουλές rental και ενημέρωση ασφάλειας
+            για σκι και snowboard.
+          </p>
+        </div>
+        <div
+          class="rounded-2xl border border-brand-river/30 bg-white/70 p-4 shadow-sm"
+        >
+          <p class="font-semibold text-brand-terracotta">
+            Μαθήματα για όλα τα επίπεδα
+          </p>
+          <p class="text-sm text-brand-mist">
+            Από τα πρώτα σου γλιστρήματα μέχρι τεχνικές freeride, μαζί με τους
+            έμπειρους προπονητές μας.
+          </p>
+        </div>
+        <div
+          class="rounded-2xl border border-brand-river/30 bg-white/70 p-4 shadow-sm"
+        >
+          <p class="font-semibold text-brand-terracotta">Ομαδικά weekends</p>
+          <p class="text-sm text-brand-mist">
+            Σαββατοκύριακα με κοινή διαμονή, after-ski δραστηριότητες και συνεχή
+            υποστήριξη της ομάδας.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section-padding pt-0">
+    <SectionHeader
+      eyebrow="Ομάδα"
+      title="Προπονητές & εκπαιδευτές"
+      subtitle="Επαγγελματίες χιονοστιβάδων, διεθνείς οδηγοί και εθελοντές μέντορες"
+    />
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {coaches.map((coach) => <CoachCard coach={coach} />)}
+    </div>
+  </section>
+</BaseLayout>

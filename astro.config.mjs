@@ -7,5 +7,7 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false
     })
-  ]
+  ],
+  site: 'https://tompats.github.io',
+  base: '/foog'
 });
