@@ -20,7 +20,7 @@ export interface Coach {
   name: string;
   role: string;
   photoUrl: string;
-  certifications: string[];
+  certifications?: string[];
   bio: string;
   specialties: string[];
 }

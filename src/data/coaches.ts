@@ -2,35 +2,46 @@ import type { Coach } from '../types';
 
 export const coaches: Coach[] = [
   {
-    name: 'Maya Chen',
-    role: 'Επικεφαλής Οδηγός Σκι',
+    name: 'Νίκος Σαμαράς',
+    role: 'Επικεφαλής Αγωνιστικού Τμήματος',
     photoUrl: 'https://via.placeholder.com/300x300.png?text=Maya+Chen',
-    certifications: ['ACMG Ski Guide', 'Avalanche Pro 2'],
-    bio: 'Η Maya καθοδηγεί επί δύο δεκαετίες σε όλη τη Βορειοδυτική Ακτή με έμφαση στην συμπεριληπτική εκπαίδευση backcountry.',
-    specialties: ['Σκι Ορειβατικό', 'Χιονολογία', 'Μέντορινγκ']
+    bio: 'Ο Νίκος με περισσότερα απο 30 χρόνια προπονητικής εμπειρίας είναι ο team leader και προπονητής του αγωνιστικού τμήματος',
+    specialties: ['Αλπικό Σκι', 'Αγωνιστικό Σκι']
   },
   {
-    name: 'Lars Nyberg',
-    role: 'Τεχνικός Αλπικός Προπονητής',
+    name: 'Παναγιώτης',
+    role: 'Προπονητής snowboard',
     photoUrl: 'https://via.placeholder.com/300x300.png?text=Lars+Nyberg',
-    certifications: ['IFMGA Guide', 'Wilderness First Responder'],
     bio: 'Σουηδός αλπινιστής με αναβάσεις σε έξι ηπείρους που αγαπά να μοιράζεται συστήματα σχοινιών και τεχνικές διάσωσης.',
-    specialties: ['Μικτό πεδίο', 'Ταξίδι σε παγετώνα', 'Διαχείριση ρίσκου']
+    specialties: ['Snowboard', 'Αγωνιστική χιονοσανίδα']
   },
   {
-    name: 'Priya Anand',
-    role: 'Υπεύθυνη Πεζοπορίας & Φυσικής Κατάστασης',
+    name: 'Θωμάς Πατσάνης',
+    role: 'Προπονητής Ski',
+    photoUrl: 'https://via.placeholder.com/300x300.png?text=Lars+Nyberg',
+    certifications: ['EOXA Certified'],
+    bio: 'Παλιός αθλητής χιονοδρομίας. Πιστοποιημένος προπονητής χιονοδρομίας τα τελευταία 10 χρόνια, σε παιδιά απο 5 έως 12 ετών',
+    specialties: ['Αλπικό Ski', 'Μαθήματα σε παιδιά']
+  },
+  {
+    name: 'Θεοδώρα Σαμαρά',
+    role: 'Προπονήτρια Ski',
     photoUrl: 'https://via.placeholder.com/300x300.png?text=Priya+Anand',
-    certifications: ['Leave No Trace Master Educator', 'NASM Trainer'],
-    bio: 'Η Priya σχεδιάζει προγράμματα ενδυνάμωσης και ήπιες διαδρομές γνωριμίας για όσους μπαίνουν για πρώτη φορά στο αλπικό περιβάλλον.',
-    specialties: ['Αντοχή', 'Πλοήγηση', 'Νεανικά προγράμματα']
+    bio: 'Αθλήτρια με πανελλαδικές διακρίσεις. Αψογη παιδαγωγός και προπονήτρια των μικρών μας φίλων',
+    specialties: ['Αλπικό Ski', 'Μαθήματα απο 4 χρονών']
   },
   {
-    name: 'Silvia Prado',
-    role: 'Μέντορας Βράχου & Πάγου',
+    name: 'Αντώνης Σαμαράς',
+    role: 'Προπονητής Ski',
     photoUrl: 'https://via.placeholder.com/300x300.png?text=Silvia+Prado',
-    certifications: ['AMGA Rock Guide', 'SPI Provider'],
-    bio: 'Η Silvia ηγείται των κύκλων mentoring βοηθώντας τους αναρριχητές να εξελιχθούν από sport διαδρομές σε απαιτητικούς αλπικούς στόχους.',
-    specialties: ['Παραδοσιακή αναρρίχηση', 'Συστήματα διάσωσης', 'Γυναικείες+ ομάδες']
+    bio: 'Αθλητής του σκι με πανελλαδικές διακρίσεις. Προπονητής προεφηβικού τμήματος',
+    specialties: ['Αλπικό Ski', 'Freestyle Ski', 'Αγωνιστικό Ski']
+  },
+  {
+    name: 'Δημήτρης Καπουσούζης',
+    role: 'Προπονητής Ski',
+    photoUrl: 'https://via.placeholder.com/300x300.png?text=Silvia+Prado',
+    bio: 'Ο Δημήτρης είναι ο νεότερος προπονητής μας. Αθλητής σκι και κωπηλασίας με πανελλαδικές διακρίσεις. Προπονεί το τμήμα ενηλίκων',
+    specialties: ['Αλπικό Ski', 'Νεανικά προγράμματα']
   }
 ];
