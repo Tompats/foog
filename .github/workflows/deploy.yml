@@ -3,7 +3,7 @@ name: Deploy site
 on:
   push:
     branches:
-      - main # Update if your default branch differs
+      - master # Update if your default branch differs
   workflow_dispatch:
 
 permissions:

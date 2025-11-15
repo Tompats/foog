@@ -1,37 +1,49 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
+import photoBorovets from '../assets/images/foog-borovets.jpg';
+import photoAthamania from '../assets/images/foog-athamania.jpg';
+import photoAetomilitsa from '../assets/images/foog-aetomilitsa.jpg';
+import photoPaiko from '../assets/images/foog-katharismos-paiko.jpg';
+import photoSkiJunior from '../assets/images/foog-ski-junior.jpg';
+import photoVoras from '../assets/images/foog-voras-profitis-hlias.jpg';
 
 const gallery = [
   {
-    title: 'Βόρεια Ακρώρεια Ivory Peak',
-    subtitle: 'Ορειβασία · 2024',
-    image: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80'
+    title: 'Προπόνηση σκι στο Μπόροβιτς',
+    subtitle: 'Χιονοδρομία · 2024',
+    image: photoBorovets.src,
+    alt: 'Μέλη του Φ.Ο.Ο.Γ. σε χιονοδρομική πλαγιά στο Μπόροβιτς'
   },
   {
-    title: 'Αυγή σε παγετώνα',
-    subtitle: 'Περιοδεία σκι · 2025',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80'
+    title: 'Αναβάσεις στην Αθαμανία',
+    subtitle: 'Ορειβασία · 2023',
+    image: photoAthamania.src,
+    alt: 'Ομάδα του Φ.Ο.Ο.Γ. στην κορυφογραμμή της Αθαμανίας'
   },
   {
-    title: 'Νεανική προπόνηση σε κρεβάς',
-    subtitle: 'Καθοδήγηση · 2023',
-    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=80'
+    title: 'Αετομηλίτσα στο λυκόφως',
+    subtitle: 'Πεζοπορία · 2024',
+    image: photoAetomilitsa.src,
+    alt: 'Φ.Ο.Ο.Γ. μελών σε ορεινή στάση στην Αετομηλίτσα'
   },
   {
-    title: 'Φως bivouac στην κορυφή',
-    subtitle: 'Αλπική ανάβαση · 2022',
-    image: 'https://images.unsplash.com/photo-1482192597420-4817fdd7e8b0?auto=format&fit=crop&w=900&q=80'
+    title: 'Καθαρισμός μονοπατιού στο Πάικο',
+    subtitle: 'Περιβαλλοντική δράση · 2024',
+    image: photoPaiko.src,
+    alt: 'Εθελοντές του Φ.Ο.Ο.Γ. καθαρίζουν μονοπάτι στο Πάικο'
   },
   {
-    title: 'Σκόνη στο Heliotrope',
-    subtitle: 'Σκι ορειβασίας · 2024',
-    image: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=900&q=80'
+    title: 'Παιδικό τμήμα σκι',
+    subtitle: 'Εκμάθηση · 2024',
+    image: photoSkiJunior.src,
+    alt: 'Παιδιά με στολές σκι κατά την εκμάθηση'
   },
   {
-    title: 'Προπόνηση ομάδας ράχης',
-    subtitle: 'Σεμινάριο αναρρίχησης · 2023',
-    image: 'https://images.unsplash.com/photo-1477414348463-c0eb7f1359b6?auto=format&fit=crop&w=900&q=80'
+    title: 'Χιονισμένος Προφήτης Ηλίας στον Βόρα',
+    subtitle: 'Πορεία κορυφής · 2023',
+    image: photoVoras.src,
+    alt: 'Μέλη του Φ.Ο.Ο.Γ. δίπλα στη σημαία στον Προφήτη Ηλία Βόρα'
   }
 ];
 ---
@@ -41,7 +53,7 @@ const gallery = [
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {gallery.map((item) => (
         <figure class="group relative h-64 overflow-hidden rounded-2xl">
-          <img src={item.image} alt={item.title} class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
+          <img src={item.image} alt={item.alt ?? item.title} class="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
           <figcaption class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4">
             <p class="text-white font-semibold">{item.title}</p>
             <p class="text-sm text-brand-river">{item.subtitle}</p>

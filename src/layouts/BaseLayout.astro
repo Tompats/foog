@@ -12,6 +12,7 @@ const pageTitle = title ? `${title} | ${defaultName}` : defaultName;
 const metaDescription =
   description ??
   "Εθελοντικός ορειβατικός όμιλος Γιαννιτσών με εξορμήσεις, εκπαίδευση ασφάλειας σε χιόνι και ανοιχτή κοινότητα φυσιολατρών.";
+const currentYear = new Date().getFullYear();
 
 const navLinks = [
   { href: "/", label: "Αρχική" },
@@ -36,6 +37,11 @@ const navLinks = [
     <link
       href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      referrerpolicy="no-referrer"
     />
   </head>
   <body class="relative min-h-screen text-brand-rocky">
@@ -79,7 +85,7 @@ const navLinks = [
                 class="text-2xl font-semibold text-brand-pine heading-font flex items-center gap-3"
               >
                 Φ.Ο.Ο.Γ
-                <span class="playful-pill">since 1974</span>
+                <span class="playful-pill">since 1973</span>
               </a>
               <p class="text-sm text-brand-mist mt-1">
                 Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών
@@ -179,15 +185,46 @@ const navLinks = [
                 class="font-semibold text-brand-pine">info@mountains.club</a
               >
             </p>
-            <p>
-              Κοινωνικά: <a href="#" class="hover:text-brand-pine">Instagram</a>
-              · <a href="#" class="hover:text-brand-pine">Facebook</a>
+            <p class="flex items-center gap-3">
+              <span>Κοινωνικά:</span>
+              <a
+                href="https://www.instagram.com/f.o.o.giannitson/"
+                class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand-river/40 text-brand-mist hover:text-brand-pine hover:border-brand-pine"
+                aria-label="Instagram"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a
+                href="https://www.facebook.com/profile.php?id=100064516099445"
+                class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand-river/40 text-brand-mist hover:text-brand-pine hover:border-brand-pine"
+                aria-label="Facebook"
+              >
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
             </p>
             <p class="text-sm text-brand-mist">
               Τα ορεινά σπορ ενέχουν κινδύνους· συμμετέχετε εντός των ορίων σας
               και σύμφωνα με τα πρωτόκολλα του Φ.Ο.Ο.Γ.
             </p>
           </div>
+        </div>
+        <div
+          class="text-center text-xs sm:text-sm text-brand-cloud mt-6 space-y-2"
+        >
+          <p>
+            © {currentYear} Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών. Όλα τα
+            δικαιώματα διατηρούνται.
+          </p>
+          <p>
+            Made with
+            <span
+              class="mx-1 inline-flex items-center justify-center"
+              aria-hidden="true"
+            >
+              <i class="fa-regular fa-heart text-brand-terracotta"></i>
+            </span>
+            by Thomas Patsanis
+          </p>
         </div>
       </footer>
     </div>
