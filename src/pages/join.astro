@@ -1,70 +1,93 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeader from '../components/SectionHeader.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
 
 const benefits = [
-  'Μαθήματα σκι και ορειβασίας με έμπειρους συνοδούς και τμήματα που χωρίζονται ανά εμπειρία για ασφάλεια.',
-  'Παροχή κρανών, σκι και λοιπού εξοπλισμού από το απόθεμα του Συλλόγου όπου χρειάζεται.',
-  'Συμμετοχή σε πεζοπορίες, ορειβασίες, ποδηλατικές διαδρομές 240 χλμ και νυχτερινές πορείες Πανσελήνου με επικοινωνία μέσω VHF.',
-  'Προσκλήσεις σε καθαρισμούς, δεντροφυτεύσεις και στην ομάδα που αναβαθμίζει το καταφύγιο Αγίας Παρασκευής.'
+  "Μαθήματα σκι και ορειβασίας με έμπειρους συνοδούς και τμήματα που χωρίζονται ανά εμπειρία για ασφάλεια.",
+  "Παροχή εξοπλισμού (ski, snowboard, μπατόν, μπότες, κράνος) από το απόθεμα του Συλλόγου όπου χρειάζεται.",
+  "Συμμετοχή σε πεζοπορίες, ορειβασίες, ποδηλατικές διαδρομές νυχτερινές πορείες.",
+  "Προσκλήσεις σε καθαρισμούς, δεντροφυτεύσεις και εκδρομές.",
 ];
 
 const steps = [
-  'Συμπλήρωσε την αίτηση μέλους και βοήθησέ μας να καταλάβουμε την εμπειρία σου στη φύση.',
-  'Κατέβαλε την ετήσια συνδρομή των 5€ που κρατά τον εξοπλισμό και τις δράσεις σε λειτουργία.',
-  'Παρακολούθησε την ενημέρωση ασφάλειας και γνώρισε τους συνοδούς πριν από την πρώτη εξόρμηση.',
-  'Δήλωσε συμμετοχή σε εξορμήσεις ή περιβαλλοντικές δράσεις και συνδέσου με την κοινότητα.'
+  "Συμπλήρωσε την αίτηση μέλους και βοήθησέ μας να καταλάβουμε την εμπειρία σου στη φύση.",
+  "Κατέβαλε την ετήσια συνδρομή των 10€ που κρατά τον εξοπλισμό και τις δράσεις σε λειτουργία.",
+  "Παρακολούθησε την ενημέρωση ασφάλειας και γνώρισε τους συνοδούς πριν από την πρώτη εξόρμηση.",
+  "Δήλωσε συμμετοχή σε εξορμήσεις ή περιβαλλοντικές δράσεις και συνδέσου με την κοινότητα.",
 ];
 ---
-<BaseLayout title="Γίνε μέλος" description="Γίνε μέλος του Φ.Ο.Ο.Γ. και απόλαυσε εκπαίδευση, mentoring και αλπικές περιπέτειες.">
+
+<BaseLayout
+  title="Γίνε μέλος"
+  description="Γίνε μέλος του Φ.Ο.Ο.Γ. και απόλαυσε εκπαίδευση, mentoring και αλπικές περιπέτειες."
+>
   <section class="section-padding">
-    <SectionHeader eyebrow="Μέλος" title="Γίνε μέλος" subtitle="Ανοιχτό σε σκιέρ, αναρριχητές, πεζοπόρους και νέους ορειβάτες" />
+    <SectionHeader
+      eyebrow="Μέλος"
+      title="Γίνε μέλος"
+      subtitle="Ανοιχτό σε σκιέρ, αναρριχητές, πεζοπόρους και νέους ορειβάτες"
+    />
     <div class="grid gap-10 lg:grid-cols-2">
       <div class="glass-panel p-8 space-y-5">
-        <h3 class="text-2xl font-semibold text-brand-rocky">Γιατί να έρθεις στον Φ.Ο.Ο.Γ.;</h3>
+        <h3 class="text-2xl font-semibold text-brand-rocky">
+          Γιατί να έρθεις στον Φ.Ο.Ο.Γ.;
+        </h3>
         <ul class="space-y-3 text-brand-mist">
-          {benefits.map((benefit) => (
-            <li class="flex items-start gap-3">
-              <span class="mt-1 h-2 w-2 rounded-full bg-brand-terracotta"></span>
-              <span>{benefit}</span>
-            </li>
-          ))}
+          {
+            benefits.map((benefit) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-1 h-2 w-2 rounded-full bg-brand-terracotta" />
+                <span>{benefit}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6">
-          <h4 class="text-xl font-semibold text-brand-rocky">Ενδεικτικές συνδρομές</h4>
+          <h4 class="text-xl font-semibold text-brand-rocky">
+            Ετήσια συνδρομή
+          </h4>
           <div class="mt-4 grid gap-4">
-            <div class="rounded-2xl border border-brand-river/80 bg-brand-river/70 p-4">
-              <p class="text-sm uppercase tracking-[0.3em] text-brand-mist">Ενεργό μέλος</p>
-              <p class="text-3xl font-bold text-brand-rocky">5€<span class="text-base font-normal text-brand-mist"> / έτος</span></p>
-              <p class="text-sm text-brand-mist">Η βασική συνδρομή που εξασφαλίζει πρόσβαση σε εξορμήσεις, ενημερώσεις και δανειστικό εξοπλισμό.</p>
+            <div
+              class="rounded-2xl border border-brand-river/80 bg-brand-river/70 p-4"
+            >
+              <p class="text-sm uppercase tracking-[0.3em] text-brand-mist">
+                Ενεργό μέλος
+              </p>
+              <p class="text-3xl font-bold text-brand-rocky">
+                10€<span class="text-base font-normal text-brand-mist">
+                  / έτος</span
+                >
+              </p>
+              <p class="text-sm text-brand-mist">
+                Ένα μόνο ποσό για όλα τα μέλη που εξασφαλίζει συμμετοχή σε
+                δράσεις, ενημερώσεις και πρόσβαση στον εξοπλισμό του Συλλόγου.
+              </p>
             </div>
-            <div class="rounded-2xl border border-brand-terracotta/60 bg-brand-terracotta/15 p-4">
-              <p class="text-sm uppercase tracking-[0.3em] text-brand-rocky/80">Οικογένεια & φίλοι</p>
-              <p class="text-3xl font-bold text-brand-rocky">5€<span class="text-base font-normal text-brand-rocky/80"> / ενήλικα</span></p>
-              <p class="text-sm text-brand-rocky/80">Δίνουμε θέση σε γονείς και παιδιά στην ίδια εξόρμηση και βοηθάμε τα νέα μέλη να εξοικειωθούν.</p>
-            </div>
-            <div class="rounded-2xl border border-brand-river/80 bg-brand-river/70 p-4">
-              <p class="text-sm uppercase tracking-[0.3em] text-brand-mist">Προαιρετική ενίσχυση</p>
-              <p class="text-3xl font-bold text-brand-rocky">10€+<span class="text-base font-normal text-brand-mist"> / δωρεά</span></p>
-              <p class="text-sm text-brand-mist">Στηρίζει τα παιδικά τμήματα σκι, τις δεντροφυτεύσεις και την αποκατάσταση του καταφυγίου Αγίας Παρασκευής.</p>
-            </div>
-            <p class="text-xs text-brand-mist">/* Ενημερώστε τα ποσά με βάση τις ετήσιες αποφάσεις του Συλλόγου */</p>
+            <p class="text-xs text-brand-mist">
+              Η προαιρετική οικονομική ενίσχυση καταγράφεται κατά την εγγραφή
+              και κατευθύνεται στα παιδικά τμήματα σκι, τις δεντροφυτεύσεις και
+              την συντήρηση του συλλόγου.
+            </p>
           </div>
         </div>
       </div>
       <div class="glass-panel p-8 space-y-6">
         <h3 class="text-2xl font-semibold text-brand-rocky">Βήματα εγγραφής</h3>
         <ol class="space-y-4">
-          {steps.map((step, index) => (
-            <li class="flex gap-4">
-              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-moss/20 text-brand-pine font-semibold">
-                {index + 1}
-              </span>
-              <p class="text-brand-rocky">{step}</p>
-            </li>
-          ))}
+          {
+            steps.map((step, index) => (
+              <li class="flex gap-4">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-moss/20 text-brand-pine font-semibold">
+                  {index + 1}
+                </span>
+                <p class="text-brand-rocky">{step}</p>
+              </li>
+            ))
+          }
         </ol>
-        <div class="rounded-2xl border border-brand-moss/50 bg-brand-moss/15 p-6 text-center">
+        <div
+          class="rounded-2xl border border-brand-moss/50 bg-brand-moss/15 p-6 text-center"
+        >
           <p class="text-brand-rocky">Έτοιμος/η για νέες κορυφές;</p>
           <a
             href="/contact"
