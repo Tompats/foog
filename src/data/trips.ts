@@ -207,5 +207,65 @@ export const trips: Trip[] = [
         entries: ['Sunrise yoga στην κορυφή Άξελου', 'Χαλαρή κατάβαση και ενημέρωση για νέα ημερομηνία (trip canceled)']
       }
     ]
+  },
+  {
+    slug: 'pindos-ridge-classic',
+    title: 'Κλασική Διάσχιση Πίνδου',
+    startDate: '2023-10-05',
+    endDate: '2023-10-08',
+    type: 'hiking',
+    difficulty: 3,
+    elevationGain: 1600,
+    distanceKm: 42,
+    leader: 'Katerina Stogiannidou',
+    status: 'active',
+    shortDescription: 'Τετραήμερη πορεία σε εναλλασσόμενα τοπία από τη Βάλια Κάλντα μέχρι το Μαυροβούνι με κατασκήνωση σε ράχες και δίπλα σε ποτάμια.',
+    location: 'Πίνδος',
+    activities: ['Valia Calda trek', 'Μικρά Πίνδος ridgeline', 'Campfire stories'],
+    gear: ['Σακίδιο 55L', 'Τετραήμερο σετ bivy', 'Μπατόν & αδιάβροχα', 'Φίλτρο νερού', 'Προμήθειες υψηλής ενέργειας'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Είσοδος στη Βάλια Κάλντα και ανάβαση προς Λούτσα', 'Στήσιμο κατασκήνωσης και δείπνο σε φωτιά']
+      },
+      {
+        label: 'Ημέρα 2',
+        entries: ['Διάσχιση ράχης με θέα Σμόλικα', 'Εργαστήριο διαχείρισης ενέργειας σε πολύημερη πορεία']
+      },
+      {
+        label: 'Ημέρα 3',
+        entries: ['Κατάβαση στο ποτάμι για επανατροφοδοσία', 'Ανάβαση προς Μαυροβούνι και βραδινό camp']
+      },
+      {
+        label: 'Ημέρα 4',
+        entries: ['Πρωινό stretching, φωτογραφίες κορυφής', 'Επιστροφή στο χωριό και κλείσιμο εξόρμησης']
+      }
+    ]
+  },
+  {
+    slug: 'verias-winter-ascent',
+    title: 'Χειμερινή Ανάβαση Βέροιας',
+    startDate: '2023-12-12',
+    endDate: '2023-12-13',
+    type: 'mountaineering',
+    difficulty: 4,
+    elevationGain: 1300,
+    distanceKm: 18,
+    leader: 'Charis Papamichael',
+    status: 'active',
+    shortDescription: 'Διήμερο σε παγωμένα couloirs με εξάσκηση σε αυτοασφάλειες και νυχτερινό πορείαση με κραμπόν.',
+    location: 'Βέροια, Πιέρια',
+    activities: ['Night cramponing', 'Self arrest clinic', 'Summit sunrise'],
+    gear: ['Κράνος, μποντριέ, 2 ιμάντες', 'Τεχνικό τσεκούρι', 'Κραμπόν', 'Down jacket', 'Θερμός & ενεργειακές μπάρες'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Ανάβαση μέσα από το δάσος μέχρι την αλπική ζώνη', 'Νυχτερινό εργαστήριο αυτοασφάλειας σε πλαγιά']
+      },
+      {
+        label: 'Ημέρα 2',
+        entries: ['Πολύ πρωινή ανάβαση couloir με χρήση σχοινιού', 'Κατάβαση και ζεστό ρόφημα στη βάση']
+      }
+    ]
   }
 ];

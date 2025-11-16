@@ -3,6 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import CoachCard from "../components/CoachCard.astro";
 import { coaches } from "../data/coaches";
+import heroBorevetsSki from "../assets/images/foog-borovets.jpg";
+import heroSkiJuniorLesson from "../assets/images/foog-ski-junior.jpg";
 ---
 
 <BaseLayout
@@ -15,7 +17,7 @@ import { coaches } from "../data/coaches";
       title="Σκι & Snowboard στον Φ.Ο.Ο.Γ."
       subtitle="Εξορμήσεις σε κορυφαία χιονοδρομικά, παροχή εξοπλισμού και καθοδήγηση για κάθε επίπεδο."
     />
-    <div class="glass-panel space-y-4 px-8 py-10 text-brand-rocky">
+    <div class="glass-panel space-y-6 px-8 py-10 text-brand-rocky">
       <p class="text-lg font-semibold text-brand-pine">
         Χιονδρομία στο κλαμπ μας
       </p>
@@ -68,13 +70,38 @@ import { coaches } from "../data/coaches";
           </p>
         </div>
       </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <figure class="rounded-2xl overflow-hidden">
+          <img
+            src={heroBorevetsSki.src}
+            alt="Ομάδα του Φ.Ο.Ο.Γ. σε εξόρμηση σκι"
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+          <figcaption class="mt-2 text-sm text-brand-mist">
+            Weekend σκι στο Μπόροβιτς
+          </figcaption>
+        </figure>
+        <figure class="rounded-2xl overflow-hidden">
+          <img
+            src={heroSkiJuniorLesson.src}
+            alt="Μάθημα σκι για μικρά μέλη"
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
+          <figcaption class="mt-2 text-sm text-brand-mist">
+            Junior coaching στα 3-5 Πηγάδια
+          </figcaption>
+        </figure>
+      </div>
     </div>
   </section>
   <section class="section-padding pt-0">
     <SectionHeader
       eyebrow="Ομάδα"
       title="Προπονητές & εκπαιδευτές"
-      subtitle="Επαγγελματίες χιονοστιβάδων, διεθνείς οδηγοί και εθελοντές μέντορες"
+      subtitle="Επαγγελματίες προπονητές, πρώην αθλητές και εθελοντές μέντορες"
     />
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       {coaches.map((coach) => <CoachCard coach={coach} />)}

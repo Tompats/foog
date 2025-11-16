@@ -16,17 +16,22 @@ const avatarWrapperClasses =
   <div class={avatarWrapperClasses}>
     {
       coach.photoUrl ? (
-        <img src={coach.photoUrl} alt={coach.name} class="h-full w-full object-cover" loading="lazy" />
+        <img
+          src={coach.photoUrl}
+          alt={coach.name}
+          class="h-full w-full object-cover"
+          loading="lazy"
+        />
       ) : (
         <>
-          <i class="fa-solid fa-user text-4xl" aria-hidden="true"></i>
+          <i class="fa-solid fa-user text-4xl" aria-hidden="true" />
           <span class="sr-only">Φωτογραφία προπονητή δεν είναι διαθέσιμη</span>
         </>
       )
     }
   </div>
   <div>
-    <p class="text-xs uppercase tracking-[0.4em] text-brand-moss">
+    <p class="text-xs uppercase tracking-[0.4em] text-brand-mossDark">
       {coach.role}
     </p>
     <h3 class="text-2xl font-semibold text-brand-rocky heading-font">

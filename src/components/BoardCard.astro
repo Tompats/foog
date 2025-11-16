@@ -1,5 +1,5 @@
 ---
-import type { BoardMember } from '../types';
+import type { BoardMember } from "../types";
 
 interface Props {
   member: BoardMember;
@@ -9,22 +9,36 @@ const { member } = Astro.props;
 const avatarWrapperClasses =
   "h-20 w-20 rounded-[24px] ring-4 ring-brand-river/40 overflow-hidden flex items-center justify-center bg-brand-cloud text-brand-river";
 ---
-<div class="glass-panel p-6 flex items-center gap-6 transition duration-300 hover:-translate-y-1 hover:border-brand-pine/30 bg-brand-cloud">
+
+<div
+  class="glass-panel p-6 flex items-center gap-6 transition duration-300 hover:-translate-y-1 hover:border-brand-pine/30 bg-brand-cloud"
+>
   <div class={avatarWrapperClasses}>
     {
       member.photoUrl ? (
-        <img src={member.photoUrl} alt={member.name} class="h-full w-full object-cover" loading="lazy" />
+        <img
+          src={member.photoUrl}
+          alt={member.name}
+          class="h-full w-full object-cover"
+          loading="lazy"
+        />
       ) : (
         <>
-          <i class="fa-solid fa-user text-2xl" aria-hidden="true"></i>
+          <i class="fa-solid fa-user text-2xl" aria-hidden="true" />
           <span class="sr-only">Φωτογραφία μέλους δεν είναι διαθέσιμη</span>
         </>
       )
     }
   </div>
   <div>
-    <p class="text-xs uppercase tracking-[0.4em] text-brand-moss">{member.role}</p>
-    <h3 class="text-xl font-semibold text-brand-rocky heading-font">{member.name}</h3>
+    <p
+      class="text-xs font-semibold uppercase tracking-[0.4em] text-brand-mossDark"
+    >
+      {member.role}
+    </p>
+    <h3 class="text-xl font-semibold text-brand-rocky heading-font">
+      {member.name}
+    </h3>
     <p class="text-brand-mist text-sm mt-2">{member.bio}</p>
   </div>
 </div>
