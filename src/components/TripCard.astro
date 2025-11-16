@@ -1,8 +1,10 @@
 ---
 import type { Trip } from "../types";
+import { getTripTimelineStatus } from "../types";
 import hikingCardImage from "../assets/cards/hiking-card.jpg";
 import mountaineeringCardImage from "../assets/cards/mountaineering-card.jpg";
 import skiCardImage from "../assets/cards/ski-card.jpg";
+import { withBase } from "../utils/url";
 
 interface Props {
   trip: Trip;
@@ -47,10 +49,16 @@ const typeImages: Record<Trip["type"], string> = {
   ski: skiCardImage.src,
 };
 
-const statusLabels: Record<Trip["status"], string> = {
+const timelineStatus = getTripTimelineStatus(trip);
+
+const timelineLabels = {
   upcoming: "Επόμενη",
   past: "Παλαιότερη",
 };
+
+const statusLabel = trip.status === "canceled"
+  ? "Ακυρωμένη"
+  : timelineLabels[timelineStatus];
 
 // Ski trips place emphasis on flow rather than metrics, so hide the technical stats.
 const shouldShowTechnicalStats = trip.type !== "ski";
@@ -165,14 +173,14 @@ const shouldShowTechnicalStats = trip.type !== "ski";
             Κατάσταση
           </p>
           <p class="text-lg font-semibold heading-font">
-            {statusLabels[trip.status]}
+            {statusLabel}
           </p>
         </div>
       </div>
     </div>
     <div class="pt-2">
       <a
-        href={`/trips/${trip.slug}`}
+        href={withBase(`/trips/${trip.slug}`)}
         class="inline-flex items-center gap-2 text-sm font-semibold text-brand-pine rounded-full border border-brand-pine/20 px-4 py-2 transition hover:-translate-y-0.5 hover:border-brand-terracotta hover:text-brand-terracotta"
       >
         Λεπτομέρειες

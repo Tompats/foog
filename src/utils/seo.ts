@@ -1,9 +1,24 @@
 import { siteMetadata } from "../data/site";
 import type { Trip } from "../types";
+import { getTripTimelineStatus } from "../types";
 
 const siteUrl = new URL(siteMetadata.siteUrl);
 const siteOrigin = siteUrl.origin;
 const siteBasePath = siteUrl.pathname.replace(/\/$/, "") || "";
+
+const scheduledStatus = "https://schema.org/EventScheduled";
+const completedStatus = "https://schema.org/EventCompleted";
+const cancelledStatus = "https://schema.org/EventCancelled";
+
+const resolveEventStatus = (trip: Trip) => {
+  if (trip.status === "canceled") {
+    return cancelledStatus;
+  }
+
+  return getTripTimelineStatus(trip) === "upcoming"
+    ? scheduledStatus
+    : completedStatus;
+};
 
 const normalizePath = (path: string) =>
   path.startsWith("/") ? path : `/${path}`;
@@ -26,10 +41,7 @@ export const absoluteUrl = (path = "/") => {
 export const createTripJsonLd = (trip: Trip, pageUrl: string) => {
   const startDate = new Date(trip.startDate).toISOString();
   const endDate = new Date(trip.endDate ?? trip.startDate).toISOString();
-  const eventStatus =
-    trip.status === "upcoming"
-      ? "https://schema.org/EventScheduled"
-      : "https://schema.org/EventCompleted";
+  const eventStatus = resolveEventStatus(trip);
 
   return {
     "@context": "https://schema.org",

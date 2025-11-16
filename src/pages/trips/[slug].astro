@@ -5,6 +5,7 @@ import SectionHeader from "../../components/SectionHeader.astro";
 import { trips } from "../../data/trips";
 import { withBase } from "../../utils/url";
 import { createTripJsonLd } from "../../utils/seo";
+import { getTripTimelineStatus } from "../../types";
 
 export async function getStaticPaths() {
   return trips.map((trip) => ({ params: { slug: trip.slug } }));
@@ -30,26 +31,24 @@ const tripDateLabel = hasDistinctEndDate && endDateLabel
   ? `${startDateLabel} – ${endDateLabel}`
   : startDateLabel;
 
-const itinerary = [
-  "Συνάντηση και έλεγχος εξοπλισμού στην βάση (07:00).",
-  "Ανάβαση προς το καταφύγιο με στάσεις για εκπαίδευση (09:30).",
-  "Πρακτική ασφάλειας/δέσιμο σχοινιών σε σημείο θέας (12:00).",
-  "Παράθυρο κορυφής και φωτογραφίες, επιστροφή στο camp (14:30).",
-  "Κλείσιμο με ζεστό ρόφημα και ανατροφοδότηση (17:00).",
-];
+const timelineStatus = getTripTimelineStatus(trip);
 
-const gear = [
-  "Σακίδιο 35L",
-  "Κράνος και μποντριέ",
-  "Στρώσεις ρουχισμού (τεχνικός/ζεστός)",
-  "Σετ ασφαλείας: ARVA, φτυάρι, προμνήμα",
-  "Κιτ πρώτων βοηθειών και φακός κεφαλής",
-];
+const showRegistrationCta = trip.status === "active" && timelineStatus === "upcoming";
+
+const detailStatusMessage = trip.status === "canceled"
+  ? "Η εξόρμηση ακυρώθηκε και δεν δέχεται νέες συμμετοχές."
+  : timelineStatus === "past"
+    ? "Η εξόρμηση ολοκληρώθηκε. Μείνε συντονισμένος για τις επόμενες περιπέτειες!"
+    : null;
 
 const badges = [
   `${trip.type.toUpperCase()} LINE`,
   `${trip.difficulty}/5 difficulty`,
-  trip.status === "upcoming" ? "OPEN SPOTS" : "COMPLETED LOG",
+  trip.status === "canceled"
+    ? "CANCELED"
+    : timelineStatus === "upcoming"
+      ? "OPEN SPOTS"
+      : "COMPLETED LOG",
 ];
 
 const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
@@ -125,25 +124,33 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
         </div>
       </div>
       <div class="flex flex-wrap gap-4">
-        <a
-          href={withBase("/contact")}
-          class="inline-flex items-center gap-2 rounded-full bg-brand-terracotta px-6 py-3 font-semibold text-brand-cloud shadow-md shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
-        >
-          Δήλωσε συμμετοχή
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            class="h-4 w-4"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M5 12h14m-6-6 6 6-6 6"></path>
-          </svg>
-        </a>
+        {
+          showRegistrationCta ? (
+            <a
+              href={withBase("/contact")}
+              class="inline-flex items-center gap-2 rounded-full bg-brand-terracotta px-6 py-3 font-semibold text-brand-cloud shadow-md shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
+            >
+              Δήλωσε συμμετοχή
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 12h14m-6-6 6 6-6 6"></path>
+              </svg>
+            </a>
+          ) : detailStatusMessage && (
+            <div class="glass-panel px-5 py-3 border border-brand-cloud/30 text-brand-mist">
+              {detailStatusMessage}
+            </div>
+          )
+        }
         <a
           href={withBase("/trips")}
           class="inline-flex items-center gap-2 rounded-full border border-brand-cloud/40 px-6 py-3 font-semibold text-brand-cloud hover:border-brand-terracotta"
@@ -159,16 +166,27 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
       <h2 class="text-2xl font-semibold text-brand-rocky heading-font">
         Σενάριο ημέρας
       </h2>
-      <ul class="space-y-3 text-brand-mist">
+      <div class="space-y-6 text-brand-mist">
         {
-          itinerary.map((item) => (
-            <li class="flex items-start gap-3">
-              <span class="mt-1 h-2.5 w-2.5 rounded-full bg-brand-moss" />
-              <span>{item}</span>
-            </li>
+          trip.itinerary.map((day) => (
+            <div>
+              <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+                {day.label}
+              </p>
+              <ul class="mt-2 space-y-3">
+                {
+                  day.entries.map((item) => (
+                    <li class="flex items-start gap-3">
+                      <span class="mt-1 h-2.5 w-2.5 rounded-full bg-brand-moss" />
+                      <span>{item}</span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
           ))
         }
-      </ul>
+      </div>
     </div>
     <div class="glass-panel p-8 space-y-4">
       <h2 class="text-2xl font-semibold text-brand-rocky heading-font">
@@ -176,7 +194,7 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
       </h2>
       <ul class="space-y-3 text-brand-mist">
         {
-          gear.map((item) => (
+          trip.gear.map((item) => (
             <li class="flex items-start gap-3">
               <span class="mt-1 h-2.5 w-2.5 rounded-md bg-brand-terracotta" />
               <span>{item}</span>

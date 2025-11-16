@@ -4,14 +4,15 @@ import TripCard from "../components/TripCard.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import { trips } from "../data/trips";
 import type { TripType } from "../types";
+import { isTripUpcoming, isTripPast } from "../types";
 import { createCollectionPageJsonLd } from "../utils/seo";
 
 const upcomingTrips = [...trips]
-  .filter((trip) => trip.status === 'upcoming')
+  .filter((trip) => isTripUpcoming(trip))
   .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
 
 const pastTrips = [...trips]
-  .filter((trip) => trip.status === 'past')
+  .filter((trip) => isTripPast(trip))
   .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
 const tripTypes = ["hiking", "mountaineering", "ski"] as const;
@@ -82,9 +83,22 @@ const tripsStructuredData = createCollectionPageJsonLd(
             >{upcomingTrips.length} διαδρομές</span
           >
         </div>
-        <div class="grid gap-6 lg:grid-cols-2">
-          {upcomingTrips.map((trip) => <TripCard trip={trip} />)}
-        </div>
+        {
+          upcomingTrips.length > 0 ? (
+            <div class="grid gap-6 lg:grid-cols-2">
+              {upcomingTrips.map((trip) => <TripCard trip={trip} />)}
+            </div>
+          ) : (
+            <div class="glass-panel p-6 text-brand-mist">
+              <p class="text-lg font-semibold text-brand-cloud">
+                Δεν υπάρχουν επόμενες εξορμήσεις στο ημερολόγιο.
+              </p>
+              <p class="mt-2">
+                Επιστρέψτε σύντομα ή εξερευνήστε τις προηγούμενες αναφορές για να δείτε τι ακολουθεί συνήθως το πρόγραμμά μας.
+              </p>
+            </div>
+          )
+        }
       </div>
       <div>
         <div class="flex items-center justify-between mb-6">

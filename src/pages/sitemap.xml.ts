@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { trips } from "../data/trips";
 import { absoluteUrl } from "../utils/seo";
+import { isTripUpcoming } from "../types";
 
 export const prerender = true;
 
@@ -34,8 +35,9 @@ export const GET: APIRoute = () => {
     ...trips.map((trip) => {
       const pageUrl = absoluteUrl(`/trips/${trip.slug}`);
       const lastmod = new Date(trip.endDate ?? trip.startDate).toISOString();
-      const changefreq = trip.status === "upcoming" ? "weekly" : "yearly";
-      const priority = trip.status === "upcoming" ? "0.8" : "0.4";
+      const isFutureTrip = isTripUpcoming(trip);
+      const changefreq = isFutureTrip ? "weekly" : "yearly";
+      const priority = isFutureTrip ? "0.8" : "0.4";
       return formatUrl(pageUrl, lastmod, changefreq, priority);
     }),
   ];

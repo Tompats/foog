@@ -11,16 +11,17 @@ import heroBorovetsTwo from "../assets/images/foog-borovets-hiking-2025-2.jpg";
 import heroGrammos from "../assets/images/foog-aetomilitsa-grammos-1.jpeg";
 import heroBorevetsSki from "../assets/images/foog-borovets.jpg";
 import heroSkiJuniorLesson from "../assets/images/foog-ski-junior.jpg";
+import { isTripUpcoming, isTripPast } from "../types";
 
 const upcomingTrips = [...trips]
-  .filter((trip) => trip.status === "upcoming")
+  .filter((trip) => isTripUpcoming(trip))
   .sort(
     (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
   )
   .slice(0, 4);
 
 const latestReports = [...trips]
-  .filter((trip) => trip.status === "past")
+  .filter((trip) => isTripPast(trip))
   .sort(
     (a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
   )
@@ -58,7 +59,7 @@ const heroGallery = [
   {
     src: heroBorovetsTwo.src,
     alt: "Ομάδα βαδίζει προς την κορυφή",
-    caption: "Βήματα προς το Τριεθνές",
+    caption: "Πεζοπορία · Ρίλα",
   },
   {
     src: heroGrammos.src,
@@ -283,9 +284,22 @@ const homepageStructuredData = {
       title="Επερχόμενες περιπέτειες"
       subtitle="Μικρές ομάδες, άρτια οργάνωση και υποστήριξη προπονητών"
     />
-    <div class="grid gap-6 lg:grid-cols-2">
-      {upcomingTrips.map((trip) => <TripCard trip={trip} />)}
-    </div>
+    {
+      upcomingTrips.length > 0 ? (
+        <div class="grid gap-6 lg:grid-cols-2">
+          {upcomingTrips.map((trip) => <TripCard trip={trip} />)}
+        </div>
+      ) : (
+        <div class="glass-panel p-6 text-brand-mist text-center">
+          <p class="text-lg font-semibold text-brand-cloud">
+            Δεν υπάρχουν προγραμματισμένες εξορμήσεις αυτή τη στιγμή.
+          </p>
+          <p class="mt-2">
+            Δες τις προηγούμενες διαδρομές μας ή επικοινώνησε για να ενημερωθείς για τα επόμενα σχέδια.
+          </p>
+        </div>
+      )
+    }
     <div class="mt-10 text-center">
       <a
         href={withBase("/trips")}

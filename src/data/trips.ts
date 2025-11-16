@@ -11,10 +11,21 @@ export const trips: Trip[] = [
     elevationGain: 1200,
     distanceKm: 14,
     leader: 'Maya Chen',
-    status: 'upcoming',
+    status: 'active',
     shortDescription: 'Ανάβαση με φώκιες δίπλα σε παγετώνες και κατηφόρα σε ανάλαφρο χιόνι με υποστήριξη από τους προπονητές μας.',
     location: 'Χιονοδρομικό Παρνασσού',
-    activities: ['Ski tour Mt. Gerontovrachos', 'Avalanche refreshers', 'Κατάβαση Καρπενήσιου']
+    activities: ['Ski tour Mt. Gerontovrachos', 'Avalanche refreshers', 'Κατάβαση Καρπενήσιου'],
+    gear: ['Σακίδιο 40L', 'Σετ φώκιες / splitboard', 'Beacon - φτυάρι - προμνήμα', 'Θερμικά στρώματα', 'Κράνος & γυαλιά χιονιού'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Συνάντηση στο Λιβάδι Παρνασσού και έλεγχος εξοπλισμού', 'Ανάβαση προς Γεροντόβραχο με στάσεις τεχνικής ski touring', 'Νυχτερινό briefing και stretching στο σαλέ']
+      },
+      {
+        label: 'Ημέρα 2',
+        entries: ['Πρωινό ζέσταμα, session διάσωσης σε χιονοστιβάδα', 'Κατάβαση προς Καρπενήσι με συνοδεία προπονητών', 'Retrospective και αποχώρηση']
+      }
+    ]
   },
   {
     slug: 'midnight-alpine-classic',
@@ -26,10 +37,25 @@ export const trips: Trip[] = [
     elevationGain: 1800,
     distanceKm: 18,
     leader: 'Lars Nyberg',
-    status: 'upcoming',
+    status: 'active',
     shortDescription: 'Δεμένα σχοινιά διασχίζουν μικτό πεδίο προς την κορυφή Ivory με ροζ ανατολές στις κορυφογραμμές.',
     location: 'Μύτικας, Όλυμπος',
-    activities: ['Ανάβαση Λιβαδάκι - Σκολιό', 'Camp στα Πριόνια', 'Αντίσκηνα στον Λαιμό']
+    activities: ['Ανάβαση Λιβαδάκι - Σκολιό', 'Camp στα Πριόνια', 'Αντίσκηνα στον Λαιμό'],
+    gear: ['Τεχνικό σακίδιο 45L', 'Κράνος - μποντριέ - 2 καραμπίνερ', 'Σετ χειμερινού bivy', 'Ζώνη ασφαλείας και prusik', 'Τσεκούρι πάγου & κραμπόν'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Αναχώρηση από Λιτόχωρο, άνοδος προς Πριόνια', 'Στήσιμο camp και μεσοβραδινή ανάβαση για προσαρμογή', 'Νυχτερινή διάσχιση ridge με υποστήριξη φακών']
+      },
+      {
+        label: 'Ημέρα 2',
+        entries: ['Summit push προς Σκολιό/Μύτικα τα ξημερώματα', 'Τεχνικές ραπέλ σε μικτό πεδίο', 'Επιστροφή και αποσυναρμολόγηση camp']
+      },
+      {
+        label: 'Ημέρα 3',
+        entries: ['Προαιρετική παράκαμψη στον Λαιμό', 'Αξιολόγηση δεξιοτήτων & brunch αποχαιρετισμού']
+      }
+    ]
   },
   {
     slug: 'carrie-pass-late-winter',
@@ -41,10 +67,21 @@ export const trips: Trip[] = [
     elevationGain: 900,
     distanceKm: 16,
     leader: 'Priya Anand',
-    status: 'upcoming',
+    status: 'active',
     shortDescription: 'Ήπια διαδρομή με snowshoe και πεζοπορία μέσα από αλπικά λιβάδια και παγωμένες λίμνες.',
     location: 'Μακρυνόρεμα, Πήλιο',
-    activities: ['Διαδρομή Μακρυνόρεμα', 'Εργαστήριο χάρτη & πυξίδας']
+    activities: ['Διαδρομή Μακρυνόρεμα', 'Εργαστήριο χάρτη & πυξίδας'],
+    gear: ['Σακίδιο 30L', 'Snowshoes ή microspikes', 'Μπατόν πεζοπορίας', 'Αδιάβροχα στρώματα', 'Θερμός με ζεστό ρόφημα'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Εισαγωγή στο shelter και διανομή χάρτη', 'Πεζοπορία δίπλα στο ρέμα με στάσεις ανάγνωσης εδάφους', 'Βραδινό workshop προσανατολισμού']
+      },
+      {
+        label: 'Ημέρα 2',
+        entries: ['Σύντομη ανάβαση σε πανοραμικό σημείο', 'Ασκήσεις team navigation & επιστροφή']
+      }
+    ]
   },
   {
     slug: 'granite-arete-mentorship',
@@ -55,10 +92,17 @@ export const trips: Trip[] = [
     elevationGain: 500,
     distanceKm: 6,
     leader: 'Silvia Prado',
-    status: 'past',
+    status: 'active',
     shortDescription: 'Προχωρημένες ομάδες τοποθετούν ασφάλειες στη Βόρεια Ακρώρεια ενώ καθοδηγούν νέα στελέχη ανάβασης.',
     location: 'Μετέωρα, Καλαμπάκα',
-    activities: ['Multi-pitch στο Δούπι', 'Σεμινάριο τοποθέτησης friends']
+    activities: ['Multi-pitch στο Δούπι', 'Σεμινάριο τοποθέτησης friends'],
+    gear: ['Σακίδιο 35L', 'Σετ friends & nuts', 'Διπλά σχοινιά 60m', 'Κράνος - μποντριέ', 'Παπούτσια αναρρίχησης & γάντια'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Συνάντηση στη βάση των Μετεώρων', 'Επαναληπτική θεωρία τοποθέτησης προστασιών', 'Ανάβαση 3 σχοινιών και coaching σε κάθε ρελέ']
+      }
+    ]
   },
   {
     slug: 'solstice-glacier-glide',
@@ -70,10 +114,21 @@ export const trips: Trip[] = [
     elevationGain: 1400,
     distanceKm: 20,
     leader: 'Aaron Wells',
-    status: 'upcoming',
+    status: 'active',
     shortDescription: 'Ταχύτατη περιοδεία σε παγετώνα με στόχο την πιο φωτεινή μέρα και ανανέωση δεξιοτήτων διάσωσης σε κρεβάς.',
     location: 'Χιονοδρομικό Βασιλίτσας',
-    activities: ['Ski & snowboard park sessions', 'Χιονοδρομία προς Σμόλικα']
+    activities: ['Ski & snowboard park sessions', 'Χιονοδρομία προς Σμόλικα'],
+    gear: ['Σκι ή splitboard', 'Beacon - φτυάρι - προμνήμα', 'Ισοθερμικά', 'Κράνος & μάσκα', 'Power bank & φακός κεφαλής'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Check-in στο καταφύγιο Βασιλίτσας', 'Προθέρμανση στο park και ασκήσεις ισορροπίας', 'Βραδινό masterclass διάσωσης σε κρεβάς']
+      },
+      {
+        label: 'Ημέρα 2',
+        entries: ['Διαδρομή προς Σμόλικα με διαδοχικά couloirs', 'Αποθεραπεία και stretching στη βάση']
+      }
+    ]
   },
   {
     slug: 'ember-peak-linkup',
@@ -85,9 +140,72 @@ export const trips: Trip[] = [
     elevationGain: 1500,
     distanceKm: 19,
     leader: 'Noah Delaroche',
-    status: 'past',
+    status: 'active',
     shortDescription: 'Κλασικός συνδυασμός βράχου και χιονιού με χρυσαφένια ανατολή πάνω από την οροσειρά Coast.',
     location: 'Τύμφη, Δρακόλιμνη',
-    activities: ['Διάσχιση Κακαρδίτσα', 'Loop στη Δρακόλιμνη']
+    activities: ['Διάσχιση Κακαρδίτσα', 'Loop στη Δρακόλιμνη'],
+    gear: ['Σακίδιο 45L', 'Σκηνή ελαφριά', 'Σετ φίλτρανσης νερού', 'Μπατόν & κράνος', 'Σετ πρώτων βοηθειών ομάδας'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Ανάβαση προς Κακαρδίτσα με ενδιάμεσες στάσεις φωτογραφίας', 'Εγκατάσταση bivouac στη ράχη και workshop διατροφής']
+      },
+      {
+        label: 'Ημέρα 2',
+        entries: ['Πρωινό τρέξιμο γύρω από τη Δρακόλιμνη', 'Τεχνικές skimountaineering στην επιστροφή', 'Κατάβαση προς Μικρό Πάπιγκο']
+      }
+    ]
+  },
+  {
+    slug: 'orliakas-alpine-sprint',
+    title: 'Alpine Sprint στον Ορλιάκα',
+    startDate: '2026-06-21',
+    endDate: '2026-06-22',
+    type: 'mountaineering',
+    difficulty: 3,
+    elevationGain: 1100,
+    distanceKm: 15,
+    leader: 'Eleni Marantou',
+    status: 'active',
+    shortDescription: 'Διήμερο ridge run με διανυκτέρευση σε bivouac και focus στην ασφάλεια κινήσεων σε εκτεθειμένα σημεία.',
+    location: 'Ορλιάκας, Γρεβενά',
+    activities: ['Ridge traverse', 'Night navigation clinic'],
+    gear: ['Σακίδιο 32L', 'Ελαφρύ bivy', 'Κράνος & μποντριέ', 'Αντιανεμικό shell', 'GPS tracker & VHF'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Πορεία προς το διάσελο και εγκατάσταση bivy', 'Απογευματινό ridge run με focus στην ταχύτητα', 'Νυχτερινή πλοήγηση με headlamps']
+      },
+      {
+        label: 'Ημέρα 2',
+        entries: ['Τεχνικές ασφάλισης σε εκτεθειμένο μονοπάτι', 'Κατάβαση και κλείσιμο με feedback κύκλου']
+      }
+    ]
+  },
+  {
+    slug: 'axelos-skyline-retreat',
+    title: 'Skyline Retreat στον Άξελο',
+    startDate: '2026-08-09',
+    endDate: '2026-08-10',
+    type: 'hiking',
+    difficulty: 2,
+    elevationGain: 700,
+    distanceKm: 12,
+    leader: 'Giannis Koufos',
+    status: 'canceled',
+    shortDescription: 'Χαλαρή διαδρομή με yoga sessions στην κορυφή και εργαστήρια bushcraft, αναβλήθηκε λόγω εργασιών στο μονοπάτι.',
+    location: 'Αξιός, Άξελος',
+    activities: ['Sunrise hike', 'Outdoor yoga', 'Bushcraft basics'],
+    gear: ['Σακίδιο 28L', 'Χαλάκι yoga', 'Αδιάβροχο poncho', 'Εργαλεία bushcraft (μαχαίρι, σκοινί)', 'Ελαφριά κουβέρτα'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Άφιξη στο basecamp και καλωσόρισμα', 'Απογευματινό μάθημα bushcraft', 'Βραδινό κύκλος αναπνοών κάτω από τα αστέρια']
+      },
+      {
+        label: 'Ημέρα 2',
+        entries: ['Sunrise yoga στην κορυφή Άξελου', 'Χαλαρή κατάβαση και ενημέρωση για νέα ημερομηνία (trip canceled)']
+      }
+    ]
   }
 ];
