@@ -33,23 +33,30 @@ const tripDateLabel = hasDistinctEndDate && endDateLabel
 
 const timelineStatus = getTripTimelineStatus(trip);
 
+type StatusVariant = "upcoming" | "past" | "canceled";
+
+const statusVariant: StatusVariant =
+  trip.status === "canceled" ? "canceled" : timelineStatus;
+
 const showRegistrationCta = trip.status === "active" && timelineStatus === "upcoming";
 
-const detailStatusMessage = trip.status === "canceled"
+const detailStatusMessage = statusVariant === "canceled"
   ? "Η εξόρμηση ακυρώθηκε και δεν δέχεται νέες συμμετοχές."
-  : timelineStatus === "past"
+  : statusVariant === "past"
     ? "Η εξόρμηση ολοκληρώθηκε. Μείνε συντονισμένος για τις επόμενες περιπέτειες!"
     : null;
 
-const badges = [
-  `${trip.type.toUpperCase()} LINE`,
-  `${trip.difficulty}/5 difficulty`,
-  trip.status === "canceled"
-    ? "CANCELED"
-    : timelineStatus === "upcoming"
-      ? "OPEN SPOTS"
-      : "COMPLETED LOG",
-];
+const statusBadgeLabelMap: Record<StatusVariant, string> = {
+  upcoming: "OPEN SPOTS",
+  past: "COMPLETED LOG",
+  canceled: "CANCELED",
+};
+
+const statusBadgeClassMap: Record<StatusVariant, string> = {
+  upcoming: "bg-brand-moss/15 text-brand-moss border-brand-moss/40",
+  past: "bg-brand-river/20 text-brand-river border-brand-river/40",
+  canceled: "bg-brand-terracotta/15 text-brand-terracotta border-brand-terracotta/40",
+};
 
 const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
 ---
@@ -65,13 +72,17 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
       class="glass-panel px-8 py-10 lg:py-12 lg:px-12 flex flex-col gap-6 bg-brand-river/30"
     >
       <div class="flex flex-wrap items-center gap-3">
-        {
-          badges.map((badge) => (
-            <span class="playful-pill bg-brand-cloud text-brand-pine border-brand-river/20">
-              {badge}
-            </span>
-          ))
-        }
+        <span class="playful-pill bg-brand-cloud text-brand-pine border-brand-river/20">
+          {`${trip.type.toUpperCase()} LINE`}
+        </span>
+        <span class="playful-pill bg-brand-cloud text-brand-pine border-brand-river/20">
+          {`${trip.difficulty}/5 difficulty`}
+        </span>
+        <span
+          class={`playful-pill border ${statusBadgeClassMap[statusVariant]}`}
+        >
+          {statusBadgeLabelMap[statusVariant]}
+        </span>
       </div>
       <div class="flex flex-col gap-4">
         <p
@@ -146,7 +157,9 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
               </svg>
             </a>
           ) : detailStatusMessage && (
-            <div class="glass-panel px-5 py-3 border border-brand-cloud/30 text-brand-mist">
+            <div
+              class={`glass-panel px-5 py-3 border border-brand-cloud/30 ${statusVariant === "canceled" ? "text-brand-terracotta" : "text-brand-mist"}`}
+            >
               {detailStatusMessage}
             </div>
           )

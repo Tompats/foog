@@ -19,7 +19,8 @@ const startDate = new Date(trip.startDate);
 const endDate = trip.endDate ? new Date(trip.endDate) : null;
 
 const isSameDay = !endDate || startDate.getTime() === endDate.getTime();
-const isSameMonthYear = !!endDate &&
+const isSameMonthYear =
+  !!endDate &&
   startDate.getMonth() === endDate.getMonth() &&
   startDate.getFullYear() === endDate.getFullYear();
 
@@ -41,7 +42,7 @@ const typeStyles: Record<Trip["type"], string> = {
 const typeLabels: Record<Trip["type"], string> = {
   hiking: "Πεζοπορία",
   mountaineering: "Ορειβασία",
-  ski: "Σκι & Snowboard",
+  ski: "Ski & Snowboard",
 };
 const typeImages: Record<Trip["type"], string> = {
   hiking: hikingCardImage.src,
@@ -56,9 +57,19 @@ const timelineLabels = {
   past: "Παλαιότερη",
 };
 
-const statusLabel = trip.status === "canceled"
-  ? "Ακυρωμένη"
-  : timelineLabels[timelineStatus];
+type StatusVariant = "upcoming" | "past" | "canceled";
+
+const statusVariant: StatusVariant =
+  trip.status === "canceled" ? "canceled" : timelineStatus;
+
+const statusLabel =
+  statusVariant === "canceled" ? "Ακυρωμένη" : timelineLabels[timelineStatus];
+
+const statusTextClasses: Record<StatusVariant, string> = {
+  upcoming: "text-brand-mossDark",
+  past: "text-brand-river",
+  canceled: "text-brand-terracotta",
+};
 
 // Ski trips place emphasis on flow rather than metrics, so hide the technical stats.
 const shouldShowTechnicalStats = trip.type !== "ski";
@@ -124,44 +135,50 @@ const shouldShowTechnicalStats = trip.type !== "ski";
       </p>
     </div>
     <div class="space-y-3">
-      {shouldShowTechnicalStats && (
-        <div class="flex items-center gap-3 text-sm text-brand-mist">
-          <span class="uppercase tracking-[0.3em] text-xs text-brand-river"
-            >Δυσκολία</span
-          >
-          <div
-            class="flex gap-1"
-            aria-label={`Επίπεδο δυσκολίας ${trip.difficulty} από 5`}
-          >
-            {
-              Array.from({ length: 5 }).map((_, index) => (
+      {
+        shouldShowTechnicalStats && (
+          <div class="flex items-center gap-3 text-sm text-brand-mist">
+            <span class="uppercase tracking-[0.3em] text-xs text-brand-river">
+              Δυσκολία
+            </span>
+            <div
+              class="flex gap-1"
+              aria-label={`Επίπεδο δυσκολίας ${trip.difficulty} από 5`}
+            >
+              {Array.from({ length: 5 }).map((_, index) => (
                 <span
                   class={`h-2.5 w-8 rounded-full transition ${index < trip.difficulty ? "bg-brand-terracotta shadow-inner shadow-brand-terracotta/40" : "bg-brand-river/40"}`}
                 />
-              ))
-            }
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
       <div class="grid grid-cols-2 gap-4 text-sm text-brand-rocky">
-        {shouldShowTechnicalStats && (
-          <div>
-            <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
-              Απόσταση
-            </p>
-            <p class="text-lg font-semibold heading-font">{trip.distanceKm} km</p>
-          </div>
-        )}
-        {shouldShowTechnicalStats && (
-          <div>
-            <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
-              Υψομετρική
-            </p>
-            <p class="text-lg font-semibold heading-font">
-              {trip.elevationGain} m
-            </p>
-          </div>
-        )}
+        {
+          shouldShowTechnicalStats && (
+            <div>
+              <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+                Απόσταση
+              </p>
+              <p class="text-lg font-semibold heading-font">
+                {trip.distanceKm} km
+              </p>
+            </div>
+          )
+        }
+        {
+          shouldShowTechnicalStats && (
+            <div>
+              <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
+                Υψομετρική
+              </p>
+              <p class="text-lg font-semibold heading-font">
+                {trip.elevationGain} m
+              </p>
+            </div>
+          )
+        }
         <div>
           <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
             Αρχηγός
@@ -172,7 +189,9 @@ const shouldShowTechnicalStats = trip.type !== "ski";
           <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
             Κατάσταση
           </p>
-          <p class="text-lg font-semibold heading-font">
+          <p
+            class={`text-lg font-semibold heading-font ${statusTextClasses[statusVariant]}`}
+          >
             {statusLabel}
           </p>
         </div>
