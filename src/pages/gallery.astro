@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import photoBorovets from "../assets/images/foog-borovets.jpg";
@@ -25,7 +27,7 @@ interface InstagramEmbedResult {
 interface GalleryItem {
   title: string;
   subtitle: string;
-  image?: string;
+  image?: ImageMetadata;
   video?: string;
   poster?: string;
   alt?: string;
@@ -35,49 +37,49 @@ const gallery: GalleryItem[] = [
   {
     title: "Προπόνηση σκι στο Μπόροβιτς",
     subtitle: "Χιονοδρομία · 2024",
-    image: photoBorovets.src,
+    image: photoBorovets,
     alt: "Μέλη του Φ.Ο.Ο.Γ. σε χιονοδρομική πλαγιά στο Μπόροβιτς",
   },
   {
     title: "Ορειβατικό μονοπάτι στο Μπόροβιτς",
     subtitle: "Χιονοδρομία & πεζοπορία · 2025",
-    image: photoBorovetsHiking.src,
+    image: photoBorovetsHiking,
     alt: "Ομάδα του Φ.Ο.Ο.Γ. σε μονοπάτι στο Μπόροβιτς",
   },
   {
     title: "Άσκηση αντοχής στο Τριεθνές",
     subtitle: "Πεζοπορία · 2025",
-    image: photoBorovetsHikingTwo.src,
+    image: photoBorovetsHikingTwo,
     alt: "Μέλη βαδίζουν σε χιονισμένη ράχη κοντά στο Μπόροβιτς",
   },
   {
     title: "Αναβάσεις στην Αθαμανία",
     subtitle: "Ορειβασία · 2023",
-    image: photoAthamania.src,
+    image: photoAthamania,
     alt: "Ομάδα του Φ.Ο.Ο.Γ. στην κορυφογραμμή της Αθαμανίας",
   },
   {
     title: "Ράχη Αθαμανίας στο πρώτο φως",
     subtitle: "Ορειβασία · 2024",
-    image: photoAthamaniaRidge.src,
+    image: photoAthamaniaRidge,
     alt: "Κορυφογραμμή της Αθαμανίας με μέλη του Φ.Ο.Ο.Γ.",
   },
   {
     title: "Αετομηλίτσα στο λυκόφως",
     subtitle: "Πεζοπορία · 2024",
-    image: photoAetomilitsa.src,
+    image: photoAetomilitsa,
     alt: "Φ.Ο.Ο.Γ. μελών σε ορεινή στάση στην Αετομηλίτσα",
   },
   {
     title: "Σύνδεση Αετομηλίτσας - Γράμμου",
     subtitle: "Διήμερο · 2024",
-    image: photoAetomilitsaGrammos.src,
+    image: photoAetomilitsaGrammos,
     alt: "Σημαία του Φ.Ο.Ο.Γ. στον Γράμμο με πανοραμική θέα",
   },
   {
     title: "Κορυφές Γράμμου με χιόνι",
     subtitle: "Ορειβασία · 2024",
-    image: photoGrammos.src,
+    image: photoGrammos,
     alt: "Αθλητές του Φ.Ο.Ο.Γ. σε ανάβαση στον Γράμμο",
   },
   {
@@ -89,19 +91,19 @@ const gallery: GalleryItem[] = [
   {
     title: "Καθαρισμός μονοπατιού στο Πάικο",
     subtitle: "Περιβαλλοντική δράση · 2024",
-    image: photoPaiko.src,
+    image: photoPaiko,
     alt: "Εθελοντές του Φ.Ο.Ο.Γ. καθαρίζουν μονοπάτι στο Πάικο",
   },
   {
     title: "Παιδικό τμήμα σκι",
     subtitle: "Εκμάθηση · 2024",
-    image: photoSkiJunior.src,
+    image: photoSkiJunior,
     alt: "Παιδιά με στολές σκι κατά την εκμάθηση",
   },
   {
     title: "Χιονισμένος Προφήτης Ηλίας στον Βόρα",
     subtitle: "Πορεία κορυφής · 2023",
-    image: photoVoras.src,
+    image: photoVoras,
     alt: "Μέλη του Φ.Ο.Ο.Γ. δίπλα στη σημαία στον Προφήτη Ηλία Βόρα",
   },
 ];
@@ -131,7 +133,7 @@ const videoGallery = gallery.filter((item) => item.video);
           {
             photoGallery.map((item) => (
               <figure class="group relative h-64 overflow-hidden rounded-2xl">
-                <img
+                <Image
                   src={item.image}
                   alt={item.alt ?? item.title}
                   class="h-full w-full object-cover transition duration-500 group-hover:scale-105"

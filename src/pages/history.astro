@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import BoardCard from "../components/BoardCard.astro";
@@ -70,14 +71,14 @@ const timeline = [
         </p>
       </article>
       <div class="mt-10 grid gap-6 lg:grid-cols-2">
-        <img
-          src={heroBase.src}
+        <Image
+          src={heroBase}
           alt="Σπιτάκι του συλλόγου"
           class="rounded-2xl object-cover h-64 w-full"
           loading="lazy"
         />
-        <img
-          src={heroEuropeanSkiChampionship.src}
+        <Image
+          src={heroEuropeanSkiChampionship}
           alt="Κατάβαση με σκι"
           class="rounded-2xl object-cover h-64 w-full"
           loading="lazy"

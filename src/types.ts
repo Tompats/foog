@@ -1,3 +1,5 @@
+import type { ImageMetadata } from 'astro';
+
 export type TripType = 'hiking' | 'mountaineering' | 'ski';
 
 export type TripStatus = 'active' | 'canceled';
@@ -52,7 +54,7 @@ export const isTripPast = (trip: Pick<Trip, 'startDate'>, referenceDate?: Date) 
 export interface Coach {
   name: string;
   role: string;
-  photoUrl?: string;
+  photoUrl?: ImageMetadata;
   certifications?: string[];
   bio: string;
   specialties: string[];
@@ -61,6 +63,6 @@ export interface Coach {
 export interface BoardMember {
   name: string;
   role: string;
-  photoUrl?: string;
+  photoUrl?: ImageMetadata;
   bio: string;
 }

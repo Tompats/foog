@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import type { Trip } from "../types";
 import { getTripTimelineStatus } from "../types";
 import hikingCardImage from "../assets/cards/hiking-card.jpg";
@@ -44,10 +46,10 @@ const typeLabels: Record<Trip["type"], string> = {
   mountaineering: "Ορειβασία",
   ski: "Ski & Snowboard",
 };
-const typeImages: Record<Trip["type"], string> = {
-  hiking: hikingCardImage.src,
-  mountaineering: mountaineeringCardImage.src,
-  ski: skiCardImage.src,
+const typeImages: Record<Trip["type"], ImageMetadata> = {
+  hiking: hikingCardImage,
+  mountaineering: mountaineeringCardImage,
+  ski: skiCardImage,
 };
 
 const timelineStatus = getTripTimelineStatus(trip);
@@ -82,7 +84,7 @@ const shouldShowTechnicalStats = trip.type !== "ski";
   data-difficulty={trip.difficulty}
 >
   <div class="h-40 w-full overflow-hidden relative">
-    <img
+    <Image
       src={typeImages[trip.type]}
       alt={trip.title}
       class="h-full w-full object-cover"

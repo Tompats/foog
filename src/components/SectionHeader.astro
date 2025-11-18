@@ -3,25 +3,32 @@ interface Props {
   title: string;
   eyebrow?: string;
   subtitle?: string;
-  tone?: 'light' | 'dark';
+  tone?: "light" | "dark";
 }
 
-const { title, eyebrow, subtitle, tone = 'light' } = Astro.props;
-const headingClass = tone === 'light' ? 'text-brand-cloud' : 'text-brand-rocky';
-const subtitleClass = tone === 'light' ? 'text-brand-mist' : 'text-brand-river';
-const pillColor = tone === 'light' ? 'text-brand-moss' : 'text-brand-pine';
-const dotColor = tone === 'light' ? 'bg-brand-terracotta' : 'bg-brand-pine';
-const dotColorAlt = tone === 'light' ? 'bg-brand-moss' : 'bg-brand-terracotta';
+const { title, eyebrow, subtitle, tone = "light" } = Astro.props;
+const headingClass = tone === "light" ? "text-brand-cloud" : "text-brand-rocky";
+const subtitleClass = tone === "light" ? "text-brand-mist" : "text-brand-river";
+const pillColor = tone === "light" ? "text-brand-moss" : "text-brand-pine";
+const dotColor = tone === "light" ? "bg-brand-terracotta" : "bg-brand-pine";
+const dotColorAlt = tone === "light" ? "bg-brand-moss" : "bg-brand-terracotta";
 ---
+
 <div class="text-center max-w-3xl mx-auto mb-12">
-  {eyebrow && (
-    <div class="flex items-center justify-center gap-2 mb-2">
-      <span class={`h-2 w-2 rounded-full ${dotColor}`}></span>
-      <p class={`text-xs uppercase tracking-[0.4em] ${pillColor}`}>{eyebrow}</p>
-      <span class={`h-2 w-2 rounded-full ${dotColorAlt}`}></span>
-    </div>
-  )}
-  <h2 class={`text-3xl sm:text-4xl font-semibold heading-font ${headingClass}`}>{title}</h2>
+  {
+    eyebrow && (
+      <div class="flex items-center justify-center gap-2 mb-2">
+        <span class={`h-2 w-2 rounded-full ${dotColor}`} />
+        <p class={`text-xs uppercase tracking-[0.4em] ${pillColor}`}>
+          {eyebrow}
+        </p>
+        <span class={`h-2 w-2 rounded-full ${dotColorAlt}`} />
+      </div>
+    )
+  }
+  <h2 class={`text-3xl sm:text-4xl font-semibold heading-font ${headingClass}`}>
+    {title}
+  </h2>
   {subtitle && <p class={`mt-4 text-lg ${subtitleClass}`}>{subtitle}</p>}
   <div class="squiggle-divider mt-6 mx-auto w-32" aria-hidden="true"></div>
 </div>

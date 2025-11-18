@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import type { BoardMember } from "../types";
 
 interface Props {
@@ -16,7 +17,7 @@ const avatarWrapperClasses =
   <div class={avatarWrapperClasses}>
     {
       member.photoUrl ? (
-        <img
+        <Image
           src={member.photoUrl}
           alt={member.name}
           class="h-full w-full object-cover"

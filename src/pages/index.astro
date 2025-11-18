@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TripCard from "../components/TripCard.astro";
 import SectionHeader from "../components/SectionHeader.astro";
@@ -52,27 +53,27 @@ const features = [
 
 const heroGallery = [
   {
-    src: heroBorovets.src,
+    image: heroBorovets,
     alt: "Πεζοπορία του Φ.Ο.Ο.Γ. στο Μπόροβιτς",
     caption: "Μπόροβιτς · Ορειβασία 2025",
   },
   {
-    src: heroBorovetsTwo.src,
+    image: heroBorovetsTwo,
     alt: "Ομάδα βαδίζει προς την κορυφή",
     caption: "Πεζοπορία · Ρίλα",
   },
   {
-    src: heroGrammos.src,
+    image: heroGrammos,
     alt: "Ανάβαση του Φ.Ο.Ο.Γ. στον Γράμμο",
     caption: "Ορειβασία · Γράμμος",
   },
   {
-    src: heroBorevetsSki.src,
+    image: heroBorevetsSki,
     alt: "Εκδρομή του Φ.Ο.Ο.Γ. στο Μπόροβιτς",
     caption: "Μπόροβιτς · 2ήμερο Χιονοδρομίας",
   },
   {
-    src: heroSkiJuniorLesson.src,
+    image: heroSkiJuniorLesson,
     alt: "Προπόνηση μικρής ομάδας στα 3-5 πηγάδια",
     caption: "Προπόνηση Σκι - 3/5 Πηγάδια",
   },
@@ -155,8 +156,8 @@ const homepageStructuredData = {
           <div
             class="relative rounded-[32px] overflow-hidden shadow-2xl shadow-brand-river/40 border border-brand-river/30 h-80 lg:h-96 bg-brand-river/10"
           >
-            <img
-              src={foogVoras.src}
+            <Image
+              src={foogVoras}
               alt="Σημαία του Φ.Ο.Ο.Γ. σε χιονισμένη κορυφή"
               class="h-full w-full object-cover"
               loading="lazy"
@@ -258,8 +259,8 @@ const homepageStructuredData = {
                   data-gallery-card
                 >
                   <div class="relative h-56 sm:h-64 rounded-3xl overflow-hidden">
-                    <img
-                      src={photo.src}
+                    <Image
+                      src={photo.image}
                       alt={photo.alt}
                       class="h-full w-full object-cover"
                       loading="lazy"
