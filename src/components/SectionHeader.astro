@@ -8,7 +8,8 @@ interface Props {
 
 const { title, eyebrow, subtitle, tone = "light" } = Astro.props;
 const headingClass = tone === "light" ? "text-brand-cloud" : "text-brand-rocky";
-const subtitleClass = tone === "light" ? "text-brand-mist" : "text-brand-river";
+const subtitleClass =
+  tone === "light" ? "text-brand-mistLight" : "text-brand-river";
 const pillColor = tone === "light" ? "text-brand-moss" : "text-brand-pine";
 const dotColor = tone === "light" ? "bg-brand-terracotta" : "bg-brand-pine";
 const dotColorAlt = tone === "light" ? "bg-brand-moss" : "bg-brand-terracotta";

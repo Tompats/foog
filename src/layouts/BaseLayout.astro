@@ -75,6 +75,15 @@ const navLinks = [
 ];
 
 const homeHref = withBase("/");
+const normalizePath = (path: string) => path.replace(/\/$/, "") || "/";
+const currentPath = normalizePath(Astro.url.pathname);
+const getLinkPath = (href: string) => {
+  try {
+    return normalizePath(new URL(href, Astro.url).pathname);
+  } catch {
+    return normalizePath(href);
+  }
+};
 ---
 
 <!doctype html>
@@ -130,7 +139,8 @@ const homeHref = withBase("/");
     ))}
   </head>
   <body class="relative min-h-screen text-brand-rocky">
-    <div class="absolute inset-0 -z-10">
+    <a href="#main-content" class="skip-link">Μετάβαση στο κύριο περιεχόμενο</a>
+    <div class="absolute inset-0 -z-10" aria-hidden="true">
       <div
         class="h-96 w-full bg-gradient-to-b from-brand-moss/25 via-transparent to-transparent blur-3xl"
       >
@@ -144,6 +154,8 @@ const homeHref = withBase("/");
           viewBox="0 0 1440 280"
           xmlns="http://www.w3.org/2000/svg"
           class="w-full h-full"
+          aria-hidden="true"
+          focusable="false"
         >
           <path
             d="M0 220L80 190L180 210L260 150L360 190L460 130L560 200L660 140L760 210L860 160L960 210L1040 150L1160 190L1260 130L1360 180L1440 140V280H0Z"
@@ -182,6 +194,7 @@ const homeHref = withBase("/");
                 type="button"
                 aria-controls="nav-menu-mobile"
                 aria-expanded="false"
+                aria-haspopup="true"
                 class="lg:hidden inline-flex items-center gap-2 rounded-full border border-brand-pine/30 px-4 py-2 text-sm font-semibold text-brand-rocky hover:text-brand-terracotta"
               >
                 Μενού
@@ -202,16 +215,21 @@ const homeHref = withBase("/");
               <nav
                 id="nav-menu"
                 class="hidden flex-wrap items-center gap-3 text-sm font-semibold text-brand-rocky lg:flex"
+                aria-label="Κύρια πλοήγηση"
               >
                 {
-                  navLinks.map((link) => (
-                    <a
-                      href={link.href}
-                      class="rounded-full bg-brand-cloud px-4 py-2 border border-brand-river/10 shadow-sm shadow-brand-river/10 transition hover:-translate-y-0.5 hover:text-brand-terracotta"
-                    >
-                      {link.label}
-                    </a>
-                  ))
+                  navLinks.map((link) => {
+                    const isActive = getLinkPath(link.href) === currentPath;
+                    return (
+                      <a
+                        href={link.href}
+                        class="rounded-full bg-brand-cloud px-4 py-2 border border-brand-river/10 shadow-sm shadow-brand-river/10 transition hover:-translate-y-0.5 hover:text-brand-terracotta"
+                        aria-current={isActive ? "page" : undefined}
+                      >
+                        {link.label}
+                      </a>
+                    );
+                  })
                 }
               </nav>
             </div>
@@ -219,17 +237,23 @@ const homeHref = withBase("/");
           <nav
             id="nav-menu-mobile"
             class="mt-4 hidden grid gap-3 text-sm font-semibold text-brand-rocky lg:hidden max-h-[70vh] overflow-y-auto pr-1 scrollbar-hide"
+            aria-label="Κύρια πλοήγηση"
+            aria-hidden="true"
           >
             {
-              navLinks.map((link) => (
-                <a
-                  href={link.href}
-                  data-nav-mobile-link
-                  class="w-full rounded-2xl border border-brand-river/40 bg-brand-cloud px-4 py-3 text-center transition hover:border-brand-terracotta/60 hover:text-brand-terracotta"
-                >
-                  {link.label}
-                </a>
-              ))
+              navLinks.map((link) => {
+                const isActive = getLinkPath(link.href) === currentPath;
+                return (
+                  <a
+                    href={link.href}
+                    data-nav-mobile-link
+                    class="w-full rounded-2xl border border-brand-river/40 bg-brand-cloud px-4 py-3 text-center transition hover:border-brand-terracotta/60 hover:text-brand-terracotta"
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    {link.label}
+                  </a>
+                );
+              })
             }
           </nav>
         </div>
@@ -237,9 +261,10 @@ const homeHref = withBase("/");
       <div
         id="nav-overlay"
         class="fixed inset-0 bg-brand-river/50 backdrop-blur-sm z-30 hidden lg:hidden"
+        aria-hidden="true"
       >
       </div>
-      <main class="flex-1 pb-20">
+      <main id="main-content" class="flex-1 pb-20" role="main" tabindex="-1">
         <slot />
       </main>
       <footer class="section-padding">
@@ -253,7 +278,7 @@ const homeHref = withBase("/");
               φροντίδα των αγαπημένων μας βουνών.
             </p>
           </div>
-          <div class="space-y-2 text-brand-mist">
+          <nav class="space-y-2 text-brand-mist" aria-label="Σύνδεσμοι υποσέλιδου">
             <a href={withBase("/trips")} class="block hover:text-brand-pine">Εξορμήσεις</a>
             <a href={withBase("/join")} class="block hover:text-brand-pine">Γίνε μέλος</a>
             <a href={withBase("/contact")} class="block hover:text-brand-pine"
@@ -262,7 +287,7 @@ const homeHref = withBase("/");
             <a href={withBase("/winter-sports")} class="block hover:text-brand-pine"
               >Εκπαίδευση</a
             >
-          </div>
+          </nav>
           <div class="text-brand-mist space-y-2">
             <p>
               Ηλ. ταχυδρομείο: <a
@@ -322,29 +347,52 @@ const homeHref = withBase("/");
 
         if (!toggle || !mobile) return;
 
-        const setOpen = (isOpen: boolean | undefined) => {
-          mobile.classList.toggle("hidden", !isOpen);
-          overlay?.classList.toggle("hidden", !isOpen);
-          body.classList.toggle("overflow-hidden", isOpen);
-          toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        const isMenuOpen = () => !mobile.classList.contains("hidden");
+        const setOpen = (nextState, options = {}) => {
+          const shouldOpen = nextState;
+          const { shouldReturnFocus = true } = options;
+          mobile.classList.toggle("hidden", !shouldOpen);
+          overlay?.classList.toggle("hidden", !shouldOpen);
+          body.classList.toggle("overflow-hidden", shouldOpen);
+          toggle.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+          mobile.setAttribute("aria-hidden", shouldOpen ? "false" : "true");
+
+          if (shouldOpen) {
+            const firstLink = mobile.querySelector("a, button, [tabindex]:not([tabindex='-1'])");
+            if (firstLink instanceof HTMLElement) {
+              firstLink.focus();
+            }
+          } else if (
+            shouldReturnFocus &&
+            mobile.contains(document.activeElement)
+          ) {
+            toggle.focus();
+          }
         };
 
-        const isOpen = () => !mobile.classList.contains("hidden");
-
         toggle.addEventListener("click", () => {
-          setOpen(!isOpen());
+          setOpen(!isMenuOpen());
         });
 
         overlay?.addEventListener("click", () => setOpen(false));
 
         mobile.querySelectorAll("[data-nav-mobile-link]").forEach((link) => {
-          link.addEventListener("click", () => setOpen(false));
+          link.addEventListener("click", () =>
+            setOpen(false, { shouldReturnFocus: false })
+          );
         });
 
         window.addEventListener("resize", () => {
           if (window.innerWidth >= 1024) {
             setOpen(false);
             body.classList.remove("overflow-hidden");
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && isMenuOpen()) {
+            event.preventDefault();
+            setOpen(false);
           }
         });
       })();

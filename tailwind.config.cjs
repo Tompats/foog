@@ -14,7 +14,8 @@ module.exports = {
           moss: '#A7C957',
           mossDark:'#96b44e',
           rocky: '#1C1C1C',
-          mist: '#6F888B'
+          mist: '#6F888B',
+          mistLight: '#b7c3c5'
         }
       },
       fontFamily: {

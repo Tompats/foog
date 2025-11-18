@@ -14,6 +14,29 @@ body {
   background-attachment: fixed;
 }
 
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 50;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  background: #fdf8ee;
+  color: #0f1a1b;
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  top: 1rem;
+}
+
+:is(a, button, input, select, textarea, summary, [role="button"]):focus-visible {
+  outline: 3px solid #e26d5a;
+  outline-offset: 3px;
+}
+
 h1,
 h2,
 h3,

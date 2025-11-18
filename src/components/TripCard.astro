@@ -13,6 +13,7 @@ interface Props {
 }
 
 const { trip } = Astro.props;
+const difficultyLabelId = `trip-${trip.slug}-difficulty`;
 
 const monthFormatter = new Intl.DateTimeFormat("el-GR", { month: "short" });
 const dayFormatter = new Intl.DateTimeFormat("el-GR", { day: "2-digit" });
@@ -143,10 +144,10 @@ const shouldShowTechnicalStats = trip.type !== "ski";
             <span class="uppercase tracking-[0.3em] text-xs text-brand-river">
               Δυσκολία
             </span>
-            <div
-              class="flex gap-1"
-              aria-label={`Επίπεδο δυσκολίας ${trip.difficulty} από 5`}
-            >
+            <span class="sr-only" id={difficultyLabelId}>
+              Επίπεδο δυσκολίας {trip.difficulty} από 5
+            </span>
+            <div class="flex gap-1" aria-hidden="true">
               {Array.from({ length: 5 }).map((_, index) => (
                 <span
                   class={`h-2.5 w-8 rounded-full transition ${index < trip.difficulty ? "bg-brand-terracotta shadow-inner shadow-brand-terracotta/40" : "bg-brand-river/40"}`}

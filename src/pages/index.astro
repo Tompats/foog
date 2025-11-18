@@ -51,6 +51,24 @@ const features = [
   },
 ];
 
+const heroStats = [
+  {
+    value: "30+",
+    valueClass: "text-3xl text-brand-pine",
+    label: "Εξορμησεις/ετος",
+  },
+  {
+    value: "250+",
+    valueClass: "text-3xl text-brand-terracotta",
+    label: "Μελη",
+  },
+  {
+    value: "∞",
+    valueClass: "text-5xl text-brand-moss",
+    label: "Ιστοριες",
+  },
+];
+
 const heroGallery = [
   {
     image: heroBorovets,
@@ -175,24 +193,14 @@ const homepageStructuredData = {
         </figure>
       </div>
       <div class="mt-8 grid gap-4 sm:grid-cols-3 text-center">
-        <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
-          <p class="text-3xl font-bold text-brand-pine heading-font">30+</p>
-          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
-            Εξορμησεις/ετος
-          </p>
-        </div>
-        <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
-          <p class="text-3xl font-bold text-brand-terracotta heading-font">
-            250+
-          </p>
-          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">Μελη</p>
-        </div>
-        <div class="rounded-2xl bg-brand-cloud/70 py-4 px-2 shadow-sm">
-          <p class="text-5xl font-bold text-brand-moss heading-font">∞</p>
-          <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
-            Ιστοριες
-          </p>
-        </div>
+        {heroStats.map((stat) => (
+          <div class="rounded-2xl bg-brand-cloud/70 py-6 px-4 shadow-sm flex flex-col items-center justify-center min-h-[140px]">
+            <p class={`font-bold heading-font ${stat.valueClass}`}>{stat.value}</p>
+            <p class="mt-2 text-xs uppercase tracking-[0.3em] text-brand-mist">
+              {stat.label}
+            </p>
+          </div>
+        ))}
       </div>
       <div class="mt-12 space-y-4">
         <div class="flex flex-wrap items-center justify-between gap-4">
@@ -200,9 +208,9 @@ const homepageStructuredData = {
             <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
               Φωτογραφικά στιγμιότυπα
             </p>
-            <h3 class="text-xl font-semibold text-brand-rocky heading-font">
+            <h2 class="text-xl font-semibold text-brand-rocky heading-font">
               Τελευταίες λήψεις από την παρέα
-            </h3>
+            </h2>
           </div>
           <div class="flex gap-2">
             <button
@@ -384,9 +392,9 @@ const homepageStructuredData = {
                 <i class={`${feature.iconClass} text-2xl`} aria-hidden="true" />
               </div>
               <div>
-                <h3 class="text-xl font-semibold text-brand-rocky heading-font">
+                <h2 class="text-xl font-semibold text-brand-rocky heading-font">
                   {feature.title}
-                </h3>
+                </h2>
                 <p class="text-brand-mist text-sm mt-2">{feature.body}</p>
               </div>
             </div>
