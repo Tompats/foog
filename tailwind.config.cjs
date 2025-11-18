@@ -18,9 +18,9 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['"Karla"', ...defaultTheme.fontFamily.sans],
-        heading: ['"Comfortaa"', ...defaultTheme.fontFamily.sans],
-        body: ['"Karla"', ...defaultTheme.fontFamily.sans]
+        sans: ['"Nunito"', ...defaultTheme.fontFamily.sans],
+        heading: ['"Quicksand"', ...defaultTheme.fontFamily.sans],
+        body: ['"Nunito"', ...defaultTheme.fontFamily.sans]
       },
       backgroundImage: {
         'alpine-gradient': 'radial-gradient(circle at 20% 20%, rgba(167, 201, 87, 0.25), transparent 55%), radial-gradient(circle at 80% 0%, rgba(226, 109, 90, 0.18), transparent 40%), linear-gradient(135deg, #FDFAF6 0%, #F2F0EA 60%, #FDFAF6 100%)'
