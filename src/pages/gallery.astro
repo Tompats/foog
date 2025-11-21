@@ -108,7 +108,9 @@ const gallery: GalleryItem[] = [
   },
 ];
 
-const photoGallery = gallery.filter((item) => item.image && !item.video);
+const photoGallery = gallery.filter(
+  (item): item is GalleryItem & { image: ImageMetadata } => Boolean(item.image) && !item.video,
+);
 const videoGallery = gallery.filter((item) => item.video);
 ---
 

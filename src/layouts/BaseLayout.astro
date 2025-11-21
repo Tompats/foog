@@ -348,7 +348,8 @@ const getLinkPath = (href: string) => {
         if (!toggle || !mobile) return;
 
         const isMenuOpen = () => !mobile.classList.contains("hidden");
-        const setOpen = (nextState, options = {}) => {
+        type MenuOptions = { shouldReturnFocus?: boolean };
+        const setOpen = (nextState: boolean, options: MenuOptions = {}) => {
           const shouldOpen = nextState;
           const { shouldReturnFocus = true } = options;
           mobile.classList.toggle("hidden", !shouldOpen);
