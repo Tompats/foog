@@ -113,7 +113,7 @@ const homepageStructuredData = {
 ---
 
 <BaseLayout structuredData={[homepageStructuredData]}>
-  <section class="section-padding pt-10">
+  <section class="section-padding pt-10" data-reveal>
     <div
       class="glass-panel px-8 py-14 lg:px-12 lg:py-20 overflow-hidden relative"
     >
@@ -158,19 +158,19 @@ const homepageStructuredData = {
           <div class="mt-10 flex flex-wrap gap-4">
             <a
               href={withBase("/trips")}
-              class="inline-flex items-center justify-center rounded-full bg-brand-terracotta px-8 py-3 text-base font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
+              class="btn-ripple inline-flex items-center justify-center rounded-full bg-brand-terracotta px-8 py-3 text-base font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
             >
               Δες τις επόμενες εξορμήσεις
             </a>
             <a
               href={withBase("/join")}
-              class="inline-flex items-center justify-center rounded-full border border-brand-pine/30 px-8 py-3 text-base font-semibold text-brand-pine hover:border-brand-terracotta hover:text-brand-terracotta transition"
+              class="btn-ripple inline-flex items-center justify-center rounded-full border border-brand-pine/30 px-8 py-3 text-base font-semibold text-brand-pine hover:border-brand-terracotta hover:text-brand-terracotta transition"
             >
               Γίνε μέλος
             </a>
           </div>
         </div>
-        <figure class="relative mt-4 lg:mt-0 lg:w-[700px]">
+        <figure class="relative mt-4 lg:mt-0 lg:w-[700px]" data-tilt="6">
           <div
             class="relative rounded-[32px] overflow-hidden shadow-2xl shadow-brand-river/40 border border-brand-river/30 h-80 lg:h-[440px] bg-brand-river/10"
           >
@@ -260,14 +260,20 @@ const homepageStructuredData = {
           <div
             class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
             data-gallery-track
+            role="listbox"
+            aria-label="Γκαλερί φωτογραφιών του Φ.Ο.Ο.Γ."
           >
             {
-              heroGallery.map((photo) => (
+              heroGallery.map((photo, index) => (
                 <figure
-                  class="min-w-[75%] sm:min-w-[320px] lg:min-w-[360px] snap-start shrink-0"
+                  class="w-[75%] sm:w-[320px] lg:w-[360px] snap-start shrink-0"
                   data-gallery-card
+                  data-selected={index === 0 ? "true" : "false"}
+                  aria-selected={index === 0 ? "true" : "false"}
+                  role="option"
+                  tabindex={index === 0 ? "0" : "-1"}
                 >
-                  <div class="relative h-56 sm:h-64 rounded-3xl overflow-hidden">
+                  <div class="carousel-card relative h-56 sm:h-64 rounded-3xl overflow-hidden">
                     <Image
                       src={photo.image}
                       alt={photo.alt}
@@ -275,7 +281,11 @@ const homepageStructuredData = {
                       loading="lazy"
                     />
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-river/70 via-transparent to-transparent" />
-                    <figcaption class="absolute bottom-4 left-4 text-brand-cloud text-sm font-semibold">
+                    <figcaption
+                      class="carousel-caption absolute bottom-4 left-4 text-brand-cloud text-sm font-semibold"
+                      data-gallery-caption
+                      aria-hidden={index === 0 ? "false" : "true"}
+                    >
                       {photo.caption}
                     </figcaption>
                   </div>
@@ -288,7 +298,7 @@ const homepageStructuredData = {
     </div>
   </section>
 
-  <section class="section-padding" id="upcoming-trips">
+  <section class="section-padding" id="upcoming-trips" data-reveal>
     <SectionHeader
       eyebrow="Σχεδιασμός"
       title="Επερχόμενες περιπέτειες"
@@ -336,7 +346,7 @@ const homepageStructuredData = {
     </div>
   </section>
 
-  <section class="section-padding">
+  <section class="section-padding" data-reveal>
     <div class="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-center">
       <div>
         <SectionHeader
@@ -405,26 +415,237 @@ const homepageStructuredData = {
     </div>
   </section>
 
+  <style>
+    [data-gallery-card] {
+      transition: opacity 200ms ease, transform 200ms ease;
+    }
+
+    [data-gallery-card][data-selected="false"] {
+      opacity: 0.55;
+    }
+
+    [data-gallery-card] .carousel-card {
+      transition: transform 250ms ease, box-shadow 250ms ease;
+    }
+
+    [data-gallery-card][data-selected="false"] .carousel-card {
+      transform: scale(0.97);
+    }
+
+    [data-gallery-card][data-selected="true"] .carousel-card {
+      box-shadow: 0 10px 26px rgba(16, 44, 51, 0.25);
+    }
+
+    .carousel-caption {
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 250ms ease, transform 250ms ease;
+    }
+
+    [data-gallery-card][data-selected="true"] .carousel-caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+
   <script>
     (() => {
       const track = document.querySelector("[data-gallery-track]");
       if (!track) return;
+
       const prevButton = document.querySelector("[data-gallery-prev]");
       const nextButton = document.querySelector("[data-gallery-next]");
+      const cards = Array.from(
+        track.querySelectorAll("[data-gallery-card]")
+      );
+      if (!cards.length) return;
 
-      const getStep = () => {
-        const card = track.querySelector("[data-gallery-card]");
-        const gap = 16; // matches gap-4
-        return card ? card.clientWidth + gap : 320;
+      let activeIndex = Math.max(
+        0,
+        cards.findIndex((card) => card.dataset.selected === "true")
+      );
+      const AUTOPLAY_DELAY = 3500;
+      let autoplayTimer;
+      let scrollFrame;
+      let suppressScrollSync = false;
+      let suppressScrollTimeout;
+
+      const getMaxScrollLeft = () =>
+        Math.max(0, track.scrollWidth - track.clientWidth);
+      const isAtStart = () => track.scrollLeft <= 4;
+      const isAtEnd = () => getMaxScrollLeft() - track.scrollLeft <= 4;
+
+      const updateSelection = () => {
+        cards.forEach((card, index) => {
+          const isSelected = index === activeIndex;
+          card.dataset.selected = isSelected ? "true" : "false";
+          card.setAttribute("aria-selected", String(isSelected));
+          card.setAttribute("tabindex", isSelected ? "0" : "-1");
+          const caption = card.querySelector("[data-gallery-caption]");
+          if (caption) {
+            caption.setAttribute("aria-hidden", String(!isSelected));
+          }
+        });
+      };
+
+      const temporarilyDisableScrollSync = (duration = 450) => {
+        suppressScrollSync = true;
+        window.clearTimeout(suppressScrollTimeout);
+        suppressScrollTimeout = window.setTimeout(() => {
+          suppressScrollSync = false;
+        }, duration);
+      };
+
+      const scrollToActive = (behavior = "smooth") => {
+        const activeCard = cards[activeIndex];
+        if (!activeCard) return;
+        const maxScrollLeft = getMaxScrollLeft();
+        const idealLeft =
+          activeCard.offsetLeft - (track.clientWidth - activeCard.clientWidth) / 2;
+        const nextScrollLeft = Math.min(
+          maxScrollLeft,
+          Math.max(0, idealLeft)
+        );
+        const distance = Math.abs(nextScrollLeft - track.scrollLeft);
+        const duration =
+          behavior === "smooth"
+            ? Math.min(1000, Math.max(450, distance * 0.8))
+            : 200;
+        temporarilyDisableScrollSync(duration);
+        track.scrollTo({ left: nextScrollLeft, behavior });
+      };
+
+      const goToIndex = (nextIndex, options = {}) => {
+        if (!cards.length) return;
+        const { scrollBehavior = "smooth" } = options;
+        const total = cards.length;
+        activeIndex = ((nextIndex % total) + total) % total;
+        updateSelection();
+        scrollToActive(scrollBehavior);
+      };
+
+      const showNext = () => goToIndex(activeIndex + 1);
+      const showPrev = () => goToIndex(activeIndex - 1);
+
+      const stopAutoplay = () => {
+        if (!autoplayTimer) return;
+        window.clearInterval(autoplayTimer);
+        autoplayTimer = undefined;
+      };
+
+      const startAutoplay = () => {
+        if (autoplayTimer || cards.length <= 1) return;
+        autoplayTimer = window.setInterval(() => {
+          showNext();
+        }, AUTOPLAY_DELAY);
+      };
+
+      const restartAutoplay = () => {
+        stopAutoplay();
+        startAutoplay();
       };
 
       prevButton?.addEventListener("click", () => {
-        track.scrollBy({ left: -getStep(), behavior: "smooth" });
+        showPrev();
+        restartAutoplay();
       });
 
       nextButton?.addEventListener("click", () => {
-        track.scrollBy({ left: getStep(), behavior: "smooth" });
+        showNext();
+        restartAutoplay();
       });
+
+      cards.forEach((card, index) => {
+        card.addEventListener("click", () => {
+          if (index === activeIndex) return;
+          goToIndex(index);
+          restartAutoplay();
+        });
+
+        card.addEventListener("focus", () => {
+          if (document.activeElement !== card) return;
+          activeIndex = index;
+          updateSelection();
+        });
+
+        card.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            showNext();
+            restartAutoplay();
+          } else if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            showPrev();
+            restartAutoplay();
+          }
+        });
+      });
+
+      const attachAutoplayListeners = (element) => {
+        if (!element) return;
+        element.addEventListener("pointerenter", stopAutoplay);
+        element.addEventListener("pointerleave", startAutoplay);
+        element.addEventListener("touchstart", stopAutoplay, { passive: true });
+        element.addEventListener("touchend", startAutoplay);
+      };
+
+      attachAutoplayListeners(track);
+      attachAutoplayListeners(prevButton);
+      attachAutoplayListeners(nextButton);
+
+      track.addEventListener(
+        "wheel",
+        () => {
+          stopAutoplay();
+        },
+        { passive: true }
+      );
+
+      const syncSelectionToScroll = () => {
+        if (isAtStart()) {
+          if (activeIndex !== 0) {
+            activeIndex = 0;
+            updateSelection();
+          }
+          return;
+        }
+
+        if (isAtEnd()) {
+          const lastIndex = cards.length - 1;
+          if (activeIndex !== lastIndex) {
+            activeIndex = lastIndex;
+            updateSelection();
+          }
+          return;
+        }
+
+        const center = track.scrollLeft + track.clientWidth / 2;
+        let closestIndex = activeIndex;
+        let smallestDistance = Number.POSITIVE_INFINITY;
+
+        cards.forEach((card, index) => {
+          const cardCenter = card.offsetLeft + card.clientWidth / 2;
+          const distance = Math.abs(cardCenter - center);
+          if (distance < smallestDistance) {
+            smallestDistance = distance;
+            closestIndex = index;
+          }
+        });
+
+        if (closestIndex !== activeIndex) {
+          activeIndex = closestIndex;
+          updateSelection();
+        }
+      };
+
+      track.addEventListener("scroll", () => {
+        if (suppressScrollSync) return;
+        if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
+        scrollFrame = window.requestAnimationFrame(syncSelectionToScroll);
+      });
+
+      updateSelection();
+      startAutoplay();
     })();
   </script>
 </BaseLayout>

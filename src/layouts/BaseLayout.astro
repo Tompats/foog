@@ -172,7 +172,10 @@ const getLinkPath = (href: string) => {
       </div>
     </div>
     <div class="relative flex min-h-screen flex-col">
-      <header class="section-padding pt-2 sm:pt-3 lg:pt-4 pb-4 sm:pb-5 lg:pb-6 relative z-40">
+      <header
+        data-nav-header
+        class="nav-header sticky top-0 left-0 right-0 z-50 px-6 sm:px-8 lg:px-12 pt-2 sm:pt-3 lg:pt-4 pb-4 sm:pb-5 lg:pb-6"
+      >
         <div class="glass-panel px-6 py-6 lg:py-5">
           <div
             class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
@@ -219,17 +222,17 @@ const getLinkPath = (href: string) => {
                 aria-label="Κύρια πλοήγηση"
               >
                 {
-                  navLinks.map((link) => {
-                    const isActive = getLinkPath(link.href) === currentPath;
-                    return (
-                      <a
-                        href={link.href}
-                        class="rounded-full bg-brand-cloud px-4 py-2 border border-brand-river/10 shadow-sm shadow-brand-river/10 transition hover:-translate-y-0.5 hover:text-brand-terracotta"
-                        aria-current={isActive ? "page" : undefined}
-                      >
-                        {link.label}
-                      </a>
-                    );
+              navLinks.map((link) => {
+                const isActive = getLinkPath(link.href) === currentPath;
+                return (
+                  <a
+                    href={link.href}
+                    class="nav-link rounded-full bg-brand-cloud px-4 py-2 border border-brand-river/10 shadow-sm shadow-brand-river/10 transition hover:-translate-y-0.5 hover:text-brand-terracotta"
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    {link.label}
+                  </a>
+                );
                   })
                 }
               </nav>
@@ -248,7 +251,7 @@ const getLinkPath = (href: string) => {
                   <a
                     href={link.href}
                     data-nav-mobile-link
-                    class="w-full rounded-2xl border border-brand-river/40 bg-brand-cloud px-4 py-3 text-center transition hover:border-brand-terracotta/60 hover:text-brand-terracotta"
+                    class="nav-link w-full rounded-2xl border border-brand-river/40 bg-brand-cloud px-4 py-3 text-center transition hover:border-brand-terracotta/60 hover:text-brand-terracotta"
                     aria-current={isActive ? "page" : undefined}
                   >
                     {link.label}
@@ -339,12 +342,138 @@ const getLinkPath = (href: string) => {
         </div>
       </footer>
     </div>
+    <script is:inline>
+      (() => {
+        if (typeof window === "undefined") return;
+        const prefersReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        const initReveal = () => {
+          const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
+          if (!revealEls.length) return;
+          if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+            revealEls.forEach((el) => el.classList.add('is-revealed'));
+            return;
+          }
+
+          const observer = new IntersectionObserver(
+            (entries, obs) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('is-revealed');
+                  obs.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.25, rootMargin: '0px 0px -5% 0px' }
+          );
+
+          const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+          revealEls.forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            const isInView = rect.top <= viewportHeight * 0.9 && rect.bottom > 0;
+            if (isInView) {
+              el.classList.add('is-revealed');
+            }
+            observer.observe(el);
+          });
+
+          requestAnimationFrame(() => {
+            document.body.classList.add('reveal-enabled');
+          });
+        };
+
+        const initTilt = () => {
+          const tiltEls = document.querySelectorAll('[data-tilt]');
+          if (!tiltEls.length) return;
+          if (
+            prefersReducedMotion ||
+            !window.matchMedia('(pointer:fine)').matches
+          )
+            return;
+
+          tiltEls.forEach((el) => {
+            const maxTilt = Number(el.getAttribute('data-tilt')) || 6;
+            const handleMove = (event) => {
+              const rect = el.getBoundingClientRect();
+              const x = (event.clientX - rect.left) / rect.width - 0.5;
+              const y = (event.clientY - rect.top) / rect.height - 0.5;
+              const rotateX = (-y * maxTilt).toFixed(2);
+              const rotateY = (x * maxTilt).toFixed(2);
+              el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1)`;
+            };
+            const reset = () => {
+              el.style.transform = '';
+            };
+            el.addEventListener('pointermove', handleMove);
+            el.addEventListener('pointerleave', reset);
+          });
+        };
+
+        const init = () => {
+          initReveal();
+          initTilt();
+        };
+
+        if (
+          document.readyState === 'complete' ||
+          document.readyState === 'interactive'
+        ) {
+          init();
+        } else {
+          window.addEventListener('DOMContentLoaded', init, { once: true });
+        }
+      })();
+    </script>
     <script>
       (() => {
         const toggle = document.getElementById("nav-toggle");
         const mobile = document.getElementById("nav-menu-mobile");
         const overlay = document.getElementById("nav-overlay");
+        const header = document.querySelector<HTMLElement>("[data-nav-header]");
         const body = document.body;
+
+        const showHeader = () => header?.classList.remove("nav-header-hidden");
+        const hideHeader = () => header?.classList.add("nav-header-hidden");
+        let disableAutoHide = false;
+        let lastScrollY = window.scrollY;
+        let scrollTicking = false;
+        const scrollThreshold = 12;
+
+        const updateHeaderVisibility = () => {
+          if (!header || disableAutoHide) return;
+          const currentY = window.scrollY;
+          if (currentY <= header.offsetHeight) {
+            showHeader();
+            lastScrollY = currentY;
+            return;
+          }
+
+          if (currentY > lastScrollY + scrollThreshold) {
+            hideHeader();
+          } else if (currentY < lastScrollY - scrollThreshold) {
+            showHeader();
+          }
+
+          lastScrollY = currentY;
+        };
+
+        if (header) {
+          window.addEventListener(
+            "scroll",
+            () => {
+              if (scrollTicking) return;
+              scrollTicking = true;
+              requestAnimationFrame(() => {
+                updateHeaderVisibility();
+                scrollTicking = false;
+              });
+            },
+            { passive: true }
+          );
+        }
 
         if (!toggle || !mobile) return;
 
@@ -358,6 +487,13 @@ const getLinkPath = (href: string) => {
           body.classList.toggle("overflow-hidden", shouldOpen);
           toggle.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
           mobile.setAttribute("aria-hidden", shouldOpen ? "false" : "true");
+          disableAutoHide = shouldOpen;
+          if (shouldOpen) {
+            showHeader();
+          } else {
+            lastScrollY = window.scrollY;
+            requestAnimationFrame(() => updateHeaderVisibility());
+          }
 
           if (shouldOpen) {
             const firstLink = mobile.querySelector("a, button, [tabindex]:not([tabindex='-1'])");
@@ -388,6 +524,8 @@ const getLinkPath = (href: string) => {
           if (window.innerWidth >= 1024) {
             setOpen(false);
             body.classList.remove("overflow-hidden");
+            disableAutoHide = false;
+            showHeader();
           }
         });
 

@@ -118,7 +118,7 @@ const videoGallery = gallery.filter((item) => item.video);
   title="Γκαλερί"
   description="Εικόνες από πρόσφατες ορειβατικές, σκι και mentoring δράσεις."
 >
-  <section class="section-padding">
+  <section class="section-padding" data-reveal>
     <SectionHeader
       eyebrow="Οπτικό"
       title="Γκαλερί"
@@ -134,7 +134,10 @@ const videoGallery = gallery.filter((item) => item.video);
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {
             photoGallery.map((item) => (
-              <figure class="group relative h-64 overflow-hidden rounded-2xl">
+              <figure
+                class="group relative h-64 overflow-hidden rounded-2xl"
+                data-reveal
+              >
                 <Image
                   src={item.image}
                   alt={item.alt ?? item.title}
@@ -160,7 +163,10 @@ const videoGallery = gallery.filter((item) => item.video);
             <div class="max-w-5xl">
               <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {videoGallery.map((item) => (
-                  <figure class="flex w-full max-w-[18rem] flex-col gap-3 text-left">
+                  <figure
+                    class="flex w-full max-w-[18rem] flex-col gap-3 text-left"
+                    data-reveal
+                  >
                     <div class="aspect-[9/16] w-full overflow-hidden rounded-2xl bg-black">
                       <video
                         class="h-full w-full object-cover"

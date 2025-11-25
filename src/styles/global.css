@@ -49,6 +49,41 @@ a {
   @apply text-brand-pine hover:text-brand-terracotta transition-colors;
 }
 
+.nav-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 65%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(226, 109, 90, 0.2), rgba(226, 109, 90, 0.85), rgba(226, 109, 90, 0.2));
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s ease;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after,
+.nav-link[aria-current="page"]::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.nav-header {
+  transition: transform 0.45s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.nav-header.nav-header-hidden {
+  transform: translateY(-120%);
+}
+
 .glass-panel {
   @apply bg-brand-cloud/80 border border-brand-river/25 backdrop-blur-2xl rounded-[28px] shadow-xl shadow-brand-river/30;
 }
@@ -92,6 +127,59 @@ a {
   .shimmer-hover::after {
     animation: none !important;
   }
+}
+
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 0%, transparent 65%);
+  opacity: 0;
+  transform: scale(0.2);
+  transition: opacity 0.4s ease, transform 0.6s ease;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.btn-ripple:hover::after,
+.btn-ripple:focus-visible::after {
+  opacity: 0.4;
+  transform: scale(2.5);
+}
+
+[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+body.reveal-enabled [data-reveal] {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+body.reveal-enabled [data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.reveal-enabled [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+[data-tilt] {
+  transition: transform 0.45s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .section-padding {
