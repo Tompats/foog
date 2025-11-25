@@ -16,6 +16,33 @@ const steps = [
   "Παρακολούθησε την ενημέρωση ασφάλειας και γνώρισε τους συνοδούς πριν από την πρώτη εξόρμηση.",
   "Δήλωσε συμμετοχή σε εξορμήσεις ή περιβαλλοντικές δράσεις και συνδέσου με την κοινότητα.",
 ];
+
+const impactStats = [
+  {
+    label: "Ενεργά μέλη",
+    value: 82,
+    suffix: "+",
+    description: "συμμετέχουν κάθε σεζόν σε δράσεις",
+  },
+  {
+    label: "Χειμερινές εξορμήσεις",
+    value: 28,
+    suffix: "/έτος",
+    description: "σε Πίνδο, Βόρα και Βέρμιο",
+  },
+  {
+    label: "Προπονητές & συνοδοί",
+    value: 14,
+    suffix: "+",
+    description: "πιστοποιημένοι εθελοντές",
+  },
+  {
+    label: "Ώρες εθελοντισμού",
+    value: 320,
+    suffix: "+",
+    description: "σε καθαρισμούς και δεντροφυτεύσεις",
+  },
+];
 ---
 
 <BaseLayout
@@ -29,7 +56,7 @@ const steps = [
       subtitle="Ανοιχτό σε σκιέρ, αναρριχητές, πεζοπόρους και νέους ορειβάτες"
     />
     <div class="grid gap-10 lg:grid-cols-2">
-      <div class="glass-panel p-8 space-y-5">
+      <div class="glass-panel shimmer-hover p-8 space-y-5">
         <h3 class="text-2xl font-semibold text-brand-rocky">
           Γιατί να έρθεις στον Φ.Ο.Ο.Γ.;
         </h3>
@@ -72,7 +99,7 @@ const steps = [
           </div>
         </div>
       </div>
-      <div class="glass-panel p-8 space-y-6">
+      <div class="glass-panel shimmer-hover p-8 space-y-6">
         <h3 class="text-2xl font-semibold text-brand-rocky">Βήματα εγγραφής</h3>
         <ol class="space-y-4">
           {
@@ -100,4 +127,87 @@ const steps = [
       </div>
     </div>
   </section>
+  <section class="section-padding pt-0">
+    <div class="glass-panel shimmer-hover px-8 py-10 space-y-8">
+      <div class="flex flex-wrap items-start justify-between gap-6">
+        <div>
+          <p class="text-xs uppercase tracking-[0.45em] text-brand-mist">
+            Δύναμη κοινότητας
+          </p>
+          <h3 class="mt-2 text-3xl font-semibold text-brand-rocky heading-font">
+            Μαζί μεγαλώνουμε
+          </h3>
+        </div>
+        <p class="max-w-xl text-brand-mist">
+          Οι αριθμοί κρατούν ζωντανή την ιστορία μας: κάθε νέα εγγραφή σημαίνει
+          περισσότερους συνοδούς, πιο ασφαλείς εξορμήσεις και μεγαλύτερο αποτύπωμα
+          προσφοράς στο βουνό.
+        </p>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {
+          impactStats.map((stat) => (
+            <div
+              class="shimmer-hover rounded-2xl border border-brand-river/25 bg-brand-cloud/80 p-6 text-center shadow-brand-river/10 shadow-lg"
+            >
+              <p class="text-xs uppercase tracking-[0.35em] text-brand-mist">
+                {stat.label}
+              </p>
+              <p class="mt-3 text-4xl font-bold text-brand-rocky heading-font">
+                <span
+                  data-stat-value
+                  data-target={stat.value}
+                  aria-live="polite"
+                >
+                  0
+                </span>
+                {stat.suffix && (
+                  <span class="ml-1 text-2xl text-brand-mist">{stat.suffix}</span>
+                )}
+              </p>
+              <p class="mt-3 text-sm text-brand-mist">{stat.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <script is:inline>
+    (() => {
+      const statElements = document.querySelectorAll('[data-stat-value]');
+      if (!statElements.length) return;
+
+      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+      const animateValue = (el) => {
+        const target = Number(el.dataset.target ?? 0);
+        const duration = 1600;
+        const start = performance.now();
+
+        const tick = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = easeOutCubic(progress);
+          const current = Math.round(target * eased);
+          el.textContent = current.toLocaleString('el-GR');
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+
+        requestAnimationFrame(tick);
+      };
+
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateValue(entry.target);
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.4, rootMargin: '0px 0px -10% 0px' }
+      );
+
+      statElements.forEach((el) => observer.observe(el));
+    })();
+  </script>
 </BaseLayout>

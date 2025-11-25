@@ -53,6 +53,47 @@ a {
   @apply bg-brand-cloud/80 border border-brand-river/25 backdrop-blur-2xl rounded-[28px] shadow-xl shadow-brand-river/30;
 }
 
+.shimmer-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-hover::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0.7) 50%, transparent 55%);
+  transform: translateX(-120%) rotate(12deg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: screen;
+}
+
+.shimmer-hover:hover::after,
+.shimmer-hover:focus-within::after {
+  opacity: 0.65;
+  animation: shimmerSweep 1.4s ease;
+}
+
+@keyframes shimmerSweep {
+  0% {
+    transform: translateX(-120%) rotate(12deg);
+  }
+  100% {
+    transform: translateX(120%) rotate(12deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-hover::after {
+    animation: none !important;
+  }
+}
+
 .section-padding {
   @apply py-16 px-6 sm:px-8 lg:px-12;
 }
