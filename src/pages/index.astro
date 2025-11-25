@@ -450,13 +450,13 @@ const homepageStructuredData = {
 
   <script>
     (() => {
-      const track = document.querySelector("[data-gallery-track]");
+      const track = document.querySelector<HTMLElement>("[data-gallery-track]");
       if (!track) return;
 
-      const prevButton = document.querySelector("[data-gallery-prev]");
-      const nextButton = document.querySelector("[data-gallery-next]");
+      const prevButton = document.querySelector<HTMLElement>("[data-gallery-prev]");
+      const nextButton = document.querySelector<HTMLElement>("[data-gallery-next]");
       const cards = Array.from(
-        track.querySelectorAll("[data-gallery-card]")
+        track.querySelectorAll<HTMLElement>("[data-gallery-card]")
       );
       if (!cards.length) return;
 
@@ -465,10 +465,10 @@ const homepageStructuredData = {
         cards.findIndex((card) => card.dataset.selected === "true")
       );
       const AUTOPLAY_DELAY = 3500;
-      let autoplayTimer;
-      let scrollFrame;
+      let autoplayTimer: number | undefined;
+      let scrollFrame: number | undefined;
       let suppressScrollSync = false;
-      let suppressScrollTimeout;
+      let suppressScrollTimeout: number | undefined;
 
       const getMaxScrollLeft = () =>
         Math.max(0, track.scrollWidth - track.clientWidth);
@@ -496,7 +496,7 @@ const homepageStructuredData = {
         }, duration);
       };
 
-      const scrollToActive = (behavior = "smooth") => {
+      const scrollToActive = (behavior: ScrollBehavior = "smooth") => {
         const activeCard = cards[activeIndex];
         if (!activeCard) return;
         const maxScrollLeft = getMaxScrollLeft();
@@ -515,7 +515,14 @@ const homepageStructuredData = {
         track.scrollTo({ left: nextScrollLeft, behavior });
       };
 
-      const goToIndex = (nextIndex, options = {}) => {
+      type CarouselTransitionOptions = {
+        scrollBehavior?: ScrollBehavior;
+      };
+
+      const goToIndex = (
+        nextIndex: number,
+        options: CarouselTransitionOptions = {}
+      ) => {
         if (!cards.length) return;
         const { scrollBehavior = "smooth" } = options;
         const total = cards.length;
@@ -568,7 +575,7 @@ const homepageStructuredData = {
           updateSelection();
         });
 
-        card.addEventListener("keydown", (event) => {
+        card.addEventListener("keydown", (event: KeyboardEvent) => {
           if (event.key === "ArrowRight") {
             event.preventDefault();
             showNext();
@@ -581,7 +588,7 @@ const homepageStructuredData = {
         });
       });
 
-      const attachAutoplayListeners = (element) => {
+      const attachAutoplayListeners = (element: HTMLElement | null) => {
         if (!element) return;
         element.addEventListener("pointerenter", stopAutoplay);
         element.addEventListener("pointerleave", startAutoplay);
@@ -640,7 +647,9 @@ const homepageStructuredData = {
 
       track.addEventListener("scroll", () => {
         if (suppressScrollSync) return;
-        if (scrollFrame) window.cancelAnimationFrame(scrollFrame);
+        if (scrollFrame !== undefined) {
+          window.cancelAnimationFrame(scrollFrame);
+        }
         scrollFrame = window.requestAnimationFrame(syncSelectionToScroll);
       });
 

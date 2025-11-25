@@ -1,0 +1,214 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import { siteMetadata } from "../data/site";
+import { withBase } from "../utils/url";
+
+const quickLinks = [
+  {
+    title: "Επόμενες εξορμήσεις",
+    description:
+      "Γνώρισε τις πεζοπορίες, τις αναρριχητικές και τα τμήματα χιονοδρομίας που έχουμε προγραμματίσει.",
+    href: withBase("/trips"),
+    icon: "fa-solid fa-map-location-dot",
+    cta: "Δες το πρόγραμμα",
+  },
+  {
+    title: "Η ιστορία μας",
+    description:
+      "Μάθε πώς από το 1973 μέχρι σήμερα η κοινότητα του Φ.Ο.Ο.Γ. μεγάλωσε και άλλαξε τα βουνά γύρω από τα Γιαννιτσά.",
+    href: withBase("/history"),
+    icon: "fa-solid fa-timeline",
+    cta: "Γνώρισε τον όμιλο",
+  },
+  {
+    title: "Γίνε μέλος",
+    description:
+      "Συμπλήρωσε τη φόρμα εγγραφής, ενημερώσου για τις συνδρομές και ξεκίνα να μοιράζεσαι διαδρομές μαζί μας.",
+    href: withBase("/join"),
+    icon: "fa-solid fa-person-hiking",
+    cta: "Συμπλήρωσε συμμετοχή",
+  },
+];
+
+const supportActions = [
+  {
+    label: "Παραμένουν οι κορυφές",
+    detail:
+      "Δοκίμασε να ελέγξεις την ορθογραφία ή χρησιμοποίησε την πλοήγηση για να βρεις την ενότητα που ζητάς.",
+  },
+  {
+    label: "Επικοινώνησε με τον όμιλο",
+    detail: `Στείλε email στο ${siteMetadata.contactEmail} ή κάλεσε στο ${siteMetadata.phone} για να σε κατευθύνουμε.`,
+  },
+  {
+    label: "Πρότεινε νέα διαδρομή",
+    detail:
+      "Μοιράσου την ιδέα σου ή μια ενημέρωση για τα μονοπάτια ώστε να τη συμπεριλάβουμε στο ημερολόγιο.",
+  },
+];
+
+const breadcrumbs = [
+  { label: "Αρχική", href: withBase("/") },
+  { label: "404" },
+];
+
+const heroQuote = "Οι κορυφές είναι πάντα εκεί· αρκεί να βρούμε το σωστό μονοπάτι.";
+---
+
+<BaseLayout
+  title="Σελίδα δεν βρέθηκε"
+  description="Η σελίδα που ζήτησες δεν βρέθηκε. Επιστροφή σε ασφαλές μονοπάτι με καθοδήγηση από τον Φ.Ο.Ο.Γ."
+  noindex
+>
+  <section class="section-padding">
+    <div class="grid gap-8 lg:grid-cols-[1.1fr,0.9fr] items-stretch">
+      <div class="glass-panel px-8 py-12 lg:px-10 lg:py-16 flex flex-col gap-6" data-reveal>
+        <nav aria-label="Breadcrumb" class="text-sm text-brand-mist flex items-center gap-2">
+          {
+            breadcrumbs.map((item, index) => (
+              <span class="flex items-center gap-2">
+                {item.href ? (
+                  <a href={item.href} class="hover:text-brand-terracotta">
+                    {item.label}
+                  </a>
+                ) : (
+                  <span aria-current="page">{item.label}</span>
+                )}
+                {index < breadcrumbs.length - 1 && (
+                  <span aria-hidden="true">/</span>
+                )}
+              </span>
+            ))
+          }
+        </nav>
+        <div>
+          <p class="text-sm uppercase tracking-[0.4em] text-brand-moss">
+            Σφάλμα 404
+          </p>
+          <h1 class="mt-4 text-4xl sm:text-5xl font-semibold heading-font text-brand-rocky">
+            Χάθηκε το μονοπάτι σου
+          </h1>
+          <p class="mt-5 text-lg text-brand-mist">
+            Η διεύθυνση που πληκτρολόγησες δεν υπάρχει ή έχει μετακινηθεί. Ας σε
+            βοηθήσουμε να συνεχίσεις το ταξίδι σου στις σελίδες του ομίλου.
+          </p>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="rounded-2xl bg-brand-river/10 border border-brand-river/30 p-4 text-center">
+            <p class="text-4xl font-black text-brand-pine">404</p>
+            <p class="text-xs uppercase tracking-[0.4em] text-brand-mist">
+              Δεν βρέθηκε
+            </p>
+          </div>
+          <div class="rounded-2xl bg-brand-cloud/80 border border-brand-river/30 p-4 flex flex-col justify-center">
+            <p class="text-sm text-brand-mist">Αγαπημένο σημείο</p>
+            <p class="text-lg font-semibold text-brand-rocky">Καταφύγιο Αγίας Παρασκευής</p>
+          </div>
+          <div class="rounded-2xl bg-brand-terracotta/10 border border-brand-terracotta/40 p-4 flex flex-col justify-center">
+            <p class="text-sm text-brand-mist">Πηγή βοήθειας</p>
+            <a class="text-lg font-semibold" href={withBase("/contact")}>
+              Επικοινωνία
+            </a>
+          </div>
+        </div>
+        <blockquote class="rounded-2xl border border-brand-river/30 bg-brand-cloud/70 p-6 text-brand-rocky">
+          <p class="text-sm uppercase tracking-[0.35em] text-brand-mist">
+            Οδηγός πεδίου
+          </p>
+          <p class="mt-3 text-xl font-semibold leading-relaxed">
+            {heroQuote}
+          </p>
+        </blockquote>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href={withBase("/")}
+            class="btn-ripple inline-flex items-center justify-center rounded-full bg-brand-terracotta px-8 py-3 text-base font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 hover:scale-[1.02] hover:text-brand-cloud"
+          >
+            Επιστροφή στην αρχική
+          </a>
+          <a
+            href={withBase("/trips")}
+            class="btn-ripple inline-flex items-center justify-center rounded-full border border-brand-pine/40 px-8 py-3 text-base font-semibold text-brand-pine hover:border-brand-terracotta hover:text-brand-terracotta"
+          >
+            Δες τις εξορμήσεις
+          </a>
+        </div>
+      </div>
+      <div class="glass-panel px-6 py-10 lg:px-8 flex flex-col gap-10" data-reveal>
+        <div>
+          <SectionHeader
+            eyebrow="Προτεινόμενα μονοπάτια"
+            title="Τι θα ήθελες να κάνεις;"
+            subtitle="Επίλεξε μια δημοφιλή ενότητα ή μίλησε απευθείας με την ομάδα"
+            tone="dark"
+          />
+        </div>
+        <div class="space-y-4">
+          {
+            quickLinks.map((link) => (
+              <a
+                class="shimmer-hover block rounded-2xl border border-brand-river/30 bg-brand-cloud/70 p-5 transition hover:-translate-y-0.5"
+                href={link.href}
+              >
+                <div class="flex items-start gap-4">
+                  <div class="h-12 w-12 rounded-full bg-brand-river/10 text-brand-pine flex items-center justify-center text-xl">
+                    <i class={link.icon}></i>
+                  </div>
+                  <div>
+                    <p class="text-lg font-semibold text-brand-rocky">
+                      {link.title}
+                    </p>
+                    <p class="mt-2 text-sm text-brand-mist">
+                      {link.description}
+                    </p>
+                    <span class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-brand-pine">
+                      {link.cta}
+                      <i class="fa-solid fa-arrow-right"></i>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+        <div class="rounded-3xl border border-brand-river/30 bg-brand-river/5 p-6">
+          <p class="text-sm uppercase tracking-[0.4em] text-brand-mist">
+            Κοινότητα Φ.Ο.Ο.Γ
+          </p>
+          <ul class="mt-4 space-y-4">
+            {
+              supportActions.map((item) => (
+                <li class="flex gap-4">
+                  <span class="mt-1 h-3 w-3 rounded-full bg-brand-terracotta"></span>
+                  <div>
+                    <p class="text-base font-semibold text-brand-rocky">
+                      {item.label}
+                    </p>
+                    <p class="text-sm text-brand-mist">{item.detail}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="mt-6 rounded-2xl bg-brand-cloud/80 p-5">
+            <p class="text-sm text-brand-mist">Email</p>
+            <a
+              href={`mailto:${siteMetadata.contactEmail}`}
+              class="text-lg font-semibold text-brand-pine"
+            >
+              {siteMetadata.contactEmail}
+            </a>
+            <p class="mt-4 text-sm text-brand-mist">Τηλέφωνο</p>
+            <a
+              href={`tel:${siteMetadata.phone.replace(/\s+/g, "")}`}
+              class="text-lg font-semibold text-brand-pine"
+            >
+              {siteMetadata.phone}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
