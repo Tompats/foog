@@ -1,6 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
+import { siteMetadata } from "../data/site";
+
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+const web3FormsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? "";
+const contactEmail = siteMetadata.contactEmail;
+const clubPhone = siteMetadata.phone;
 ---
 
 <BaseLayout
@@ -26,9 +32,9 @@ import SectionHeader from "../components/SectionHeader.astro";
             Συναντήσεις: Τετάρτες 18:30–21:00 · Ξύλινο σπιτάκι
           </p>
           <p class="text-brand-mist">
-            Email: <a href="mailto:foog@gmail.com">foog@gmail.com</a>
+            Email: <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
           </p>
-          <p class="text-brand-mist">Τηλέφωνο: +30 23820 00000</p>
+          <p class="text-brand-mist">Τηλέφωνο: {clubPhone}</p>
         </div>
         <div class="glass-panel space-y-3 overflow-hidden rounded-3xl p-0">
           <div class="contact-map">
@@ -62,74 +68,98 @@ import SectionHeader from "../components/SectionHeader.astro";
           </div>
         </div>
       </div>
-      <div class="glass-panel p-8 space-y-6">
-        <div>
-          <h3 class="text-2xl font-semibold text-brand-rocky">
-            Μίλησε με την ομάδα
-          </h3>
-          <p class="mt-2 text-brand-mist">
-            Προτιμάμε τις άμεσες συνομιλίες. Χρησιμοποίησε το κανάλι που σου
-            ταιριάζει και θα απαντήσουμε το συντομότερο.
-          </p>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <a
-            href="mailto:foog@gmail.com"
-            class="flex flex-col gap-1 rounded-2xl border border-brand-river/40 bg-brand-cloud/70 p-4 text-brand-rocky transition hover:border-brand-river/70"
+      <div class="glass-panel p-8">
+        <form action={WEB3FORMS_ENDPOINT} method="POST" class="space-y-6">
+          <input
+            type="hidden"
+            name="access_key"
+            value={web3FormsAccessKey}
+          />
+          <input
+            type="hidden"
+            name="subject"
+            value="Νέο μήνυμα επικοινωνίας από foog.gr"
+          />
+          <input type="hidden" name="from_name" value="F.O.O.G. website" />
+          <div class="hidden" aria-hidden="true">
+            <label class="text-sm text-brand-mist">
+              Μην συμπληρώνεις αυτό το πεδίο
+              <input
+                type="text"
+                name="botcheck"
+                tabindex="-1"
+                autocomplete="off"
+                class="w-px border-0 bg-transparent p-0"
+              />
+            </label>
+          </div>
+          <div>
+            <h3 class="text-2xl font-semibold text-brand-rocky">
+              Μίλησε με την ομάδα
+            </h3>
+            <p class="mt-2 text-brand-mist">
+              Συμπλήρωσε τη φόρμα με το μήνυμά σου. Θα απαντήσουμε σε 1–2 εργάσιμες
+              ημέρες και μπορούμε να σε καλέσουμε πίσω αν χρειαστεί.
+            </p>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2 mb-4">
+            <label class="space-y-1 text-sm font-medium text-brand-rocky">
+              <span class="text-brand-mist">Ονοματεπώνυμο</span>
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="Πλήρες όνομα"
+                class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+              />
+            </label>
+            <label class="space-y-1 text-sm font-medium text-brand-rocky">
+              <span class="text-brand-mist">Email</span>
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="name@email.com"
+                class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+              />
+            </label>
+          </div>
+          <label class="space-y-1 text-sm font-medium text-brand-rocky">
+            <span class="text-brand-mist">Τηλέφωνο (προαιρετικό)</span>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="π.χ. +30 69 1234 5678"
+              class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+            />
+          </label>
+          <label class="space-y-1 text-sm font-medium text-brand-rocky">
+            <span class="text-brand-mist">Μήνυμα</span>
+            <textarea
+              name="message"
+              rows="5"
+              required
+              placeholder="Πες μας πώς μπορούμε να βοηθήσουμε"
+              class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+            ></textarea>
+          </label>
+          <button
+            type="submit"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-river px-4 py-3 text-base font-semibold text-brand-cloud transition hover:bg-brand-terracotta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-terracotta focus-visible:ring-offset-brand-cloud"
           >
-            <span class="text-sm uppercase tracking-wide text-brand-mist"
-              >Email</span
-            >
-            <span class="font-semibold">foog@gmail.com</span>
-            <span class="text-sm text-brand-mist">24/7 inbox</span>
-          </a>
-          <a
-            href="tel:+302382000000"
-            class="flex flex-col gap-1 rounded-2xl border border-brand-river/40 bg-brand-cloud/70 p-4 text-brand-rocky transition hover:border-brand-river/70"
-          >
-            <span class="text-sm uppercase tracking-wide text-brand-mist"
-              >Τηλέφωνο</span
-            >
-            <span class="font-semibold">+30 23820 00000</span>
-            <span class="text-sm text-brand-mist">Τετ. 18:30–21:00</span>
-          </a>
-          <a
-            href="https://www.instagram.com/f.o.o.giannitson/"
-            target="_blank"
-            rel="noreferrer"
-            class="flex flex-col gap-1 rounded-2xl border border-brand-river/40 bg-brand-cloud/70 p-4 text-brand-rocky transition hover:border-brand-river/70"
-          >
-            <span class="text-sm uppercase tracking-wide text-brand-mist"
-              >Instagram</span
-            >
-            <span class="font-semibold">@f.o.o.giannitson</span>
-            <span class="text-sm text-brand-mist">Story updates & events</span>
-          </a>
-          <a
-            href="https://www.facebook.com/profile.php?id=100064516099445"
-            target="_blank"
-            rel="noreferrer"
-            class="flex flex-col gap-1 rounded-2xl border border-brand-river/40 bg-brand-cloud/70 p-4 text-brand-rocky transition hover:border-brand-river/70"
-          >
-            <span class="text-sm uppercase tracking-wide text-brand-mist"
-              >Facebook</span
-            >
-            <span class="font-semibold">Φ.Ο.Ο.Γ. κοινότητα</span>
-            <span class="text-sm text-brand-mist">Νέα & ανακοινώσεις</span>
-          </a>
-        </div>
-        <div
-          class="rounded-3xl border border-brand-river/20 bg-brand-cloud/50 p-6"
-        >
-          <p class="font-semibold text-brand-rocky">
-            Θέλεις προσωπική καθοδήγηση;
-          </p>
-          <p class="text-brand-mist">
-            Πέρασε από τα γραφεία μας κάθε Τετάρτη 18:30–21:00. Θα σε υποδεχτούν
-            μέλη του Δ.Σ. και οι αρχηγοί εξορμήσεων για να πούμε από κοντά τις
-            ανάγκες σου και να οργανώσουμε την επόμενη εξόρμηση ή εκπαίδευση.
-          </p>
-        </div>
+            Στείλε το μήνυμα
+          </button>
+          <div class="rounded-3xl border border-brand-river/20 bg-brand-cloud/50 p-6 text-sm">
+            <p class="font-semibold text-brand-rocky">
+              Θέλεις προσωπική καθοδήγηση;
+            </p>
+            <p class="text-brand-mist">
+              Πέρασε από τα γραφεία μας κάθε Τετάρτη 18:30–21:00. Θα σε υποδεχτούν
+              μέλη του Δ.Σ. και οι αρχηγοί εξορμήσεων για να πούμε από κοντά τις
+              ανάγκες σου και να οργανώσουμε την επόμενη εξόρμηση ή εκπαίδευση.
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   </section>

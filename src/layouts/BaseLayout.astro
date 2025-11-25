@@ -31,6 +31,7 @@ const currentYear = new Date().getFullYear();
 const siteUrl = new URL(siteMetadata.siteUrl);
 const siteOrigin = siteUrl.origin;
 const siteBasePath = siteUrl.pathname.replace(/\/$/, "") || "";
+const contactEmail = siteMetadata.contactEmail;
 
 const ensureAbsoluteUrl = (value?: string | null) => {
   if (!value) return null;
@@ -291,8 +292,8 @@ const getLinkPath = (href: string) => {
           <div class="text-brand-mist space-y-2">
             <p>
               Ηλ. ταχυδρομείο: <a
-                href="mailto:foog@gmail.com"
-                class="font-semibold text-brand-pine">foog@gmail.com</a
+                href={`mailto:${contactEmail}`}
+                class="font-semibold text-brand-pine">{contactEmail}</a
               >
             </p>
             <p class="flex items-center gap-3">
