@@ -55,7 +55,7 @@ export const siteMetadata: SiteMetadata = {
   ],
   locale: "el_GR",
   language: "el",
-  siteUrl: "https://tompats.github.io/foog",
+  siteUrl: "https://www.foog.gr",
   contactEmail: "fooggiannitson@gmail.com",
   phone: "+30 23820 00000",
   address: {
