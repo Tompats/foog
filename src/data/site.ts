@@ -57,7 +57,7 @@ export const siteMetadata: SiteMetadata = {
   language: "el",
   siteUrl: "https://www.foog.gr",
   contactEmail: "fooggiannitson@gmail.com",
-  phone: "+30 23820 00000",
+  phone: "+30 23820 23121",
   address: {
     street: "Ανοιχτού Θεάτρου 8",
     city: "Γιαννιτσά",
