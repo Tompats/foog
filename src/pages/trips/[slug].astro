@@ -209,7 +209,7 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
               <ul class="mt-2 space-y-3">
                 {day.entries.map((item) => (
                   <li class="flex items-start gap-3">
-                    <span class="mt-1 h-2.5 w-2.5 rounded-full bg-brand-moss" />
+                    <span class="mt-1 h-2.5 w-2.5 rounded-full bg-brand-moss shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -227,7 +227,7 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
         {
           trip.gear.map((item) => (
             <li class="flex items-start gap-3">
-              <span class="mt-1 h-2.5 w-2.5 rounded-md bg-brand-terracotta" />
+              <span class="mt-1 h-2.5 w-2.5 rounded-md bg-brand-terracotta shrink-0" />
               <span>{item}</span>
             </li>
           ))

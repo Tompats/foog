@@ -7,6 +7,17 @@
 }
 
 /*
+ * body::before (below) only paints the viewport, so on rubber-band/overscroll
+ * bounce (trackpad or mobile momentum scroll past the top/bottom) the area
+ * beyond it would otherwise show the browser's default white canvas. A plain
+ * background-color on <html> is what the browser actually paints outside the
+ * document, so this keeps overscroll dark instead of flashing white.
+ */
+html {
+  background-color: #0f1a1b;
+}
+
+/*
  * Font Awesome's CDN stylesheet ships its @font-face rules with
  * `font-display: block`, hiding icons for up to 3s while the font loads.
  * Re-declaring the same family/weight/src with `swap` overrides that so
