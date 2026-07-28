@@ -53,19 +53,22 @@ const features = [
 
 const heroStats = [
   {
-    value: "30+",
+    target: 30,
+    suffix: "+",
     valueClass: "text-3xl text-brand-pine",
-    label: "Εξορμησεις/ετος",
+    label: "Εξορμήσεις/έτος",
   },
   {
-    value: "250+",
+    target: 250,
+    suffix: "+",
     valueClass: "text-3xl text-brand-terracotta",
-    label: "Μελη",
+    label: "Μέλη",
   },
   {
-    value: "∞",
+    target: null,
+    display: "∞",
     valueClass: "text-5xl text-brand-moss",
-    label: "Ιστοριες",
+    label: "Ιστορίες",
   },
 ];
 
@@ -150,7 +153,7 @@ const homepageStructuredData = {
             Τα όρη με καλούν...και πρέπει να πάω.
           </h1>
           <p class="mt-6 text-lg text-brand-mist max-w-2xl">
-            Από πέντε φίλους στα Γιαννιτσά το 1973 φτάσαμε σε κοινότητα 252
+            Από πέντε φίλους στα Γιαννιτσά το 1973 φτάσαμε σε κοινότητα 250+
             ενεργών μελών που μοιράζονται στιγμές στο βουνό. Μαθήματα σκι,
             πεζοπορίες, ποδηλασία και δεντροφυτεύσεις δίνουν χώρο σε κάθε
             αρχάριο να αγαπήσει το βουνό.
@@ -196,7 +199,15 @@ const homepageStructuredData = {
       <div class="mt-8 grid gap-4 sm:grid-cols-3 text-center">
         {heroStats.map((stat) => (
           <div class="rounded-2xl bg-brand-cloud/70 py-6 px-4 shadow-sm flex flex-col items-center justify-center min-h-[140px]">
-            <p class={`font-bold heading-font ${stat.valueClass}`}>{stat.value}</p>
+            <p class={`font-bold heading-font ${stat.valueClass}`}>
+              {stat.target !== null ? (
+                <>
+                  <span data-stat-value data-target={stat.target} aria-live="polite">0</span>{stat.suffix}
+                </>
+              ) : (
+                stat.display
+              )}
+            </p>
             <p class="mt-2 text-xs uppercase tracking-[0.3em] text-brand-mist">
               {stat.label}
             </p>
@@ -313,7 +324,7 @@ const homepageStructuredData = {
         </div>
       ) : (
         <div class="glass-panel p-6 text-brand-mist text-center">
-          <p class="text-lg font-semibold text-brand-cloud">
+          <p class="text-lg font-semibold text-brand-rocky">
             Δεν υπάρχουν προγραμματισμένες εξορμήσεις αυτή τη στιγμή.
           </p>
           <p class="mt-2">
@@ -360,7 +371,7 @@ const homepageStructuredData = {
             έναν όμιλο με ελεύθερη πρόσβαση στο βουνό και το 1977 απέκτησε
             καταστατικό με χιονοδρομία, ορειβασία, ποδηλασία βουνού και
             αναρρίχηση. Η οικονομική κρίση του 2010 περιόρισε τις δράσεις μας,
-            όμως η είσοδος νεότερων εθελοντών ξανάφερε τον παλμό και σήμερα 252
+            όμως η είσοδος νεότερων εθελοντών ξανάφερε τον παλμό και σήμερα 250+
             μέλη υποστηρίζουν ένα πρόγραμμα που μεγαλώνει με υπευθυνότητα.
           </p>
           <p>
@@ -450,25 +461,36 @@ const homepageStructuredData = {
 
   <script>
     (() => {
-      const track = document.querySelector<HTMLElement>("[data-gallery-track]");
-      if (!track) return;
-
-      const prevButton = document.querySelector<HTMLElement>("[data-gallery-prev]");
-      const nextButton = document.querySelector<HTMLElement>("[data-gallery-next]");
-      const cards = Array.from(
-        track.querySelectorAll<HTMLElement>("[data-gallery-card]")
-      );
-      if (!cards.length) return;
-
-      let activeIndex = Math.max(
-        0,
-        cards.findIndex((card) => card.dataset.selected === "true")
-      );
-      const AUTOPLAY_DELAY = 3500;
+      // autoplayTimer lives outside initCarousel so a leftover interval from a
+      // previous client-side navigation gets cleared before a new one starts.
       let autoplayTimer: number | undefined;
-      let scrollFrame: number | undefined;
-      let suppressScrollSync = false;
-      let suppressScrollTimeout: number | undefined;
+      const stopAutoplay = () => {
+        if (autoplayTimer === undefined) return;
+        window.clearInterval(autoplayTimer);
+        autoplayTimer = undefined;
+      };
+
+      const initCarousel = () => {
+        stopAutoplay();
+
+        const track = document.querySelector<HTMLElement>("[data-gallery-track]");
+        if (!track) return;
+
+        const prevButton = document.querySelector<HTMLElement>("[data-gallery-prev]");
+        const nextButton = document.querySelector<HTMLElement>("[data-gallery-next]");
+        const cards = Array.from(
+          track.querySelectorAll<HTMLElement>("[data-gallery-card]")
+        );
+        if (!cards.length) return;
+
+        let activeIndex = Math.max(
+          0,
+          cards.findIndex((card) => card.dataset.selected === "true")
+        );
+        const AUTOPLAY_DELAY = 3500;
+        let scrollFrame: number | undefined;
+        let suppressScrollSync = false;
+        let suppressScrollTimeout: number | undefined;
 
       const getMaxScrollLeft = () =>
         Math.max(0, track.scrollWidth - track.clientWidth);
@@ -533,12 +555,6 @@ const homepageStructuredData = {
 
       const showNext = () => goToIndex(activeIndex + 1);
       const showPrev = () => goToIndex(activeIndex - 1);
-
-      const stopAutoplay = () => {
-        if (!autoplayTimer) return;
-        window.clearInterval(autoplayTimer);
-        autoplayTimer = undefined;
-      };
 
       const startAutoplay = () => {
         if (autoplayTimer || cards.length <= 1) return;
@@ -653,8 +669,68 @@ const homepageStructuredData = {
         scrollFrame = window.requestAnimationFrame(syncSelectionToScroll);
       });
 
-      updateSelection();
-      startAutoplay();
+        updateSelection();
+        startAutoplay();
+      };
+
+      document.addEventListener('astro:page-load', initCarousel);
+    })();
+  </script>
+
+  <script is:inline>
+    (() => {
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
+
+      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+      const animateValue = (el) => {
+        const target = Number(el.dataset.target ?? 0);
+        if (prefersReducedMotion) {
+          el.textContent = target.toLocaleString('el-GR');
+          return;
+        }
+
+        const duration = 1400;
+        const start = performance.now();
+
+        const tick = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = easeOutCubic(progress);
+          const current = Math.round(target * eased);
+          el.textContent = current.toLocaleString('el-GR');
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+
+        requestAnimationFrame(tick);
+      };
+
+      const initHeroStats = () => {
+        const statElements = document.querySelectorAll('[data-stat-value]');
+        if (!statElements.length) return;
+
+        if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+          statElements.forEach((el) => animateValue(el));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                animateValue(entry.target);
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.4, rootMargin: '0px 0px -10% 0px' }
+        );
+
+        statElements.forEach((el) => observer.observe(el));
+      };
+
+      document.addEventListener('astro:page-load', initHeroStats);
     })();
   </script>
 </BaseLayout>

@@ -2,8 +2,7 @@
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
-import BoardCard from "../components/BoardCard.astro";
-import { board } from "../data/board";
+import { withBase } from "../utils/url";
 import heroBase from "../assets/images/foog-base.jpg";
 import heroEuropeanSkiChampionship from "../assets/images/foog-prodromos-xanthopoulos-slovenia.jpg";
 
@@ -34,7 +33,7 @@ const timeline = [
   },
   {
     year: "2023",
-    title: "252 μέλη σε δράση",
+    title: "250+ μέλη σε δράση",
     description:
       "Μαθήματα σκι, καθαρισμοί, δεντροφυτεύσεις και συνεργασίες με συλλόγους στην Ελλάδα και τα Βαλκάνια δείχνουν το σύγχρονο πρόσωπο του Φ.Ο.Ο.Γ.",
   },
@@ -51,6 +50,7 @@ const timeline = [
         eyebrow="Ιστορία"
         title="Πορεία του ομίλου"
         subtitle="Από πέντε φίλους το 1973 σε μια κοινότητα που αγαπά το βουνό"
+        level={1}
       />
     </div>
     <div class="glass-panel p-8" data-reveal>
@@ -60,7 +60,7 @@ const timeline = [
           ένωσαν τις δυνάμεις τους για να φέρουν την κοινότητα πιο κοντά στο
           βουνό. Με την επίσημη αναγνώριση του 1977 και την επιμονή απέναντι
           στην οικονομική κρίση του 2010, ο Όμιλος συνέχισε να μεγαλώνει και
-          σήμερα αριθμεί 252 ενεργά μέλη που στηρίζουν εθελοντικά κάθε δράση.
+          σήμερα αριθμεί 250+ ενεργά μέλη που στηρίζουν εθελοντικά κάθε δράση.
         </p>
         <p>
           Μέλη μας ανέβηκαν στο βάθρο πανελλήνιων αγώνων σκι και εκπροσώπησαν
@@ -105,24 +105,26 @@ const timeline = [
         ))
       }
     </div>
-  </section>
-
-  <section class="section-padding pt-0">
-    <div data-reveal>
-      <SectionHeader
-        eyebrow="Διοίκηση"
-        title="Ποιοι μας καθοδηγούν"
-        subtitle="Εθελοντές που εκλέγονται κάθε δύο χρόνια και κρατούν τον όμιλο σε τροχιά ανάπτυξης"
-      />
-    </div>
-    <div class="grid gap-6">
-      {
-        board.map((member) => (
-          <div data-reveal>
-            <BoardCard member={member} />
-          </div>
-        ))
-      }
-    </div>
+    <p class="mt-10 text-center">
+      <a
+        href={withBase("/board")}
+        class="inline-flex items-center gap-2 rounded-full border border-brand-cloud/50 px-6 py-3 text-sm font-semibold text-brand-cloud hover:border-brand-terracotta hover:text-brand-terracotta"
+      >
+        Γνώρισε το Διοικητικό Συμβούλιο
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 12h14m-6-6 6 6-6 6"></path>
+        </svg>
+      </a>
+    </p>
   </section>
 </BaseLayout>

@@ -15,14 +15,9 @@ import photoPaiko from "../assets/images/foog-katharismos-paiko.jpg";
 import photoSkiJunior from "../assets/images/foog-ski-junior.jpg";
 import photoVoras from "../assets/images/foog-voras-profitis-hlias.jpg";
 import grammosVideo from "../assets/videos/foog-grammos-video.mp4";
-import { instagramPosts } from "../data/instagram";
-
-interface InstagramEmbedResult {
-  url: string;
-  label?: string;
-  html: string | null;
-  error?: string;
-}
+import paikoVideo from "../assets/videos/paiko.mp4";
+import verligkaVideo from "../assets/videos/verligka.mp4";
+import vardousiaVideo from "../assets/videos/vardousia.mp4";
 
 interface GalleryItem {
   title: string;
@@ -88,6 +83,27 @@ const gallery: GalleryItem[] = [
     video: grammosVideo,
     alt: "Βίντεο με μέλη του Φ.Ο.Ο.Γ. στον Γράμμο",
   },
+
+  {
+    title: "Δρακόλιμνη Βερλιγκα",
+    subtitle: "Video highlight · 2026",
+    video: verligkaVideo,
+    alt: "Βίντεο με μέλη του Φ.Ο.Ο.Γ. στην δρακόλιμνη Βερλίγκ ",
+  },
+
+  {
+    title: "Πανσέληνος Κυνηγού - Πάικο",
+    subtitle: "Video highlight · 2025",
+    video: paikoVideo,
+    alt: "Βίντεο με μέλη του Φ.Ο.Ο.Γ. στο Πάικο",
+  },
+
+  {
+    title: "Βαρδούσια Όρη",
+    subtitle: "Video highlight · 2026",
+    video: vardousiaVideo,
+    alt: "Βίντεο με μέλη του Φ.Ο.Ο.Γ. στα Βαρδούσια όρη",
+  },
   {
     title: "Καθαρισμός μονοπατιού στο Πάικο",
     subtitle: "Περιβαλλοντική δράση · 2024",
@@ -109,7 +125,8 @@ const gallery: GalleryItem[] = [
 ];
 
 const photoGallery = gallery.filter(
-  (item): item is GalleryItem & { image: ImageMetadata } => Boolean(item.image) && !item.video,
+  (item): item is GalleryItem & { image: ImageMetadata } =>
+    Boolean(item.image) && !item.video,
 );
 const videoGallery = gallery.filter((item) => item.video);
 ---
@@ -123,6 +140,7 @@ const videoGallery = gallery.filter((item) => item.video);
       eyebrow="Οπτικό"
       title="Γκαλερί"
       subtitle="Στιγμές από τις εξορμήσεις μας"
+      level={1}
     />
     <div class="space-y-10">
       <div>

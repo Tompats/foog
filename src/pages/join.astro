@@ -6,7 +6,7 @@ import { withBase } from "../utils/url";
 const benefits = [
   "Μαθήματα σκι και ορειβασίας με έμπειρους συνοδούς και τμήματα που χωρίζονται ανά εμπειρία για ασφάλεια.",
   "Παροχή εξοπλισμού (ski, snowboard, μπατόν, μπότες, κράνος) από το απόθεμα του Συλλόγου όπου χρειάζεται.",
-  "Συμμετοχή σε πεζοπορίες, ορειβασίες, ποδηλατικές διαδρομές νυχτερινές πορείες.",
+  "Συμμετοχή σε πεζοπορίες, ορειβασίες, ποδηλατικές διαδρομές και νυχτερινές πορείες.",
   "Προσκλήσεις σε καθαρισμούς, δεντροφυτεύσεις και εκδρομές.",
 ];
 
@@ -54,6 +54,7 @@ const impactStats = [
       eyebrow="Μέλος"
       title="Γίνε μέλος"
       subtitle="Ανοιχτό σε χιονοδρόμους, πεζοπόρους και νέους ορειβάτες όλων των ηλικιών"
+      level={1}
     />
     <div class="grid gap-10 lg:grid-cols-2">
       <div class="glass-panel shimmer-hover p-8 space-y-5">
@@ -174,13 +175,19 @@ const impactStats = [
   </section>
   <script is:inline>
     (() => {
-      const statElements = document.querySelectorAll('[data-stat-value]');
-      if (!statElements.length) return;
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
 
       const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
       const animateValue = (el) => {
         const target = Number(el.dataset.target ?? 0);
+        if (prefersReducedMotion) {
+          el.textContent = target.toLocaleString('el-GR');
+          return;
+        }
+
         const duration = 1600;
         const start = performance.now();
 
@@ -195,19 +202,31 @@ const impactStats = [
         requestAnimationFrame(tick);
       };
 
-      const observer = new IntersectionObserver(
-        (entries, obs) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              animateValue(entry.target);
-              obs.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.4, rootMargin: '0px 0px -10% 0px' }
-      );
+      const initStats = () => {
+        const statElements = document.querySelectorAll('[data-stat-value]');
+        if (!statElements.length) return;
 
-      statElements.forEach((el) => observer.observe(el));
+        if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+          statElements.forEach((el) => animateValue(el));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                animateValue(entry.target);
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.4, rootMargin: '0px 0px -10% 0px' }
+        );
+
+        statElements.forEach((el) => observer.observe(el));
+      };
+
+      document.addEventListener('astro:page-load', initStats);
     })();
   </script>
 </BaseLayout>

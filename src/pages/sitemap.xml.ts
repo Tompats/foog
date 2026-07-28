@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { trips } from "../data/trips";
 import { absoluteUrl } from "../utils/seo";
 import { isTripUpcoming } from "../types";
+import { getPastTripTotalPages } from "../utils/tripPagination";
 
 export const prerender = true;
 
@@ -27,9 +28,21 @@ const formatUrl = (loc: string, lastmod: string, changefreq: string, priority: s
 
 export const GET: APIRoute = () => {
   const now = new Date().toISOString();
+  const totalPastTripPages = getPastTripTotalPages();
+  const paginatedTripPages = [];
+  for (let page = 2; page <= totalPastTripPages; page += 1) {
+    paginatedTripPages.push({
+      path: `/trips/page/${page}`,
+      changefreq: "monthly",
+      priority: "0.3",
+    });
+  }
 
   const urls = [
     ...staticPages.map((page) =>
+      formatUrl(absoluteUrl(page.path), now, page.changefreq, page.priority)
+    ),
+    ...paginatedTripPages.map((page) =>
       formatUrl(absoluteUrl(page.path), now, page.changefreq, page.priority)
     ),
     ...trips.map((trip) => {
