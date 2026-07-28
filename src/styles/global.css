@@ -373,7 +373,10 @@ details summary::-webkit-details-marker {
 .winter-snow::after {
   content: '';
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  top: -300px;
+  bottom: -300px;
   pointer-events: none;
   z-index: 0;
   background-image:
@@ -385,7 +388,7 @@ details summary::-webkit-details-marker {
   background-size: 90px 90px, 130px 130px, 190px 190px, 260px 260px;
   opacity: 0.5;
   animation: winterSnowDrift 38s linear infinite;
-  will-change: background-position;
+  will-change: transform;
   mix-blend-mode: screen;
 }
 
@@ -404,10 +407,10 @@ details summary::-webkit-details-marker {
 
 @keyframes winterSnowDrift {
   0% {
-    background-position: 0 0, 0 0;
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    background-position: 0 300px, 0 200px;
+    transform: translate3d(0, 300px, 0);
   }
 }
 

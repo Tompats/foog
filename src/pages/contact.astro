@@ -4,7 +4,8 @@ import SectionHeader from "../components/SectionHeader.astro";
 import { siteMetadata } from "../data/site";
 
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
-const web3FormsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? "";
+// Web3Forms access keys are meant to be public (client-side), like a site key.
+const web3FormsAccessKey = "e1d58d72-23d0-47ff-9bd4-87e7065d8b8a";
 const contactEmail = siteMetadata.contactEmail;
 const clubPhone = siteMetadata.phone;
 const clubAddress = `${siteMetadata.address.street}, ${siteMetadata.address.city} ${siteMetadata.address.postalCode}`;

@@ -33,18 +33,13 @@ const quickLinks = [
 
 const supportActions = [
   {
-    label: "Παραμένουν οι κορυφές",
+    label: "Έλεγξε τη διεύθυνση",
     detail:
-      "Δοκίμασε να ελέγξεις την ορθογραφία ή χρησιμοποίησε την πλοήγηση για να βρεις την ενότητα που ζητάς.",
+      "Ίσως έγινε κάποιο τυπογραφικό λάθος — δοκίμασε να το ξαναγράψεις ή χρησιμοποίησε το μενού για να βρεις την ενότητα που ζητάς.",
   },
   {
-    label: "Επικοινώνησε με τον όμιλο",
-    detail: `Στείλε email στο ${siteMetadata.contactEmail} ή κάλεσε στο ${siteMetadata.phone} για να σε κατευθύνουμε.`,
-  },
-  {
-    label: "Πρότεινε νέα διαδρομή",
-    detail:
-      "Μοιράσου την ιδέα σου ή μια ενημέρωση για τα μονοπάτια ώστε να τη συμπεριλάβουμε στο ημερολόγιο.",
+    label: "Πες μας για το σπασμένο link",
+    detail: `Αν έφτασες εδώ μέσα από κάποιον σύνδεσμο του site μας, γράψε μας στο ${siteMetadata.contactEmail} ή κάλεσε στο ${siteMetadata.phone} για να το διορθώσουμε.`,
   },
 ];
 
@@ -52,8 +47,6 @@ const breadcrumbs = [
   { label: "Αρχική", href: withBase("/") },
   { label: "404" },
 ];
-
-const heroQuote = "Οι κορυφές είναι πάντα εκεί· αρκεί να βρούμε το σωστό μονοπάτι.";
 ---
 
 <BaseLayout
@@ -90,36 +83,10 @@ const heroQuote = "Οι κορυφές είναι πάντα εκεί· αρκε
             Χάθηκε το μονοπάτι σου
           </h1>
           <p class="mt-5 text-lg text-brand-mist">
-            Η διεύθυνση που πληκτρολόγησες δεν υπάρχει ή έχει μετακινηθεί. Ας σε
-            βοηθήσουμε να συνεχίσεις το ταξίδι σου στις σελίδες του ομίλου.
+            Η διεύθυνση που πληκτρολόγησες δεν υπάρχει ή έχει μετακινηθεί. Δες
+            τις επιλογές παρακάτω για να βρεις αυτό που ψάχνεις.
           </p>
         </div>
-        <div class="grid gap-4 sm:grid-cols-3">
-          <div class="rounded-2xl bg-brand-river/10 border border-brand-river/30 p-4 text-center">
-            <p class="text-4xl font-black text-brand-pine">404</p>
-            <p class="text-xs uppercase tracking-[0.4em] text-brand-mist">
-              Δεν βρέθηκε
-            </p>
-          </div>
-          <div class="rounded-2xl bg-brand-cloud/80 border border-brand-river/30 p-4 flex flex-col justify-center">
-            <p class="text-sm text-brand-mist">Αγαπημένο σημείο</p>
-            <p class="text-lg font-semibold text-brand-rocky">Καταφύγιο Αγίας Παρασκευής</p>
-          </div>
-          <div class="rounded-2xl bg-brand-terracotta/10 border border-brand-terracotta/40 p-4 flex flex-col justify-center">
-            <p class="text-sm text-brand-mist">Πηγή βοήθειας</p>
-            <a class="text-lg font-semibold" href={withBase("/contact")}>
-              Επικοινωνία
-            </a>
-          </div>
-        </div>
-        <blockquote class="rounded-2xl border border-brand-river/30 bg-brand-cloud/70 p-6 text-brand-rocky">
-          <p class="text-sm uppercase tracking-[0.35em] text-brand-mist">
-            Οδηγός πεδίου
-          </p>
-          <p class="mt-3 text-xl font-semibold leading-relaxed">
-            {heroQuote}
-          </p>
-        </blockquote>
         <div class="flex flex-wrap gap-4">
           <a
             href={withBase("/")}
