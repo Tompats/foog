@@ -5,6 +5,7 @@ import SectionHeader from "../../components/SectionHeader.astro";
 import { trips } from "../../data/trips";
 import { withBase } from "../../utils/url";
 import { createTripJsonLd } from "../../utils/seo";
+import type { Trip } from "../../types";
 import { getTripTimelineStatus } from "../../types";
 
 export async function getStaticPaths() {
@@ -50,9 +51,15 @@ const detailStatusMessage =
       : null;
 
 const statusBadgeLabelMap: Record<StatusVariant, string> = {
-  upcoming: "OPEN SPOTS",
-  past: "COMPLETED LOG",
-  canceled: "CANCELED",
+  upcoming: "Διαθέσιμες θέσεις",
+  past: "Ολοκληρωμένη",
+  canceled: "Ακυρωμένη",
+};
+
+const typeLabelMap: Record<Trip["type"], string> = {
+  hiking: "Πεζοπορία",
+  mountaineering: "Ορειβασία",
+  ski: "Ski & Snowboard",
 };
 
 const statusBadgeClassMap: Record<StatusVariant, string> = {
@@ -79,12 +86,12 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
         <span
           class="playful-pill bg-brand-cloud text-brand-pine border-brand-river/20"
         >
-          {`${trip.type.toUpperCase()} LINE`}
+          {typeLabelMap[trip.type]}
         </span>
         <span
           class="playful-pill bg-brand-cloud text-brand-pine border-brand-river/20"
         >
-          {`${trip.difficulty}/5 difficulty`}
+          {`Δυσκολία ${trip.difficulty}/5`}
         </span>
         <span
           class={`playful-pill border ${statusBadgeClassMap[statusVariant]}`}

@@ -4,9 +4,11 @@ import SectionHeader from "../components/SectionHeader.astro";
 import { siteMetadata } from "../data/site";
 
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
-const web3FormsAccessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? "";
+// Web3Forms access keys are meant to be public (client-side), like a site key.
+const web3FormsAccessKey = "e1d58d72-23d0-47ff-9bd4-87e7065d8b8a";
 const contactEmail = siteMetadata.contactEmail;
 const clubPhone = siteMetadata.phone;
+const clubAddress = `${siteMetadata.address.street}, ${siteMetadata.address.city} ${siteMetadata.address.postalCode}`;
 ---
 
 <BaseLayout
@@ -16,8 +18,9 @@ const clubPhone = siteMetadata.phone;
   <section class="section-padding" data-reveal>
     <SectionHeader
       eyebrow="Γεια"
-      title="Επικοινωνία & βάση"
+      title="Επικοινωνία"
       subtitle="Στείλε μας ένα mail ή έλα απο τα γραφεία μας"
+      level={1}
     />
     <div class="grid gap-10 lg:grid-cols-2">
       <div class="space-y-6">
@@ -26,7 +29,7 @@ const clubPhone = siteMetadata.phone;
             Στοιχεία ομίλου
           </h3>
           <p class="text-brand-mist">
-            Φ.Ο.Ο.Γ., Ανοιχτού Θεάτρου 8, Γιαννιτσά 58100
+            {siteMetadata.shortName}, {clubAddress}
           </p>
           <p class="text-brand-mist">
             Συναντήσεις: Τετάρτες 18:30–21:00 · Ξύλινο σπιτάκι
@@ -69,12 +72,13 @@ const clubPhone = siteMetadata.phone;
         </div>
       </div>
       <div class="glass-panel p-8">
-        <form action={WEB3FORMS_ENDPOINT} method="POST" class="space-y-6">
-          <input
-            type="hidden"
-            name="access_key"
-            value={web3FormsAccessKey}
-          />
+        <form
+          action={WEB3FORMS_ENDPOINT}
+          method="POST"
+          class="space-y-6"
+          data-contact-form
+        >
+          <input type="hidden" name="access_key" value={web3FormsAccessKey} />
           <input
             type="hidden"
             name="subject"
@@ -93,74 +97,177 @@ const clubPhone = siteMetadata.phone;
               />
             </label>
           </div>
-          <div>
-            <h3 class="text-2xl font-semibold text-brand-rocky">
-              Μίλησε με την ομάδα
-            </h3>
-            <p class="mt-2 text-brand-mist">
-              Συμπλήρωσε τη φόρμα με το μήνυμά σου. Θα απαντήσουμε σε 1–2 εργάσιμες
-              ημέρες και μπορούμε να σε καλέσουμε πίσω αν χρειαστεί.
+          <div data-form-fields class="space-y-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-brand-rocky">
+                Μίλησε με την ομάδα
+              </h3>
+              <p class="mt-2 text-brand-mist">
+                Συμπλήρωσε τη φόρμα με το μήνυμά σου. Θα απαντήσουμε σε 1–2
+                εργάσιμες ημέρες και μπορούμε να σε καλέσουμε πίσω αν χρειαστεί.
+              </p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2 mb-4">
+              <label class="space-y-1 text-sm font-medium text-brand-rocky">
+                <span class="text-brand-mist">Ονοματεπώνυμο</span>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Πλήρες όνομα"
+                  class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+                />
+              </label>
+              <label class="space-y-1 text-sm font-medium text-brand-rocky">
+                <span class="text-brand-mist">Email</span>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="name@email.com"
+                  class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+                />
+              </label>
+            </div>
+            <label class="space-y-1 text-sm font-medium text-brand-rocky">
+              <span class="text-brand-mist">Τηλέφωνο (προαιρετικό)</span>
+              <input
+                type="tel"
+                name="phone"
+                placeholder="π.χ. +30 69 1234 5678"
+                class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+              />
+            </label>
+            <label class="space-y-1 text-sm font-medium text-brand-rocky">
+              <span class="text-brand-mist">Μήνυμα</span>
+              <textarea
+                name="message"
+                rows="5"
+                required
+                placeholder="Πες μας πώς μπορούμε να βοηθήσουμε"
+                class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+              ></textarea>
+            </label>
+            <button
+              type="submit"
+              class="btn-ripple inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-river px-4 py-3 text-base font-semibold text-brand-cloud transition hover:bg-brand-terracotta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-terracotta focus-visible:ring-offset-brand-cloud disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <span data-submit-label>Στείλε το μήνυμα</span>
+            </button>
+          </div>
+          <div
+            data-form-success
+            class="hidden rounded-3xl border border-brand-moss/40 bg-brand-moss/10 p-6 text-center"
+            role="status"
+            aria-live="polite"
+          >
+            <div
+              class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-moss/20 text-brand-moss"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4.5 12.75l6 6 9-13.5"></path>
+              </svg>
+            </div>
+            <p class="font-semibold text-brand-rocky">
+              Το μήνυμά σου στάλθηκε!
+            </p>
+            <p class="mt-1 text-sm text-brand-mist">
+              Θα επικοινωνήσουμε μαζί σου σύντομα.
             </p>
           </div>
-          <div class="grid gap-4 sm:grid-cols-2 mb-4">
-            <label class="space-y-1 text-sm font-medium text-brand-rocky">
-              <span class="text-brand-mist">Ονοματεπώνυμο</span>
-              <input
-                type="text"
-                name="name"
-                required
-                placeholder="Πλήρες όνομα"
-                class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
-              />
-            </label>
-            <label class="space-y-1 text-sm font-medium text-brand-rocky">
-              <span class="text-brand-mist">Email</span>
-              <input
-                type="email"
-                name="email"
-                required
-                placeholder="name@email.com"
-                class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
-              />
-            </label>
-          </div>
-          <label class="space-y-1 text-sm font-medium text-brand-rocky">
-            <span class="text-brand-mist">Τηλέφωνο (προαιρετικό)</span>
-            <input
-              type="tel"
-              name="phone"
-              placeholder="π.χ. +30 69 1234 5678"
-              class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
-            />
-          </label>
-          <label class="space-y-1 text-sm font-medium text-brand-rocky">
-            <span class="text-brand-mist">Μήνυμα</span>
-            <textarea
-              name="message"
-              rows="5"
-              required
-              placeholder="Πες μας πώς μπορούμε να βοηθήσουμε"
-              class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
-            ></textarea>
-          </label>
-          <button
-            type="submit"
-            class="btn-ripple inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-river px-4 py-3 text-base font-semibold text-brand-cloud transition hover:bg-brand-terracotta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-terracotta focus-visible:ring-offset-brand-cloud"
+          <div
+            data-form-error
+            class="hidden rounded-3xl border border-brand-terracotta/40 bg-brand-terracotta/10 p-6 text-center"
+            role="alert"
+            aria-live="assertive"
           >
-            Στείλε το μήνυμα
-          </button>
-          <div class="rounded-3xl border border-brand-river/20 bg-brand-cloud/50 p-6 text-sm">
+            <p class="font-semibold text-brand-terracotta">Κάτι πήγε στραβά.</p>
+            <p class="mt-1 text-sm text-brand-mist">
+              Δοκίμασε ξανά ή στείλε μας email απευθείας στο
+              <a
+                href={`mailto:${contactEmail}`}
+                class="font-semibold text-brand-pine underline"
+              >
+                {contactEmail}
+              </a>.
+            </p>
+          </div>
+          <div
+            class="rounded-3xl border border-brand-river/20 bg-brand-cloud/50 p-6 text-sm"
+          >
             <p class="font-semibold text-brand-rocky">
               Θέλεις προσωπική καθοδήγηση;
             </p>
             <p class="text-brand-mist">
-              Πέρασε από τα γραφεία μας κάθε Τετάρτη 18:30–21:00. Θα σε υποδεχτούν
-              μέλη του Δ.Σ. και οι αρχηγοί εξορμήσεων για να πούμε από κοντά τις
-              ανάγκες σου και να οργανώσουμε την επόμενη εξόρμηση ή εκπαίδευση.
+              Πέρασε από τα γραφεία μας κάθε Τετάρτη 18:30–21:00. Θα σε
+              υποδεχτούν μέλη του Δ.Σ. και οι αρχηγοί εξορμήσεων για να πούμε
+              από κοντά τις ανάγκες σου και να οργανώσουμε την επόμενη εξόρμηση
+              ή εκπαίδευση.
             </p>
           </div>
         </form>
       </div>
     </div>
   </section>
+
+  <script>
+    (() => {
+      const initContactForm = () => {
+        const form = document.querySelector<HTMLFormElement>(
+          "[data-contact-form]",
+        );
+        if (!form) return;
+
+        const fieldsWrapper = form.querySelector("[data-form-fields]");
+        const successPanel = form.querySelector("[data-form-success]");
+        const errorPanel = form.querySelector("[data-form-error]");
+        const submitButton = form.querySelector<HTMLButtonElement>(
+          "button[type='submit']",
+        );
+        const submitLabel = submitButton?.querySelector("[data-submit-label]");
+        const defaultLabel = submitLabel?.textContent ?? "Στείλε το μήνυμα";
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          errorPanel?.classList.add("hidden");
+          if (submitButton) submitButton.disabled = true;
+          if (submitLabel) submitLabel.textContent = "Αποστολή...";
+
+          try {
+            const response = await fetch(form.action, {
+              method: "POST",
+              headers: { Accept: "application/json" },
+              body: new FormData(form),
+            });
+            const result = await response.json().catch(() => null);
+
+            if (!response.ok || !result?.success) {
+              throw new Error(result?.message || "submit_failed");
+            }
+
+            fieldsWrapper?.classList.add("hidden");
+            successPanel?.classList.remove("hidden");
+            successPanel?.classList.add("form-status-pop");
+          } catch (error) {
+            errorPanel?.classList.remove("hidden");
+            errorPanel?.classList.add("form-status-pop");
+            if (submitButton) submitButton.disabled = false;
+            if (submitLabel) submitLabel.textContent = defaultLabel;
+          }
+        });
+      };
+
+      document.addEventListener("astro:page-load", initContactForm);
+    })();
+  </script>
 </BaseLayout>

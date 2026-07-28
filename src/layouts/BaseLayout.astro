@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import type { ImageMetadata } from "astro";
+import { ClientRouter } from "astro:transitions";
 import { getOrganizationJsonLd, siteMetadata } from "../data/site";
 import { withBase } from "../utils/url";
 
@@ -56,7 +57,7 @@ const resolveImagePath = (input?: string | ImageMetadata) => {
 
 const ogImagePath = resolveImagePath(image) ?? siteMetadata.defaultSocialImage;
 const ogImageUrl = ensureAbsoluteUrl(ogImagePath);
-const canonicalUrl = (Astro as any).canonicalURL?.href ?? Astro.url.href;
+const canonicalUrl = Astro.url.href;
 const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
 const additionalStructuredData = Array.isArray(structuredData)
   ? structuredData.filter(Boolean)
@@ -69,7 +70,7 @@ const navLinks = [
   { href: withBase("/"), label: "Αρχική" },
   { href: withBase("/trips"), label: "Εξορμήσεις" },
   { href: withBase("/history"), label: "Ποιοι είμαστε" },
-  { href: withBase("/winter-sports"), label: "Χιονδρομία" },
+  { href: withBase("/winter-sports"), label: "Χιονοδρομία" },
   { href: withBase("/join"), label: "Γίνε μέλος" },
   { href: withBase("/gallery"), label: "Γκαλερί" },
   { href: withBase("/contact"), label: "Επικοινωνία" },
@@ -138,6 +139,7 @@ const getLinkPath = (href: string) => {
         {JSON.stringify(entry)}
       </script>
     ))}
+    <ClientRouter />
   </head>
   <body class="relative min-h-screen text-brand-rocky">
     <a href="#main-content" class="skip-link">Μετάβαση στο κύριο περιεχόμενο</a>
@@ -198,7 +200,6 @@ const getLinkPath = (href: string) => {
                 type="button"
                 aria-controls="nav-menu-mobile"
                 aria-expanded="false"
-                aria-haspopup="true"
                 class="lg:hidden inline-flex items-center gap-2 rounded-full border border-brand-pine/30 px-4 py-2 text-sm font-semibold text-brand-rocky hover:text-brand-terracotta"
               >
                 Μενού
@@ -240,12 +241,12 @@ const getLinkPath = (href: string) => {
           </div>
           <nav
             id="nav-menu-mobile"
-            class="mt-4 hidden grid gap-3 text-sm font-semibold text-brand-rocky lg:hidden max-h-[70vh] overflow-y-auto pr-1 scrollbar-hide"
+            class="mobile-nav-panel mt-4 gap-3 text-sm font-semibold text-brand-rocky lg:hidden pr-1 scrollbar-hide"
             aria-label="Κύρια πλοήγηση"
             aria-hidden="true"
           >
             {
-              navLinks.map((link) => {
+              navLinks.map((link, index) => {
                 const isActive = getLinkPath(link.href) === currentPath;
                 return (
                   <a
@@ -253,6 +254,7 @@ const getLinkPath = (href: string) => {
                     data-nav-mobile-link
                     class="nav-link w-full rounded-2xl border border-brand-river/40 bg-brand-cloud px-4 py-3 text-center transition hover:border-brand-terracotta/60 hover:text-brand-terracotta"
                     aria-current={isActive ? "page" : undefined}
+                    style={`transition-delay: ${index * 40}ms`}
                   >
                     {link.label}
                   </a>
@@ -264,7 +266,7 @@ const getLinkPath = (href: string) => {
       </header>
       <div
         id="nav-overlay"
-        class="fixed inset-0 bg-brand-river/50 backdrop-blur-sm z-30 hidden lg:hidden"
+        class="fixed inset-0 bg-brand-river/50 backdrop-blur-sm z-30 lg:hidden"
         aria-hidden="true"
       >
       </div>
@@ -278,8 +280,7 @@ const getLinkPath = (href: string) => {
               Πάντα έτοιμοι για περιπέτεια.
             </h3>
             <p class="text-brand-mist mt-2">
-              Εβδομαδιαίες συναντήσεις, ανανέωση γνώσεων και
-              φροντίδα των αγαπημένων μας βουνών.
+              Ανακαλύπτουμε το βουνό, μοιραζόμαστε στιγμές, αφήνουμε μόνο τα ίχνη μας.
             </p>
           </div>
           <nav class="space-y-2 text-brand-mist" aria-label="Σύνδεσμοι υποσέλιδου">
@@ -290,6 +291,9 @@ const getLinkPath = (href: string) => {
             >
             <a href={withBase("/winter-sports")} class="block hover:text-brand-pine"
               >Εκπαίδευση</a
+            >
+            <a href={withBase("/board")} class="block hover:text-brand-pine"
+              >Διοίκηση</a
             >
           </nav>
           <div class="text-brand-mist space-y-2">
@@ -366,7 +370,7 @@ const getLinkPath = (href: string) => {
                 }
               });
             },
-            { threshold: 0.25, rootMargin: '0px 0px -5% 0px' }
+            { threshold: 0, rootMargin: '0px 0px -5% 0px' }
           );
 
           const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
@@ -417,124 +421,130 @@ const getLinkPath = (href: string) => {
           initTilt();
         };
 
-        if (
-          document.readyState === 'complete' ||
-          document.readyState === 'interactive'
-        ) {
-          init();
-        } else {
-          window.addEventListener('DOMContentLoaded', init, { once: true });
-        }
+        document.addEventListener('astro:page-load', init);
       })();
     </script>
     <script>
       (() => {
-        const toggle = document.getElementById("nav-toggle");
-        const mobile = document.getElementById("nav-menu-mobile");
-        const overlay = document.getElementById("nav-overlay");
-        const header = document.querySelector<HTMLElement>("[data-nav-header]");
-        const body = document.body;
-
-        const showHeader = () => header?.classList.remove("nav-header-hidden");
-        const hideHeader = () => header?.classList.add("nav-header-hidden");
+        // Window/document listeners persist across client-side (View Transitions)
+        // navigations, so they're registered exactly once here. They call into
+        // closeMenu/isMenuOpenFn, which initNav() repoints at the current page's
+        // fresh elements every time astro:page-load fires.
+        let closeMenu = () => {};
+        let isMenuOpenFn = () => false;
         let disableAutoHide = false;
         let lastScrollY = window.scrollY;
         let scrollTicking = false;
         const scrollThreshold = 12;
 
         const updateHeaderVisibility = () => {
+          const header = document.querySelector<HTMLElement>("[data-nav-header]");
           if (!header || disableAutoHide) return;
           const currentY = window.scrollY;
           if (currentY <= header.offsetHeight) {
-            showHeader();
+            header.classList.remove("nav-header-hidden");
             lastScrollY = currentY;
             return;
           }
 
           if (currentY > lastScrollY + scrollThreshold) {
-            hideHeader();
+            header.classList.add("nav-header-hidden");
           } else if (currentY < lastScrollY - scrollThreshold) {
-            showHeader();
+            header.classList.remove("nav-header-hidden");
           }
 
           lastScrollY = currentY;
         };
 
-        if (header) {
-          window.addEventListener(
-            "scroll",
-            () => {
-              if (scrollTicking) return;
-              scrollTicking = true;
-              requestAnimationFrame(() => {
-                updateHeaderVisibility();
-                scrollTicking = false;
-              });
-            },
-            { passive: true }
-          );
-        }
-
-        if (!toggle || !mobile) return;
-
-        const isMenuOpen = () => !mobile.classList.contains("hidden");
-        type MenuOptions = { shouldReturnFocus?: boolean };
-        const setOpen = (nextState: boolean, options: MenuOptions = {}) => {
-          const shouldOpen = nextState;
-          const { shouldReturnFocus = true } = options;
-          mobile.classList.toggle("hidden", !shouldOpen);
-          overlay?.classList.toggle("hidden", !shouldOpen);
-          body.classList.toggle("overflow-hidden", shouldOpen);
-          toggle.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
-          mobile.setAttribute("aria-hidden", shouldOpen ? "false" : "true");
-          disableAutoHide = shouldOpen;
-          if (shouldOpen) {
-            showHeader();
-          } else {
-            lastScrollY = window.scrollY;
-            requestAnimationFrame(() => updateHeaderVisibility());
-          }
-
-          if (shouldOpen) {
-            const firstLink = mobile.querySelector("a, button, [tabindex]:not([tabindex='-1'])");
-            if (firstLink instanceof HTMLElement) {
-              firstLink.focus();
-            }
-          } else if (
-            shouldReturnFocus &&
-            mobile.contains(document.activeElement)
-          ) {
-            toggle.focus();
-          }
-        };
-
-        toggle.addEventListener("click", () => {
-          setOpen(!isMenuOpen());
-        });
-
-        overlay?.addEventListener("click", () => setOpen(false));
-
-        mobile.querySelectorAll("[data-nav-mobile-link]").forEach((link) => {
-          link.addEventListener("click", () =>
-            setOpen(false, { shouldReturnFocus: false })
-          );
-        });
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (scrollTicking) return;
+            scrollTicking = true;
+            requestAnimationFrame(() => {
+              updateHeaderVisibility();
+              scrollTicking = false;
+            });
+          },
+          { passive: true }
+        );
 
         window.addEventListener("resize", () => {
-          if (window.innerWidth >= 1024) {
-            setOpen(false);
-            body.classList.remove("overflow-hidden");
-            disableAutoHide = false;
-            showHeader();
-          }
+          if (window.innerWidth >= 1024) closeMenu();
         });
 
         document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape" && isMenuOpen()) {
+          if (event.key === "Escape" && isMenuOpenFn()) {
             event.preventDefault();
-            setOpen(false);
+            closeMenu();
           }
         });
+
+        const initNav = () => {
+          const toggle = document.getElementById("nav-toggle");
+          const mobile = document.getElementById("nav-menu-mobile");
+          const overlay = document.getElementById("nav-overlay");
+          const main = document.getElementById("main-content");
+          const footer = document.querySelector("footer");
+          const body = document.body;
+
+          disableAutoHide = false;
+          lastScrollY = window.scrollY;
+          document.querySelector("[data-nav-header]")?.classList.remove("nav-header-hidden");
+
+          if (!toggle || !mobile) {
+            isMenuOpenFn = () => false;
+            closeMenu = () => {};
+            return;
+          }
+
+          const isMenuOpen = () => mobile.classList.contains("nav-mobile-open");
+          isMenuOpenFn = isMenuOpen;
+
+          type MenuOptions = { shouldReturnFocus?: boolean };
+          const setOpen = (nextState: boolean, options: MenuOptions = {}) => {
+            const shouldOpen = nextState;
+            const { shouldReturnFocus = true } = options;
+            mobile.classList.toggle("nav-mobile-open", shouldOpen);
+            overlay?.classList.toggle("nav-overlay-open", shouldOpen);
+            body.classList.toggle("overflow-hidden", shouldOpen);
+            toggle.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+            mobile.setAttribute("aria-hidden", shouldOpen ? "false" : "true");
+            if (main) main.toggleAttribute("inert", shouldOpen);
+            if (footer) footer.toggleAttribute("inert", shouldOpen);
+            disableAutoHide = shouldOpen;
+
+            if (shouldOpen) {
+              document.querySelector("[data-nav-header]")?.classList.remove("nav-header-hidden");
+              const firstLink = mobile.querySelector("a, button, [tabindex]:not([tabindex='-1'])");
+              if (firstLink instanceof HTMLElement) {
+                firstLink.focus();
+              }
+            } else {
+              lastScrollY = window.scrollY;
+              requestAnimationFrame(() => updateHeaderVisibility());
+              if (shouldReturnFocus && mobile.contains(document.activeElement)) {
+                toggle.focus();
+              }
+            }
+          };
+
+          closeMenu = () => setOpen(false);
+
+          toggle.addEventListener("click", () => {
+            setOpen(!isMenuOpen());
+          });
+
+          overlay?.addEventListener("click", () => setOpen(false));
+
+          mobile.querySelectorAll("[data-nav-mobile-link]").forEach((link) => {
+            link.addEventListener("click", () =>
+              setOpen(false, { shouldReturnFocus: false })
+            );
+          });
+        };
+
+        document.addEventListener("astro:page-load", initNav);
       })();
     </script>
   </body>

@@ -41,6 +41,7 @@ const pageHref = (pageNumber: number, hash?: string) => {
     eyebrow="Ημερολόγιο"
     title="Χάρτης εξορμήσεων"
     subtitle="Διάλεξε εποχή, στόχο ή κύκλο καθοδήγησης"
+    level={1}
   />
   <div class="glass-panel p-6 mb-12">
     <p class="text-sm uppercase tracking-[0.3em] text-brand-mist">
@@ -50,8 +51,10 @@ const pageHref = (pageNumber: number, hash?: string) => {
       {
         typeFilterOptions.map((typeOption) => (
           <button
+            type="button"
             class="rounded-full border border-brand-river/30 bg-brand-cloud px-4 py-2 text-sm text-brand-rocky shadow-sm hover:-translate-y-0.5"
             data-filter-type={typeOption}
+            aria-pressed={typeOption === "all" ? "true" : "false"}
           >
             {typeOption === "all"
               ? "Όλες οι δραστηριότητες"
@@ -64,14 +67,23 @@ const pageHref = (pageNumber: number, hash?: string) => {
       {
         difficultyFilterOptions.map((level) => (
           <button
+            type="button"
             class="rounded-full border border-brand-river/20 bg-brand-cloud px-4 py-2 text-sm text-brand-mist shadow-sm hover:-translate-y-0.5"
             data-filter-difficulty={level}
+            aria-pressed={level === "all" ? "true" : "false"}
           >
             {level === "all" ? "Όλες οι δυσκολίες" : `Δυσκολία ${level}`}
           </button>
         ))
       }
     </div>
+    <p
+      id="filters-empty-state"
+      class="hidden mt-4 text-sm text-brand-mist"
+      role="status"
+    >
+      Καμία εξόρμηση δεν ταιριάζει με τα επιλεγμένα φίλτρα. Δοκίμασε άλλο συνδυασμό.
+    </p>
   </div>
   <div class="space-y-16">
     <div>
@@ -90,7 +102,7 @@ const pageHref = (pageNumber: number, hash?: string) => {
           </div>
         ) : (
           <div class="glass-panel p-6 text-brand-mist">
-            <p class="text-lg font-semibold text-brand-cloud">
+            <p class="text-lg font-semibold text-brand-rocky">
               Δεν υπάρχουν επόμενες εξορμήσεις στο ημερολόγιο.
             </p>
             <p class="mt-2">
@@ -120,7 +132,7 @@ const pageHref = (pageNumber: number, hash?: string) => {
           </div>
         ) : (
           <div class="glass-panel p-6 text-brand-mist">
-            <p class="text-lg font-semibold text-brand-cloud">
+            <p class="text-lg font-semibold text-brand-rocky">
               Δεν υπάρχουν προηγούμενες εξορμήσεις προς το παρόν.
             </p>
             <p class="mt-2">
@@ -165,13 +177,16 @@ const pageHref = (pageNumber: number, hash?: string) => {
 </section>
 <script>
   (() => {
+    const initFilters = () => {
     const typeButtons = document.querySelectorAll<HTMLButtonElement>(
       '[data-filter-type]'
     );
     const difficultyButtons = document.querySelectorAll<HTMLButtonElement>(
       '[data-filter-difficulty]'
     );
+    if (!typeButtons.length && !difficultyButtons.length) return;
     const cards = document.querySelectorAll<HTMLElement>('[data-trip-card]');
+    const emptyState = document.getElementById('filters-empty-state');
     let activeType = "all";
     let activeDifficulty = "all";
 
@@ -182,19 +197,25 @@ const pageHref = (pageNumber: number, hash?: string) => {
     ) => {
       buttons.forEach((button) => {
         const value = button.getAttribute(attr) ?? "all";
-        button.classList.toggle("filter-active", value === activeValue);
+        const isActive = value === activeValue;
+        button.classList.toggle("filter-active", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
       });
     };
 
     const applyFilters = () => {
+      let visibleCount = 0;
       cards.forEach((card) => {
         const type = card.getAttribute("data-type") ?? "";
         const difficulty = card.getAttribute("data-difficulty") ?? "";
         const matchesType = activeType === "all" || type === activeType;
         const matchesDifficulty =
           activeDifficulty === "all" || difficulty === activeDifficulty;
-        card.classList.toggle("hidden", !(matchesType && matchesDifficulty));
+        const matches = matchesType && matchesDifficulty;
+        card.classList.toggle("hidden", !matches);
+        if (matches) visibleCount += 1;
       });
+      emptyState?.classList.toggle("hidden", visibleCount > 0);
     };
 
     typeButtons.forEach((button) => {
@@ -221,5 +242,8 @@ const pageHref = (pageNumber: number, hash?: string) => {
     setActive(typeButtons, activeType, "data-filter-type");
     setActive(difficultyButtons, activeDifficulty, "data-filter-difficulty");
     applyFilters();
+    };
+
+    document.addEventListener('astro:page-load', initFilters);
   })();
 </script>
