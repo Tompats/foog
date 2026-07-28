@@ -8,6 +8,5 @@ export default defineConfig({
       applyBaseStyles: false
     })
   ],
-  site: 'https://tompats.github.io',
-  base: '/foog'
+  site: 'https://www.foog.gr'
 });
