@@ -14,7 +14,7 @@ module.exports = {
           moss: '#A7C957',
           mossDark:'#96b44e',
           rocky: '#1C1C1C',
-          mist: '#6F888B',
+          mist: '#586C6F',
           mistLight: '#b7c3c5'
         }
       },

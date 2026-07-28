@@ -203,6 +203,7 @@ const shouldShowTechnicalStats = trip.type !== "ski";
     <div class="pt-2">
       <a
         href={withBase(`/trips/${trip.slug}`)}
+        aria-label={`Λεπτομέρειες για ${trip.title}`}
         class="inline-flex items-center gap-2 text-sm font-semibold text-brand-pine rounded-full border border-brand-pine/20 px-4 py-2 transition hover:-translate-y-0.5 hover:border-brand-terracotta hover:text-brand-terracotta"
       >
         Λεπτομέρειες

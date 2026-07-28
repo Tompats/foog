@@ -194,6 +194,7 @@ const homepageStructuredData = {
               alt="Σημαία του Φ.Ο.Ο.Γ. σε χιονισμένη κορυφή"
               class="h-full w-full object-cover"
               loading="lazy"
+              quality={70}
               sizes="(min-width: 1024px) 700px, 100vw"
             />
             <div
@@ -300,6 +301,8 @@ const homepageStructuredData = {
                     <Image
                       src={photo.image}
                       alt={photo.alt}
+                      width={720}
+                      height={512}
                       class="h-full w-full object-cover"
                       loading="lazy"
                     />
