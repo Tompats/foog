@@ -1,0 +1,121 @@
+---
+import type { Announcement } from "../types";
+import { withBase } from "../utils/url";
+
+interface Props {
+  announcement: Announcement;
+}
+
+const { announcement } = Astro.props;
+const urgent = Boolean(announcement.urgent);
+
+const categoryLabels: Record<Announcement["category"], string> = {
+  elections: "Εκλογές",
+  schedule: "Πρόγραμμα",
+  general: "Γενικά",
+};
+---
+
+<div
+  class={`glass-panel mt-6 px-6 py-5 flex flex-wrap items-center gap-4 border-l-4 ${urgent ? "border-l-brand-terracotta bg-brand-terracotta/5" : "border-l-brand-pine bg-brand-pine/5"}`}
+  data-announcement-banner
+  data-announcement-slug={announcement.slug}
+  style="display: none"
+>
+  <div
+    class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${urgent ? "text-brand-terracotta bg-brand-terracotta/10" : "text-brand-pine bg-brand-pine/10"}`}
+    aria-hidden="true"
+  >
+    <i class={urgent ? "fa-solid fa-triangle-exclamation" : "fa-solid fa-bullhorn"}></i>
+  </div>
+  <div class="flex-1 min-w-[200px]">
+    <p class="text-xs font-semibold uppercase tracking-[0.25em] text-brand-mist">
+      {categoryLabels[announcement.category]}
+    </p>
+    <p class="text-brand-rocky font-semibold">
+      {announcement.title}
+    </p>
+  </div>
+  <a
+    href={withBase("/announcements")}
+    class="inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-brand-pine hover:text-brand-terracotta"
+  >
+    Όλες οι ανακοινώσεις
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      class="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"></path>
+    </svg>
+  </a>
+  <button
+    type="button"
+    data-announcement-dismiss
+    aria-label="Απόρριψη ανακοίνωσης"
+    class="inline-flex h-8 w-8 items-center justify-center rounded-full text-brand-mist transition hover:bg-brand-terracotta/10 hover:text-brand-terracotta"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      class="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6 6 18"></path>
+    </svg>
+  </button>
+</div>
+
+<script is:inline>
+  (() => {
+    const STORAGE_KEY = "foog:dismissed-announcements";
+
+    const getDismissed = () => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    };
+
+    const dismiss = (slug) => {
+      const dismissed = getDismissed();
+      if (!dismissed.includes(slug)) {
+        dismissed.push(slug);
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(dismissed));
+        } catch {
+          // localStorage unavailable (private mode / quota) - the dismissal
+          // just won't persist across reloads, which is an acceptable fallback.
+        }
+      }
+    };
+
+    const init = () => {
+      const banner = document.querySelector("[data-announcement-banner]");
+      if (!(banner instanceof HTMLElement)) return;
+
+      const slug = banner.dataset.announcementSlug;
+      if (slug && getDismissed().includes(slug)) {
+        return;
+      }
+
+      banner.style.removeProperty("display");
+
+      const dismissButton = banner.querySelector("[data-announcement-dismiss]");
+      dismissButton?.addEventListener("click", () => {
+        if (slug) dismiss(slug);
+        banner.style.display = "none";
+      });
+    };
+
+    document.addEventListener("astro:page-load", init);
+  })();
+</script>

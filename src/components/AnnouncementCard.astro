@@ -1,0 +1,70 @@
+---
+import type { Announcement } from "../types";
+
+interface Props {
+  announcement: Announcement;
+}
+
+const { announcement } = Astro.props;
+
+const dateFormatter = new Intl.DateTimeFormat("el-GR", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+});
+const formattedDate = dateFormatter.format(new Date(announcement.publishedDate));
+
+const categoryStyles: Record<Announcement["category"], string> = {
+  elections: "bg-brand-terracotta/10 text-brand-terracotta border-brand-terracotta/30",
+  schedule: "bg-brand-river/10 text-brand-river border-brand-river/30",
+  general: "bg-brand-pine/10 text-brand-pine border-brand-pine/30",
+};
+
+const categoryLabels: Record<Announcement["category"], string> = {
+  elections: "Εκλογές",
+  schedule: "Πρόγραμμα",
+  general: "Γενικά",
+};
+---
+
+<article
+  class={`glass-panel p-6 flex flex-col gap-3 transition duration-300 hover:-translate-y-1 hover:shadow-glow ${announcement.urgent ? "border-l-4 border-l-brand-terracotta" : ""}`}
+>
+  <div class="flex flex-wrap items-center gap-3">
+    <span
+      class={`inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full border shadow-sm uppercase tracking-[0.2em] ${categoryStyles[announcement.category]}`}
+    >
+      {categoryLabels[announcement.category]}
+    </span>
+    {
+      announcement.urgent && (
+        <span class="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full border border-brand-terracotta/40 bg-brand-terracotta/10 text-brand-terracotta uppercase tracking-[0.2em]">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            class="h-3.5 w-3.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"
+            ></path>
+          </svg>
+          Επείγον
+        </span>
+      )
+    }
+    <span class="ml-auto text-xs font-bold uppercase tracking-[0.3em] text-brand-mossDark">
+      {formattedDate}
+    </span>
+  </div>
+  <h3 class="text-xl font-semibold text-brand-rocky heading-font">
+    {announcement.title}
+  </h3>
+  <p class="text-brand-mist leading-relaxed whitespace-pre-line">
+    {announcement.body}
+  </p>
+</article>

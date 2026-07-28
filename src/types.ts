@@ -51,6 +51,26 @@ export const isTripUpcoming = (trip: Pick<Trip, 'startDate'>, referenceDate?: Da
 export const isTripPast = (trip: Pick<Trip, 'startDate'>, referenceDate?: Date) =>
   getTripTimelineStatus(trip, referenceDate) === 'past';
 
+export type AnnouncementCategory = 'elections' | 'schedule' | 'general';
+
+export interface Announcement {
+  slug: string;
+  title: string;
+  body: string;
+  category: AnnouncementCategory;
+  publishedDate: string;
+  expiresDate?: string;
+  urgent?: boolean;
+}
+
+export const isAnnouncementActive = (
+  announcement: Pick<Announcement, 'expiresDate'>,
+  referenceDate?: Date
+): boolean => {
+  if (!announcement.expiresDate) return true;
+  return new Date(announcement.expiresDate).getTime() >= getReferenceDate(referenceDate).getTime();
+};
+
 export interface Coach {
   name: string;
   role: string;

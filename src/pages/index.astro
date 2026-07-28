@@ -3,7 +3,9 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TripCard from "../components/TripCard.astro";
 import SectionHeader from "../components/SectionHeader.astro";
+import AnnouncementBanner from "../components/AnnouncementBanner.astro";
 import { trips } from "../data/trips";
+import { announcements } from "../data/announcements";
 import { siteMetadata, organizationId, getSiteBaseUrl } from "../data/site";
 import { withBase } from "../utils/url";
 import foogVoras from "../assets/images/foog-voras-profitis-hlias.jpg";
@@ -14,7 +16,14 @@ import heroBorevetsSki from "../assets/images/foog-borovets.jpg";
 import heroSkiJuniorLesson from "../assets/images/foog-ski-junior.jpg";
 import heroAlexiptoto from "../assets/images/foog-ski-camp-alexiptoto.jpg";
 import heroSnowboardCamp from "../assets/images/foog-snowboard-camp-junior.jpg";
-import { isTripUpcoming, isTripPast } from "../types";
+import { isTripUpcoming, isTripPast, isAnnouncementActive } from "../types";
+
+const bannerAnnouncement = [...announcements]
+  .filter((announcement) => isAnnouncementActive(announcement))
+  .sort((a, b) => {
+    if (!!a.urgent !== !!b.urgent) return a.urgent ? -1 : 1;
+    return new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime();
+  })[0];
 
 const upcomingTrips = [...trips]
   .filter((trip) => isTripUpcoming(trip))
@@ -128,6 +137,13 @@ const homepageStructuredData = {
 ---
 
 <BaseLayout structuredData={[homepageStructuredData]}>
+  {
+    bannerAnnouncement && (
+      <div class="px-6 sm:px-8 lg:px-12">
+        <AnnouncementBanner announcement={bannerAnnouncement} />
+      </div>
+    )
+  }
   <section class="section-padding pt-10" data-reveal>
     <div
       class="glass-panel px-8 py-14 lg:px-12 lg:py-20 overflow-hidden relative"
