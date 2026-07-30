@@ -273,26 +273,28 @@ const getLinkPath = (href: string) => {
           </div>
           <nav
             id="nav-menu-mobile"
-            class="mobile-nav-panel mt-4 gap-3 text-sm font-semibold text-brand-rocky lg:hidden pr-1 scrollbar-hide"
+            class="mobile-nav-panel mt-4 lg:hidden"
             aria-label="Κύρια πλοήγηση"
             aria-hidden="true"
           >
-            {
-              navLinks.map((link, index) => {
-                const isActive = getLinkPath(link.href) === currentPath;
-                return (
-                  <a
-                    href={link.href}
-                    data-nav-mobile-link
-                    class="nav-link w-full rounded-2xl border border-brand-river/40 bg-brand-cloud px-4 py-3 text-center transition hover:border-brand-terracotta/60 hover:text-brand-terracotta"
-                    aria-current={isActive ? "page" : undefined}
-                    style={`transition-delay: ${index * 40}ms`}
-                  >
-                    {link.label}
-                  </a>
-                );
-              })
-            }
+            <div class="mobile-nav-panel-inner flex flex-col gap-3 text-sm font-semibold text-brand-rocky pr-1 scrollbar-hide">
+              {
+                navLinks.map((link, index) => {
+                  const isActive = getLinkPath(link.href) === currentPath;
+                  return (
+                    <a
+                      href={link.href}
+                      data-nav-mobile-link
+                      class="nav-link w-full rounded-2xl border border-brand-river/40 bg-brand-cloud px-4 py-3 text-center transition hover:border-brand-terracotta/60 hover:text-brand-terracotta"
+                      aria-current={isActive ? "page" : undefined}
+                      style={`transition-delay: ${index * 40}ms`}
+                    >
+                      {link.label}
+                    </a>
+                  );
+                })
+              }
+            </div>
           </nav>
         </div>
       </header>

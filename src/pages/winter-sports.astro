@@ -13,6 +13,7 @@ import heroSkiJuniorLesson from "../assets/images/foog-ski-junior.jpg";
   description="Γνώρισε τους πιστοποιημένους προπονητές σκι, ορειβασίας και αναρρίχησης του Φ.Ο.Ο.Γ."
 >
   <div class="winter-snow">
+    <canvas class="winter-snow-canvas" aria-hidden="true"></canvas>
     <section class="section-padding" data-reveal>
       <SectionHeader
         eyebrow="Χειμερινά Σπορ"
@@ -131,4 +132,198 @@ import heroSkiJuniorLesson from "../assets/images/foog-ski-junior.jpg";
       </div>
     </section>
   </div>
+  <script>
+    const initWinterSnow = () => {
+      const canvas = document.querySelector(".winter-snow-canvas");
+      const container = canvas?.closest(".winter-snow");
+      if (!canvas || !container) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      const makeDotSprite = (radius) => {
+        const pad = radius * 1.35;
+        const size = Math.ceil(pad * 2);
+        const sprite = document.createElement("canvas");
+        sprite.width = size;
+        sprite.height = size;
+        const sctx = sprite.getContext("2d");
+        const gradient = sctx.createRadialGradient(pad, pad, 0, pad, pad, pad);
+        gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
+        gradient.addColorStop(0.7, "rgba(255, 255, 255, 0.9)");
+        gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+        sctx.fillStyle = gradient;
+        sctx.beginPath();
+        sctx.arc(pad, pad, pad, 0, Math.PI * 2);
+        sctx.fill();
+        return sprite;
+      };
+
+      const makeSnowflakeSprite = (radius) => {
+        const pad = radius * 1.3;
+        const size = Math.ceil(pad * 2);
+        const sprite = document.createElement("canvas");
+        sprite.width = size;
+        sprite.height = size;
+        const sctx = sprite.getContext("2d");
+        const cx = pad;
+        const cy = pad;
+        sctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
+        sctx.lineCap = "round";
+        sctx.lineWidth = Math.max(1, radius / 5);
+        for (let i = 0; i < 6; i++) {
+          const angle = (Math.PI / 3) * i;
+          const dx = Math.cos(angle);
+          const dy = Math.sin(angle);
+          sctx.beginPath();
+          sctx.moveTo(cx, cy);
+          sctx.lineTo(cx + dx * radius, cy + dy * radius);
+          sctx.stroke();
+
+          const branchX = cx + dx * radius * 0.55;
+          const branchY = cy + dy * radius * 0.55;
+          const branchLen = radius * 0.32;
+          [angle + Math.PI / 6, angle - Math.PI / 6].forEach((branchAngle) => {
+            sctx.beginPath();
+            sctx.moveTo(branchX, branchY);
+            sctx.lineTo(
+              branchX + Math.cos(branchAngle) * branchLen,
+              branchY + Math.sin(branchAngle) * branchLen
+            );
+            sctx.stroke();
+          });
+        }
+        return sprite;
+      };
+
+      const sprites = [makeDotSprite(1.3), makeDotSprite(2.1), makeSnowflakeSprite(4.8)];
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      let width = 0;
+      let height = 0;
+      let flakes = [];
+      let rafId = null;
+      let lastTime = 0;
+      let windPhase = Math.random() * Math.PI * 2;
+      let resizePending = false;
+
+      const spawnFlake = (randomY) => {
+        const roll = Math.random();
+        const sizeIndex = roll < 0.55 ? 0 : roll < 0.85 ? 1 : 2;
+        return {
+          baseX: Math.random() * width,
+          y: randomY ? Math.random() * height : -12,
+          sizeIndex,
+          speed: 16 + sizeIndex * 14 + Math.random() * 12,
+          swayAmp: 8 + Math.random() * 22,
+          swayFreq: 0.25 + Math.random() * 0.5,
+          phase: Math.random() * Math.PI * 2,
+          opacity: 0.35 + Math.random() * 0.5,
+          rotation: Math.random() * Math.PI * 2,
+          rotationSpeed: (Math.random() - 0.5) * 0.6,
+        };
+      };
+
+      const seedFlakes = () => {
+        const area = width * height;
+        const count = Math.max(30, Math.min(160, Math.round(area / 12000)));
+        flakes = Array.from({ length: count }, () => spawnFlake(true));
+      };
+
+      const resize = () => {
+        resizePending = false;
+        width = container.clientWidth;
+        height = container.scrollHeight;
+        canvas.width = Math.max(1, Math.round(width * dpr));
+        canvas.height = Math.max(1, Math.round(height * dpr));
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        seedFlakes();
+      };
+
+      const scheduleResize = () => {
+        if (resizePending) return;
+        resizePending = true;
+        requestAnimationFrame(resize);
+      };
+
+      const step = (timestamp) => {
+        if (!lastTime) lastTime = timestamp;
+        const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
+        lastTime = timestamp;
+
+        windPhase += dt * 0.15;
+        const wind = Math.sin(windPhase) * 12;
+
+        ctx.clearRect(0, 0, width, height);
+
+        for (const flake of flakes) {
+          flake.y += flake.speed * dt;
+          flake.baseX += wind * dt;
+          if (flake.baseX < -20) flake.baseX = width + 20;
+          if (flake.baseX > width + 20) flake.baseX = -20;
+          flake.rotation += flake.rotationSpeed * dt;
+
+          if (flake.y > height + 20) {
+            Object.assign(flake, spawnFlake(false));
+            continue;
+          }
+
+          const sway = Math.sin(timestamp / 1000 * flake.swayFreq + flake.phase) * flake.swayAmp;
+          const x = flake.baseX + sway;
+          const sprite = sprites[flake.sizeIndex];
+
+          ctx.save();
+          ctx.globalAlpha = flake.opacity;
+          ctx.translate(x, flake.y);
+          if (flake.sizeIndex === 2) ctx.rotate(flake.rotation);
+          ctx.drawImage(sprite, -sprite.width / 2, -sprite.height / 2);
+          ctx.restore();
+        }
+        ctx.globalAlpha = 1;
+
+        rafId = requestAnimationFrame(step);
+      };
+
+      const start = () => {
+        lastTime = 0;
+        rafId = requestAnimationFrame(step);
+      };
+
+      const stop = () => {
+        if (rafId !== null) cancelAnimationFrame(rafId);
+        rafId = null;
+      };
+
+      const handleVisibility = () => {
+        if (document.hidden) {
+          stop();
+        } else {
+          start();
+        }
+      };
+
+      resize();
+      start();
+
+      window.addEventListener("resize", scheduleResize);
+      document.addEventListener("visibilitychange", handleVisibility);
+
+      const resizeObserver = new ResizeObserver(scheduleResize);
+      resizeObserver.observe(container);
+
+      document.addEventListener(
+        "astro:before-swap",
+        () => {
+          stop();
+          window.removeEventListener("resize", scheduleResize);
+          document.removeEventListener("visibilitychange", handleVisibility);
+          resizeObserver.disconnect();
+        },
+        { once: true }
+      );
+    };
+
+    document.addEventListener("astro:page-load", initWinterSnow);
+  </script>
 </BaseLayout>

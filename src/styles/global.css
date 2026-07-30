@@ -142,29 +142,34 @@ a {
 }
 
 /*
- * The header's glass-panel is `position: sticky`, so its backdrop-blur is
- * recomputed every scroll frame (the content behind it keeps changing).
- * A much smaller radius here keeps the glassy look but cuts that per-frame
- * cost drastically; other glass-panel usages aren't sticky/fixed so their
- * blur is composited once, not on every frame.
+ * Animating `max-height` forces the browser to recompute layout for this
+ * element (and reflow everything after it, since it sits in a sticky header
+ * that's still in normal flow) on every single animation frame. The
+ * `grid-template-rows: 0fr -> 1fr` trick animates a track size instead, which
+ * the grid algorithm can interpolate directly without an arbitrary oversized
+ * target (the old 70vh guess) — same visual result, far smoother on mobile.
+ * The actual max-height safety cap moves to `.mobile-nav-panel-inner` as a
+ * static (non-animated) value, so it's cheap and only matters if content is
+ * unusually tall.
  */
-.nav-header .glass-panel {
-  backdrop-filter: blur(12px);
-}
-
 .mobile-nav-panel {
   display: grid;
-  max-height: 0;
+  grid-template-rows: 0fr;
   opacity: 0;
   pointer-events: none;
-  overflow-y: auto;
-  transition: max-height 0.4s ease, opacity 0.3s ease;
+  transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
 }
 
 .mobile-nav-panel.nav-mobile-open {
-  max-height: 70vh;
+  grid-template-rows: 1fr;
   opacity: 1;
   pointer-events: auto;
+}
+
+.mobile-nav-panel-inner {
+  min-height: 0;
+  overflow-y: auto;
+  max-height: 70vh;
 }
 
 .mobile-nav-panel .nav-link {
@@ -218,8 +223,17 @@ a {
   }
 }
 
+/*
+ * backdrop-filter isn't a one-time paint even on a static panel: whenever the
+ * page scrolls, whatever sits behind the panel changes, so the blur has to
+ * be resampled on every scroll frame. At `backdrop-blur-2xl` (40px) that cost
+ * multiplies across every card on a page (trip grids, coach grids, etc.) and
+ * was the source of scroll jank and blank/white tiles flashing in during
+ * fast scrolling. `blur-md` (12px) keeps the frosted-glass look at a much
+ * cheaper sampling radius — same fix already applied to the sticky nav-header.
+ */
 .glass-panel {
-  @apply bg-brand-cloud/80 border border-brand-river/25 backdrop-blur-2xl rounded-[28px] shadow-xl shadow-brand-river/30;
+  @apply bg-brand-cloud/80 border border-brand-river/25 backdrop-blur-md rounded-[28px] shadow-xl shadow-brand-river/30;
 }
 
 .shimmer-hover {
@@ -296,11 +310,13 @@ body.reveal-enabled [data-reveal] {
   opacity: 0;
   transform: translateY(36px);
   transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: opacity, transform;
 }
 
 body.reveal-enabled [data-reveal].is-revealed {
   opacity: 1;
   transform: translateY(0);
+  will-change: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -432,60 +448,17 @@ details summary::-webkit-details-marker {
   isolation: isolate;
 }
 
-.winter-snow > * {
+.winter-snow > *:not(.winter-snow-canvas) {
   position: relative;
   z-index: 1;
 }
 
-.winter-snow::before,
-.winter-snow::after {
-  content: '';
+.winter-snow-canvas {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: -300px;
-  bottom: -300px;
-  pointer-events: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
-  background-image:
-    radial-gradient(circle, rgba(253, 250, 246, 0.8) 1px, transparent 1px),
-    radial-gradient(circle, rgba(253, 250, 246, 0.55) 1.2px, transparent 1px),
-    radial-gradient(circle, rgba(253, 250, 246, 0.35) 1.8px, transparent 1.2px),
-    radial-gradient(circle, rgba(253, 250, 246, 0.25) 2.6px, transparent 1.5px);
-  background-repeat: repeat;
-  background-size: 90px 90px, 130px 130px, 190px 190px, 260px 260px;
-  opacity: 0.5;
-  animation: winterSnowDrift 38s linear infinite;
-  will-change: transform;
-  mix-blend-mode: screen;
-}
-
-.winter-snow::after {
-  background-size: 140px 140px, 200px 200px, 280px 280px, 360px 360px;
-  opacity: 0.4;
-  animation-duration: 52s;
-  animation-direction: reverse;
-  filter: blur(0.5px);
-  animation-delay: -8s;
-}
-
-.winter-snow::before {
-  animation-duration: 34s;
-}
-
-@keyframes winterSnowDrift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(0, 300px, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .winter-snow::before,
-  .winter-snow::after {
-    animation: none;
-    opacity: 0.15;
-  }
+  display: block;
+  pointer-events: none;
 }
