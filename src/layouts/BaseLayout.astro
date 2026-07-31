@@ -65,6 +65,7 @@ const additionalStructuredData = Array.isArray(structuredData)
   ? [structuredData]
   : [];
 const jsonLdEntries = [getOrganizationJsonLd(), ...additionalStructuredData];
+const jsonLdScripts = jsonLdEntries.map((entry) => JSON.stringify(entry));
 
 const navLinks = [
   { href: withBase("/"), label: "Αρχική" },
@@ -166,10 +167,8 @@ const getLinkPath = (href: string) => {
         referrerpolicy="no-referrer"
       />
     </noscript>
-    {jsonLdEntries.map((entry) => (
-      <script type="application/ld+json">
-        {JSON.stringify(entry)}
-      </script>
+    {jsonLdScripts.map((json) => (
+      <script type="application/ld+json" set:html={json} />
     ))}
     <ClientRouter />
   </head>
