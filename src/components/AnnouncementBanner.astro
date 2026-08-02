@@ -1,18 +1,21 @@
 ---
 import type { Announcement } from "../types";
-import { withBase } from "../utils/url";
+import { withLocale } from "../utils/url";
+import { useTranslations, defaultLocale, type Locale } from "../i18n/ui";
 
 interface Props {
   announcement: Announcement;
+  locale?: Locale;
 }
 
-const { announcement } = Astro.props;
+const { announcement, locale = defaultLocale } = Astro.props;
+const t = useTranslations(locale);
 const urgent = Boolean(announcement.urgent);
 
 const categoryLabels: Record<Announcement["category"], string> = {
-  elections: "Εκλογές",
-  schedule: "Πρόγραμμα",
-  general: "Γενικά",
+  elections: t("announcementCategories.elections"),
+  schedule: t("announcementCategories.schedule"),
+  general: t("announcementCategories.general"),
 };
 ---
 
@@ -37,10 +40,10 @@ const categoryLabels: Record<Announcement["category"], string> = {
     </p>
   </div>
   <a
-    href={withBase("/announcements")}
+    href={withLocale(locale, "/announcements")}
     class="inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-brand-pine hover:text-brand-terracotta"
   >
-    Όλες οι ανακοινώσεις
+    {t("announcementBanner.viewAll")}
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -55,7 +58,7 @@ const categoryLabels: Record<Announcement["category"], string> = {
   <button
     type="button"
     data-announcement-dismiss
-    aria-label="Απόρριψη ανακοίνωσης"
+    aria-label={t("announcementBanner.dismissAria")}
     class="inline-flex h-8 w-8 items-center justify-center rounded-full text-brand-mist transition hover:bg-brand-terracotta/10 hover:text-brand-terracotta"
   >
     <svg

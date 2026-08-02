@@ -2,8 +2,10 @@
 import "../styles/global.css";
 import type { ImageMetadata } from "astro";
 import { ClientRouter } from "astro:transitions";
-import { getOrganizationJsonLd, siteMetadata } from "../data/site";
-import { withBase } from "../utils/url";
+import { getOrganizationJsonLd, siteMetadata, getLocalizedSiteMetadata } from "../data/site";
+import { withBase, withLocale, splitLocaleFromPathname } from "../utils/url";
+import { useTranslations, defaultLocale, locales, type Locale } from "../i18n/ui";
+import LanguageSwitcher from "../components/LanguageSwitcher.astro";
 
 type StructuredData = Record<string, unknown>;
 
@@ -14,6 +16,7 @@ interface Props {
   noindex?: boolean;
   structuredData?: StructuredData | StructuredData[];
   ogType?: "website" | "article" | "event";
+  locale?: Locale;
 }
 
 const {
@@ -23,16 +26,25 @@ const {
   noindex = false,
   structuredData,
   ogType = "website",
+  locale = (Astro.currentLocale as Locale | undefined) ?? defaultLocale,
 } = Astro.props as Props;
 
+const t = useTranslations(locale);
+const localizedSiteMetadata = getLocalizedSiteMetadata(locale);
 const defaultName = siteMetadata.name;
 const pageTitle = title ? `${title} | ${siteMetadata.shortName}` : defaultName;
-const metaDescription = description ?? siteMetadata.description;
+const metaDescription = description ?? localizedSiteMetadata.description;
 const currentYear = new Date().getFullYear();
 const siteUrl = new URL(siteMetadata.siteUrl);
 const siteOrigin = siteUrl.origin;
 const siteBasePath = siteUrl.pathname.replace(/\/$/, "") || "";
 const contactEmail = siteMetadata.contactEmail;
+const { path: localeFreePath } = splitLocaleFromPathname(Astro.url.pathname);
+const hreflangEntries = locales.map((loc) => ({
+  hreflang: loc,
+  href: new URL(withLocale(loc, localeFreePath), siteOrigin).href,
+}));
+const xDefaultHref = new URL(withLocale(defaultLocale, localeFreePath), siteOrigin).href;
 
 const ensureAbsoluteUrl = (value?: string | null) => {
   if (!value) return null;
@@ -64,20 +76,20 @@ const additionalStructuredData = Array.isArray(structuredData)
   : structuredData
   ? [structuredData]
   : [];
-const jsonLdEntries = [getOrganizationJsonLd(), ...additionalStructuredData];
+const jsonLdEntries = [getOrganizationJsonLd(locale), ...additionalStructuredData];
 const jsonLdScripts = jsonLdEntries.map((entry) => JSON.stringify(entry));
 
 const navLinks = [
-  { href: withBase("/"), label: "Αρχική" },
-  { href: withBase("/trips"), label: "Εξορμήσεις" },
-  { href: withBase("/history"), label: "Ποιοι είμαστε" },
-  { href: withBase("/winter-sports"), label: "Χιονοδρομία" },
-  { href: withBase("/join"), label: "Γίνε μέλος" },
-  { href: withBase("/gallery"), label: "Γκαλερί" },
-  { href: withBase("/contact"), label: "Επικοινωνία" },
+  { href: withLocale(locale, "/"), label: t("nav.home") },
+  { href: withLocale(locale, "/trips"), label: t("nav.trips") },
+  { href: withLocale(locale, "/history"), label: t("nav.history") },
+  { href: withLocale(locale, "/winter-sports"), label: t("nav.winterSports") },
+  { href: withLocale(locale, "/join"), label: t("nav.join") },
+  { href: withLocale(locale, "/gallery"), label: t("nav.gallery") },
+  { href: withLocale(locale, "/contact"), label: t("nav.contact") },
 ];
 
-const homeHref = withBase("/");
+const homeHref = withLocale(locale, "/");
 const normalizePath = (path: string) => path.replace(/\/$/, "") || "/";
 const currentPath = normalizePath(Astro.url.pathname);
 const getLinkPath = (href: string) => {
@@ -90,37 +102,52 @@ const getLinkPath = (href: string) => {
 ---
 
 <!doctype html>
-<html lang={siteMetadata.language}>
+<html lang={localizedSiteMetadata.language}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={metaDescription} />
-    <meta name="keywords" content={siteMetadata.keywords.join(", ")} />
+    <meta name="keywords" content={localizedSiteMetadata.keywords.join(", ")} />
     <meta name="robots" content={robotsContent} />
     <meta name="theme-color" content={siteMetadata.themeColor} />
     <meta name="author" content={siteMetadata.shortName} />
     <meta name="application-name" content={siteMetadata.shortName} />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" hreflang={siteMetadata.language} href={canonicalUrl} />
+    {
+      hreflangEntries.map((entry) => (
+        <link rel="alternate" hreflang={entry.hreflang} href={entry.href} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={metaDescription} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:locale" content={siteMetadata.locale} />
+    <meta property="og:locale" content={localizedSiteMetadata.ogLocale} />
+    {
+      locales
+        .filter((loc) => loc !== locale)
+        .map((loc) => (
+          <meta
+            property="og:locale:alternate"
+            content={getLocalizedSiteMetadata(loc).ogLocale}
+          />
+        ))
+    }
     <meta property="og:site_name" content={siteMetadata.tagline} />
     {ogImageUrl && (
       <>
         <meta property="og:image" content={ogImageUrl} />
         <meta property="og:image:secure_url" content={ogImageUrl} />
-        <meta property="og:image:alt" content={siteMetadata.socialImageAlt} />
+        <meta property="og:image:alt" content={localizedSiteMetadata.socialImageAlt} />
         <meta name="twitter:image" content={ogImageUrl} />
       </>
     )}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={metaDescription} />
-    <meta name="twitter:image:alt" content={siteMetadata.socialImageAlt} />
+    <meta name="twitter:image:alt" content={localizedSiteMetadata.socialImageAlt} />
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.png")} />
     <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32x32.png")} />
     <link rel="apple-touch-icon" href={withBase("/favicon.png")} />
@@ -173,7 +200,7 @@ const getLinkPath = (href: string) => {
     <ClientRouter />
   </head>
   <body class="relative min-h-screen text-brand-rocky">
-    <a href="#main-content" class="skip-link">Μετάβαση στο κύριο περιεχόμενο</a>
+    <a href="#main-content" class="skip-link">{t("nav.skipLink")}</a>
     <div class="absolute inset-0 -z-10" aria-hidden="true">
       <div
         class="h-96 w-full bg-gradient-to-b from-brand-moss/25 via-transparent to-transparent blur-3xl"
@@ -218,11 +245,11 @@ const getLinkPath = (href: string) => {
                 href={homeHref}
                 class="text-2xl font-semibold text-brand-pine heading-font flex items-center gap-3"
               >
-                Φ.Ο.Ο.Γ
+                {t("nav.brandMark")}
                 <span class="playful-pill">since 1973</span>
               </a>
               <p class="text-sm text-brand-mist mt-1">
-                Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών
+                {t("nav.tagline")}
               </p>
             </div>
             <div class="flex items-center gap-3">
@@ -233,7 +260,7 @@ const getLinkPath = (href: string) => {
                 aria-expanded="false"
                 class="lg:hidden inline-flex items-center gap-2 rounded-full border border-brand-pine/30 px-4 py-2 text-sm font-semibold text-brand-rocky hover:text-brand-terracotta"
               >
-                Μενού
+                {t("nav.menuToggle")}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -251,7 +278,7 @@ const getLinkPath = (href: string) => {
               <nav
                 id="nav-menu"
                 class="hidden flex-wrap items-center gap-3 text-sm font-semibold text-brand-rocky lg:flex"
-                aria-label="Κύρια πλοήγηση"
+                aria-label={t("nav.ariaLabel")}
               >
                 {
               navLinks.map((link) => {
@@ -268,15 +295,27 @@ const getLinkPath = (href: string) => {
                   })
                 }
               </nav>
+              <LanguageSwitcher
+                locale={locale}
+                path={localeFreePath}
+                ariaLabel={t("nav.languageSwitcherAriaLabel")}
+                class="hidden lg:inline-flex"
+              />
             </div>
           </div>
           <nav
             id="nav-menu-mobile"
             class="mobile-nav-panel mt-4 lg:hidden"
-            aria-label="Κύρια πλοήγηση"
+            aria-label={t("nav.ariaLabel")}
             aria-hidden="true"
           >
             <div class="mobile-nav-panel-inner flex flex-col gap-3 text-sm font-semibold text-brand-rocky pr-1 scrollbar-hide">
+              <LanguageSwitcher
+                locale={locale}
+                path={localeFreePath}
+                ariaLabel={t("nav.languageSwitcherAriaLabel")}
+                class="self-center"
+              />
               {
                 navLinks.map((link, index) => {
                   const isActive = getLinkPath(link.href) === currentPath;
@@ -310,35 +349,35 @@ const getLinkPath = (href: string) => {
         <div class="glass-panel px-6 py-8 grid gap-8 lg:grid-cols-3">
           <div>
             <h3 class="text-xl font-semibold text-brand-rocky">
-              Πάντα έτοιμοι για περιπέτεια.
+              {t("footer.heading")}
             </h3>
             <p class="text-brand-mist mt-2">
-              Ανακαλύπτουμε το βουνό, μοιραζόμαστε στιγμές, αφήνουμε μόνο τα ίχνη μας.
+              {t("footer.subtitle")}
             </p>
           </div>
-          <nav class="space-y-2 text-brand-mist" aria-label="Σύνδεσμοι υποσέλιδου">
-            <a href={withBase("/trips")} class="block hover:text-brand-pine">Εξορμήσεις</a>
-            <a href={withBase("/announcements")} class="block hover:text-brand-pine">Ανακοινώσεις</a>
-            <a href={withBase("/join")} class="block hover:text-brand-pine">Γίνε μέλος</a>
-            <a href={withBase("/contact")} class="block hover:text-brand-pine"
-              >Επικοινωνία</a
+          <nav class="space-y-2 text-brand-mist" aria-label={t("footer.linksAriaLabel")}>
+            <a href={withLocale(locale, "/trips")} class="block hover:text-brand-pine">{t("footer.trips")}</a>
+            <a href={withLocale(locale, "/announcements")} class="block hover:text-brand-pine">{t("footer.announcements")}</a>
+            <a href={withLocale(locale, "/join")} class="block hover:text-brand-pine">{t("footer.join")}</a>
+            <a href={withLocale(locale, "/contact")} class="block hover:text-brand-pine"
+              >{t("footer.contact")}</a
             >
-            <a href={withBase("/winter-sports")} class="block hover:text-brand-pine"
-              >Εκπαίδευση</a
+            <a href={withLocale(locale, "/winter-sports")} class="block hover:text-brand-pine"
+              >{t("footer.training")}</a
             >
-            <a href={withBase("/board")} class="block hover:text-brand-pine"
-              >Διοίκηση</a
+            <a href={withLocale(locale, "/board")} class="block hover:text-brand-pine"
+              >{t("footer.board")}</a
             >
           </nav>
           <div class="text-brand-mist space-y-2">
             <p>
-              Ηλ. ταχυδρομείο: <a
+              {t("footer.emailLabel")} <a
                 href={`mailto:${contactEmail}`}
                 class="font-semibold text-brand-pine">{contactEmail}</a
               >
             </p>
             <p class="flex items-center gap-3">
-              <span>Social Media:</span>
+              <span>{t("footer.socialLabel")}</span>
               <a
                 href="https://www.instagram.com/f.o.o.giannitson/"
                 class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand-river/40 text-brand-mist hover:text-brand-pine hover:border-brand-pine"
@@ -355,8 +394,7 @@ const getLinkPath = (href: string) => {
               </a>
             </p>
             <p class="text-sm text-brand-mist">
-              Τα ορεινά σπορ ενέχουν κινδύνους· συμμετέχετε εντός των ορίων σας
-              και σύμφωνα με τα πρωτόκολλα του Φ.Ο.Ο.Γ.
+              {t("footer.disclaimer")}
             </p>
           </div>
         </div>
@@ -364,8 +402,7 @@ const getLinkPath = (href: string) => {
           class="text-center text-xs sm:text-sm text-brand-cloud mt-6 space-y-2"
         >
           <p>
-            © {currentYear} Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών. Όλα τα
-            δικαιώματα διατηρούνται.
+            © {currentYear} {siteMetadata.tagline}. {t("footer.rightsReserved")}
           </p>
           <p>
             Made with

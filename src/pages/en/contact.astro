@@ -1,0 +1,275 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { siteMetadata } from "../../data/site";
+
+const locale = "en" as const;
+
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+// Web3Forms access keys are meant to be public (client-side), like a site key.
+const web3FormsAccessKey = "e1d58d72-23d0-47ff-9bd4-87e7065d8b8a";
+const contactEmail = siteMetadata.contactEmail;
+const clubPhone = siteMetadata.phone;
+const clubAddress = `${siteMetadata.address.street}, ${siteMetadata.address.city} ${siteMetadata.address.postalCode}`;
+---
+
+<BaseLayout
+  locale={locale}
+  title="Contact"
+  description="Get in touch with F.O.O.G.'s board, members, and trip leaders."
+>
+  <section class="section-padding" data-reveal>
+    <SectionHeader
+      eyebrow="Hello"
+      title="Contact"
+      subtitle="Send us an email or drop by our office"
+      level={1}
+    />
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div class="space-y-6">
+        <div class="glass-panel p-6 space-y-3">
+          <h3 class="text-xl font-semibold text-brand-rocky">
+            Club details
+          </h3>
+          <p class="text-brand-mist">
+            {siteMetadata.shortName}, {clubAddress}
+          </p>
+          <p class="text-brand-mist">
+            Meetups: Wednesdays 18:30–21:00 · Our wooden clubhouse
+          </p>
+          <p class="text-brand-mist">
+            Email: <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+          </p>
+          <p class="text-brand-mist">Phone: {clubPhone}</p>
+        </div>
+        <div class="glass-panel space-y-3 overflow-hidden rounded-3xl p-0">
+          <div class="contact-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3020.3926007214395!2d22.411229576016144!3d40.7973657323851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1357cf0023c5ad5d%3A0x66a05dca1921c097!2zzqbPhc-DzrnOv867zrHPhM-BzrnOus-Mz4Igzp_Pgc61zrnOss6xz4TOuc66z4zPgiDOjM68zrnOu86_z4IgzpPOuc6xzr3Ovc65z4TPg8-Ozr0gKM6mLs6fLs6fLs6TKQ!5e0!3m2!1sen!2sgr!4v1763228852047!5m2!1sen!2sgr"
+              title="F.O.O.G. clubhouse map"
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div aria-hidden="true" class="contact-map__ring"></div>
+            <div
+              aria-hidden="true"
+              class="contact-map__glow contact-map__glow--one"
+            >
+            </div>
+            <div
+              aria-hidden="true"
+              class="contact-map__glow contact-map__glow--two"
+            >
+            </div>
+          </div>
+          <div class="px-6 pb-4 text-sm">
+            <a
+              href="https://maps.app.goo.gl/4AAj2mRvftfcaQLw5"
+              target="_blank"
+              rel="noreferrer"
+              class="text-brand-river underline decoration-dotted underline-offset-4"
+            >
+              Open in Google Maps
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="glass-panel p-8">
+        <form
+          action={WEB3FORMS_ENDPOINT}
+          method="POST"
+          class="space-y-6"
+          data-contact-form
+        >
+          <input type="hidden" name="access_key" value={web3FormsAccessKey} />
+          <input
+            type="hidden"
+            name="subject"
+            value="New contact message from foog.gr (EN)"
+          />
+          <input type="hidden" name="from_name" value="F.O.O.G. website" />
+          <div class="hidden" aria-hidden="true">
+            <label class="text-sm text-brand-mist">
+              Don't fill this field in
+              <input
+                type="text"
+                name="botcheck"
+                tabindex="-1"
+                autocomplete="off"
+                class="w-px border-0 bg-transparent p-0"
+              />
+            </label>
+          </div>
+          <div data-form-fields class="space-y-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-brand-rocky">
+                Talk to our team
+              </h3>
+              <p class="mt-2 text-brand-mist">
+                Fill out the form with your message. We'll reply within 1–2
+                business days and can call you back if needed.
+              </p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2 mb-4">
+              <label class="space-y-1 text-sm font-medium text-brand-rocky">
+                <span class="text-brand-mist">Full name</span>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Full name"
+                  class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+                />
+              </label>
+              <label class="space-y-1 text-sm font-medium text-brand-rocky">
+                <span class="text-brand-mist">Email</span>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="name@email.com"
+                  class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+                />
+              </label>
+            </div>
+            <label class="space-y-1 text-sm font-medium text-brand-rocky">
+              <span class="text-brand-mist">Phone (optional)</span>
+              <input
+                type="tel"
+                name="phone"
+                placeholder="e.g. +30 69 1234 5678"
+                class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+              />
+            </label>
+            <label class="space-y-1 text-sm font-medium text-brand-rocky">
+              <span class="text-brand-mist">Message</span>
+              <textarea
+                name="message"
+                rows="5"
+                required
+                placeholder="Tell us how we can help"
+                class="w-full rounded-2xl border border-brand-river/30 bg-brand-cloud/80 px-4 py-3 text-base font-normal text-brand-rocky placeholder:text-brand-mist focus:border-brand-river focus:ring-2 focus:ring-brand-river/40 focus:outline-none"
+              ></textarea>
+            </label>
+            <button
+              type="submit"
+              class="btn-ripple inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-river px-4 py-3 text-base font-semibold text-brand-cloud transition hover:bg-brand-terracotta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-terracotta focus-visible:ring-offset-brand-cloud disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              <span data-submit-label>Send message</span>
+            </button>
+          </div>
+          <div
+            data-form-success
+            class="hidden rounded-3xl border border-brand-moss/40 bg-brand-moss/10 p-6 text-center"
+            role="status"
+            aria-live="polite"
+          >
+            <div
+              class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-moss/20 text-brand-moss"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4.5 12.75l6 6 9-13.5"></path>
+              </svg>
+            </div>
+            <p class="font-semibold text-brand-rocky">
+              Your message has been sent!
+            </p>
+            <p class="mt-1 text-sm text-brand-mist">
+              We'll get back to you soon.
+            </p>
+          </div>
+          <div
+            data-form-error
+            class="hidden rounded-3xl border border-brand-terracotta/40 bg-brand-terracotta/10 p-6 text-center"
+            role="alert"
+            aria-live="assertive"
+          >
+            <p class="font-semibold text-brand-terracotta">Something went wrong.</p>
+            <p class="mt-1 text-sm text-brand-mist">
+              Please try again or email us directly at
+              <a
+                href={`mailto:${contactEmail}`}
+                class="font-semibold text-brand-pine underline"
+              >
+                {contactEmail}
+              </a>.
+            </p>
+          </div>
+          <div
+            class="rounded-3xl border border-brand-river/20 bg-brand-cloud/50 p-6 text-sm"
+          >
+            <p class="font-semibold text-brand-rocky">
+              Want personal guidance?
+            </p>
+            <p class="text-brand-mist">
+              Stop by our office every Wednesday 18:30–21:00. Board members
+              and trip leaders will be there to talk through your needs in
+              person and help plan your next trip or training session.
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      const initContactForm = () => {
+        const form = document.querySelector<HTMLFormElement>(
+          "[data-contact-form]",
+        );
+        if (!form) return;
+
+        const fieldsWrapper = form.querySelector("[data-form-fields]");
+        const successPanel = form.querySelector("[data-form-success]");
+        const errorPanel = form.querySelector("[data-form-error]");
+        const submitButton = form.querySelector<HTMLButtonElement>(
+          "button[type='submit']",
+        );
+        const submitLabel = submitButton?.querySelector("[data-submit-label]");
+        const defaultLabel = submitLabel?.textContent ?? "Send message";
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          errorPanel?.classList.add("hidden");
+          if (submitButton) submitButton.disabled = true;
+          if (submitLabel) submitLabel.textContent = "Sending...";
+
+          try {
+            const response = await fetch(form.action, {
+              method: "POST",
+              headers: { Accept: "application/json" },
+              body: new FormData(form),
+            });
+            const result = await response.json().catch(() => null);
+
+            if (!response.ok || !result?.success) {
+              throw new Error(result?.message || "submit_failed");
+            }
+
+            fieldsWrapper?.classList.add("hidden");
+            successPanel?.classList.remove("hidden");
+            successPanel?.classList.add("form-status-pop");
+          } catch (error) {
+            errorPanel?.classList.remove("hidden");
+            errorPanel?.classList.add("form-status-pop");
+            if (submitButton) submitButton.disabled = false;
+            if (submitLabel) submitLabel.textContent = defaultLabel;
+          }
+        });
+      };
+
+      document.addEventListener("astro:page-load", initContactForm);
+    })();
+  </script>
+</BaseLayout>

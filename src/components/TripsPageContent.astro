@@ -2,7 +2,8 @@
 import TripCard from "./TripCard.astro";
 import SectionHeader from "./SectionHeader.astro";
 import type { Trip, TripType } from "../types";
-import { withBase } from "../utils/url";
+import { withLocale } from "../utils/url";
+import { useTranslations, defaultLocale, type Locale } from "../i18n/ui";
 
 interface PaginationMeta {
   currentPage: number;
@@ -14,38 +15,40 @@ interface Props {
   upcomingTrips: Trip[];
   pastTrips: Trip[];
   pagination: PaginationMeta;
+  locale?: Locale;
 }
 
-const { upcomingTrips, pastTrips, pagination } = Astro.props;
+const { upcomingTrips, pastTrips, pagination, locale = defaultLocale } = Astro.props;
+const t = useTranslations(locale);
 
 const tripTypes = ["hiking", "mountaineering", "ski"] as const;
 const difficulties = [1, 2, 3, 4, 5];
 const typeLabelMap: Record<(typeof tripTypes)[number], string> = {
-  hiking: "Πεζοπορία",
-  mountaineering: "Ορειβασία",
-  ski: "Ski & Snowboard",
+  hiking: t("tripTypes.hiking"),
+  mountaineering: t("tripTypes.mountaineering"),
+  ski: t("tripTypes.ski"),
 };
 const typeFilterOptions: (TripType | "all")[] = ["all", ...tripTypes];
 const difficultyFilterOptions: (number | "all")[] = ["all", ...difficulties];
 
 const pageHref = (pageNumber: number, hash?: string) => {
   const base = pageNumber === 1
-    ? withBase("/trips")
-    : withBase(`/trips/page/${pageNumber}`);
+    ? withLocale(locale, "/trips")
+    : withLocale(locale, `/trips/page/${pageNumber}`);
   return hash ? `${base}${hash}` : base;
 };
 ---
 
 <section class="section-padding" data-reveal>
   <SectionHeader
-    eyebrow="Ημερολόγιο"
-    title="Χάρτης εξορμήσεων"
-    subtitle="Διάλεξε εποχή, στόχο ή κύκλο καθοδήγησης"
+    eyebrow={t("tripsPage.heroEyebrow")}
+    title={t("tripsPage.heroTitle")}
+    subtitle={t("tripsPage.heroSubtitle")}
     level={1}
   />
   <div class="glass-panel p-6 mb-12">
     <p class="text-sm uppercase tracking-[0.3em] text-brand-mist">
-      Φίλτρα (ενδεικτικά)
+      {t("tripsPage.filtersLabel")}
     </p>
     <div class="mt-4 flex flex-wrap gap-3">
       {
@@ -57,7 +60,7 @@ const pageHref = (pageNumber: number, hash?: string) => {
             aria-pressed={typeOption === "all" ? "true" : "false"}
           >
             {typeOption === "all"
-              ? "Όλες οι δραστηριότητες"
+              ? t("tripsPage.allActivities")
               : typeLabelMap[typeOption]}
           </button>
         ))
@@ -72,7 +75,7 @@ const pageHref = (pageNumber: number, hash?: string) => {
             data-filter-difficulty={level}
             aria-pressed={level === "all" ? "true" : "false"}
           >
-            {level === "all" ? "Όλες οι δυσκολίες" : `Δυσκολία ${level}`}
+            {level === "all" ? t("tripsPage.allDifficulties") : `${t("tripsPage.difficultyPrefix")} ${level}`}
           </button>
         ))
       }
@@ -82,31 +85,31 @@ const pageHref = (pageNumber: number, hash?: string) => {
       class="hidden mt-4 text-sm text-brand-mist"
       role="status"
     >
-      Καμία εξόρμηση δεν ταιριάζει με τα επιλεγμένα φίλτρα. Δοκίμασε άλλο συνδυασμό.
+      {t("tripsPage.emptyFilterState")}
     </p>
   </div>
   <div class="space-y-16">
     <div>
       <div class="flex items-center justify-between mb-6">
         <h3 class="text-2xl font-semibold text-brand-cloud">
-          Επόμενες εξορμήσεις
+          {t("tripsPage.upcomingHeading")}
         </h3>
         <span class="text-sm text-brand-mist"
-          >{upcomingTrips.length} διαδρομές</span
+          >{upcomingTrips.length} {t("tripsPage.upcomingCountSuffix")}</span
         >
       </div>
       {
         upcomingTrips.length > 0 ? (
           <div class="grid gap-6 lg:grid-cols-2">
-            {upcomingTrips.map((trip) => <TripCard trip={trip} />)}
+            {upcomingTrips.map((trip) => <TripCard trip={trip} locale={locale} />)}
           </div>
         ) : (
           <div class="glass-panel p-6 text-brand-mist">
             <p class="text-lg font-semibold text-brand-rocky">
-              Δεν υπάρχουν επόμενες εξορμήσεις στο ημερολόγιο.
+              {t("tripsPage.noUpcomingTitle")}
             </p>
             <p class="mt-2">
-              Επιστρέψτε σύντομα ή εξερευνήστε τις προηγούμενες αναφορές για να δείτε τι ακολουθεί συνήθως το πρόγραμμά μας.
+              {t("tripsPage.noUpcomingBody")}
             </p>
           </div>
         )
@@ -119,24 +122,24 @@ const pageHref = (pageNumber: number, hash?: string) => {
     >
       <div class="flex items-center justify-between mb-0">
         <h3 class="text-2xl font-semibold text-brand-cloud">
-          Αναφορές προηγούμενων
+          {t("tripsPage.pastHeading")}
         </h3>
         <span class="text-sm text-brand-mist"
-          >{pagination.totalPastTrips} αναφορές</span
+          >{pagination.totalPastTrips} {t("tripsPage.pastCountSuffix")}</span
         >
       </div>
       {
         pastTrips.length > 0 ? (
           <div class="grid gap-6 lg:grid-cols-2">
-            {pastTrips.map((trip) => <TripCard trip={trip} />)}
+            {pastTrips.map((trip) => <TripCard trip={trip} locale={locale} />)}
           </div>
         ) : (
           <div class="glass-panel p-6 text-brand-mist">
             <p class="text-lg font-semibold text-brand-rocky">
-              Δεν υπάρχουν προηγούμενες εξορμήσεις προς το παρόν.
+              {t("tripsPage.noPastTitle")}
             </p>
             <p class="mt-2">
-              Μείνε συντονισμένος για νέες αναφορές από την κοινότητά μας.
+              {t("tripsPage.noPastBody")}
             </p>
           </div>
         )
@@ -145,7 +148,7 @@ const pageHref = (pageNumber: number, hash?: string) => {
         pagination.totalPages > 1 && (
           <div class="mt-6 flex flex-wrap items-center gap-4 justify-between border-t border-brand-cloud/10 pt-4">
             <span class="text-sm text-brand-mist">
-              Σελίδα {pagination.currentPage} από {pagination.totalPages}
+              {t("tripsPage.pagePrefix")} {pagination.currentPage} {t("tripsPage.pageOfConnector")} {pagination.totalPages}
             </span>
             <div class="flex gap-3">
               {
@@ -154,7 +157,7 @@ const pageHref = (pageNumber: number, hash?: string) => {
                     href={pageHref(pagination.currentPage - 1, '#past-trips')}
                     class="rounded-full border border-brand-cloud/40 px-4 py-2 text-sm font-semibold text-brand-cloud hover:border-brand-terracotta"
                   >
-                    Προηγούμενη
+                    {t("tripsPage.prevPage")}
                   </a>
                 )
               }
@@ -164,7 +167,7 @@ const pageHref = (pageNumber: number, hash?: string) => {
                     href={pageHref(pagination.currentPage + 1, '#past-trips')}
                     class="rounded-full border border-brand-cloud/40 px-4 py-2 text-sm font-semibold text-brand-cloud hover:border-brand-terracotta"
                   >
-                    Επόμενη
+                    {t("tripsPage.nextPage")}
                   </a>
                 )
               }

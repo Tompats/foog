@@ -1,12 +1,15 @@
 ---
 import { Image } from "astro:assets";
 import type { Coach } from "../types";
+import { useTranslations, defaultLocale, type Locale } from "../i18n/ui";
 
 interface Props {
   coach: Coach;
+  locale?: Locale;
 }
 
-const { coach } = Astro.props;
+const { coach, locale = defaultLocale } = Astro.props;
+const t = useTranslations(locale);
 const avatarWrapperClasses =
   "mx-auto h-28 w-28 rounded-[30px] ring-4 ring-brand-river/40 overflow-hidden flex items-center justify-center bg-brand-cloud text-brand-river";
 ---
@@ -26,7 +29,7 @@ const avatarWrapperClasses =
       ) : (
         <>
           <i class="fa-solid fa-user text-4xl" aria-hidden="true" />
-          <span class="sr-only">Φωτογραφία προπονητή δεν είναι διαθέσιμη</span>
+          <span class="sr-only">{t("coachCard.noPhotoAlt")}</span>
         </>
       )
     }

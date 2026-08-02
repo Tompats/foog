@@ -102,6 +102,26 @@ h3,
   letter-spacing: -0.01em;
 }
 
+/*
+ * Nunito and Quicksand's Latin glyphs read noticeably lighter than their
+ * Greek glyphs at the same declared weight (confirmed up to weight 900), so
+ * any phrase mixing scripts - "Ομαδικά weekends", "Κοινότητα 250+ μελών" -
+ * looks unevenly bold. A hairline stroke adds roughly the same absolute
+ * thickness to every glyph, which closes the gap because it's a
+ * proportionally bigger boost for the thinner Latin/numeral strokes than
+ * for the already-thick Greek ones. Unsupported browsers (Firefox) just
+ * ignore the property and see the original rendering.
+ */
+h1,
+h2,
+h3,
+.heading-font,
+.font-semibold,
+.font-bold,
+.font-black {
+  -webkit-text-stroke: 0.2px currentColor;
+}
+
 a {
   @apply text-brand-pine hover:text-brand-terracotta transition-colors;
 }
@@ -195,6 +215,7 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .mobile-nav-panel,
   .mobile-nav-panel .nav-link,
   #nav-overlay {
@@ -207,6 +228,7 @@ a {
     opacity: 0;
     transform: translateY(8px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -266,6 +288,7 @@ a {
   0% {
     transform: translateX(-120%) rotate(12deg);
   }
+
   100% {
     transform: translateX(120%) rotate(12deg);
   }
@@ -448,7 +471,7 @@ details summary::-webkit-details-marker {
   isolation: isolate;
 }
 
-.winter-snow > *:not(.winter-snow-canvas) {
+.winter-snow>*:not(.winter-snow-canvas) {
   position: relative;
   z-index: 1;
 }

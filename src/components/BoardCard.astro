@@ -1,12 +1,15 @@
 ---
 import { Image } from "astro:assets";
 import type { BoardMember } from "../types";
+import { useTranslations, defaultLocale, type Locale } from "../i18n/ui";
 
 interface Props {
   member: BoardMember;
+  locale?: Locale;
 }
 
-const { member } = Astro.props;
+const { member, locale = defaultLocale } = Astro.props;
+const t = useTranslations(locale);
 const avatarWrapperClasses =
   "h-20 w-20 rounded-[24px] ring-4 ring-brand-river/40 overflow-hidden flex items-center justify-center bg-brand-cloud text-brand-river";
 ---
@@ -26,7 +29,7 @@ const avatarWrapperClasses =
       ) : (
         <>
           <i class="fa-solid fa-user text-2xl" aria-hidden="true" />
-          <span class="sr-only">Φωτογραφία μέλους δεν είναι διαθέσιμη</span>
+          <span class="sr-only">{t("boardCard.noPhotoAlt")}</span>
         </>
       )
     }

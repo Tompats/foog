@@ -1,0 +1,41 @@
+---
+import { locales, languageNames, type Locale } from "../i18n/ui";
+import { withLocale } from "../utils/url";
+
+interface Props {
+  locale: Locale;
+  path: string;
+  ariaLabel: string;
+  class?: string;
+}
+
+const { locale, path, ariaLabel, class: className = "" } = Astro.props;
+---
+
+<div
+  class={`inline-flex items-center gap-1 rounded-full border border-brand-river/20 bg-brand-cloud/80 p-1 text-xs font-semibold ${className}`}
+  role="group"
+  aria-label={ariaLabel}
+>
+  {
+    locales.map((loc) => {
+      const isActive = loc === locale;
+      return (
+        <a
+          href={withLocale(loc, path)}
+          hreflang={loc}
+          lang={loc}
+          title={languageNames[loc]}
+          aria-current={isActive ? "true" : undefined}
+          class={`rounded-full px-3 py-1 uppercase tracking-wide transition ${
+            isActive
+              ? "bg-brand-pine text-brand-cloud"
+              : "text-brand-rocky hover:text-brand-terracotta"
+          }`}
+        >
+          {loc}
+        </a>
+      );
+    })
+  }
+</div>

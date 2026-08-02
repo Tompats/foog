@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import TripsPageContent from "../../../../components/TripsPageContent.astro";
+import { createCollectionPageJsonLd } from "../../../../utils/seo";
+import { getTripListingData, getPastTripTotalPages } from "../../../../utils/tripPagination";
+import { getLocalizedTrip } from "../../../../data/trips";
+
+export async function getStaticPaths() {
+  const totalPages = getPastTripTotalPages();
+  const paths = [];
+  for (let page = 2; page <= totalPages; page += 1) {
+    paths.push({ params: { page: String(page) } });
+  }
+  return paths;
+}
+
+const { page } = Astro.params;
+const pageNumber = Number(page);
+
+if (!Number.isInteger(pageNumber) || pageNumber < 1) {
+  throw new Error("Invalid page number");
+}
+
+const locale = "en" as const;
+const { upcomingTrips, pastTrips, pagination } = getTripListingData(pageNumber);
+const localizedUpcoming = upcomingTrips.map((trip) => getLocalizedTrip(trip, locale));
+const localizedPast = pastTrips.map((trip) => getLocalizedTrip(trip, locale));
+
+const pageTitle = `Trips · Page ${pagination.currentPage}`;
+const pageDescription = `Browse F.O.O.G.'s trips — page ${pagination.currentPage} of the past trips archive.`;
+
+const tripsStructuredData = createCollectionPageJsonLd(
+  `F.O.O.G. Trip Calendar · Page ${pagination.currentPage}`,
+  Astro.url.href,
+  locale
+);
+---
+
+<BaseLayout
+  locale={locale}
+  title={pageTitle}
+  description={pageDescription}
+  structuredData={[tripsStructuredData]}
+>
+  <TripsPageContent
+    upcomingTrips={localizedUpcoming}
+    pastTrips={localizedPast}
+    pagination={pagination}
+    locale={locale}
+  />
+</BaseLayout>

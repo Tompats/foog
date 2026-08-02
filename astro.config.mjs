@@ -8,5 +8,12 @@ export default defineConfig({
       applyBaseStyles: false
     })
   ],
-  site: 'https://www.foog.gr'
+  site: 'https://www.foog.gr',
+  i18n: {
+    defaultLocale: 'el',
+    locales: ['el', 'en'],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  }
 });

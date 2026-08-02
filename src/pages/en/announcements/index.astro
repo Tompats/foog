@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import SectionHeader from "../../../components/SectionHeader.astro";
+import AnnouncementCard from "../../../components/AnnouncementCard.astro";
+import { announcements, getLocalizedAnnouncement } from "../../../data/announcements";
+import { isAnnouncementActive } from "../../../types";
+import { createCollectionPageJsonLd, absoluteUrl } from "../../../utils/seo";
+
+const locale = "en" as const;
+
+const sortedAnnouncements = announcements
+  .filter((announcement) => isAnnouncementActive(announcement))
+  .sort((a, b) => {
+    if (!!a.urgent !== !!b.urgent) return a.urgent ? -1 : 1;
+    return new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime();
+  })
+  .map((announcement) => getLocalizedAnnouncement(announcement, locale));
+
+const pageUrl = absoluteUrl("/en/announcements");
+const structuredData = createCollectionPageJsonLd("F.O.O.G. Announcements", pageUrl, locale);
+---
+
+<BaseLayout
+  locale={locale}
+  title="Announcements"
+  description="Stay up to date on elections, schedule changes, and other F.O.O.G. announcements."
+  structuredData={structuredData}
+>
+  <section class="section-padding">
+    <div data-reveal>
+      <SectionHeader
+        eyebrow="Updates"
+        title="Announcements"
+        subtitle="What you need to know right now about the Club"
+        level={1}
+      />
+    </div>
+    {
+      sortedAnnouncements.length > 0 ? (
+        <div class="grid gap-6 max-w-3xl mx-auto">
+          {sortedAnnouncements.map((announcement) => (
+            <div data-reveal>
+              <AnnouncementCard announcement={announcement} locale={locale} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="glass-panel p-6 text-brand-mist text-center max-w-2xl mx-auto">
+          <p class="text-lg font-semibold text-brand-rocky">
+            There are no active announcements right now.
+          </p>
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

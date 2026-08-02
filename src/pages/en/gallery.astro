@@ -1,0 +1,382 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import photoBorovets from "../../assets/images/foog-borovets.jpg";
+import photoBorovetsHiking from "../../assets/images/foog-borovets-hiking-2025.jpg";
+import photoBorovetsHikingTwo from "../../assets/images/foog-borovets-hiking-2025-2.jpg";
+import photoAthamania from "../../assets/images/foog-athamania.jpg";
+import photoAthamaniaRidge from "../../assets/images/foog-athamania.jpeg";
+import photoAetomilitsa from "../../assets/images/foog-aetomilitsa.jpg";
+import photoAetomilitsaGrammos from "../../assets/images/foog-aetomilitsa-grammos-1.jpeg";
+import photoGrammos from "../../assets/images/foog-grammos.jpeg";
+import photoPaiko from "../../assets/images/foog-katharismos-paiko.jpg";
+import photoSkiJunior from "../../assets/images/foog-ski-junior.jpg";
+import photoVoras from "../../assets/images/foog-voras-profitis-hlias.jpg";
+import photoAgonistikoSki1 from "../../assets/images/foog-agonistiko-ski-1.jpg";
+import photoAgonistikoSki3 from "../../assets/images/foog-agonistiko-ski-3.jpg";
+import photoSkiCampOmada1 from "../../assets/images/foog-ski-camp-omada-1.jpg";
+import photoSkiCampOmada2 from "../../assets/images/foog-ski-camp-omada-2.jpg";
+import photoSkiCampOmada3 from "../../assets/images/foog-ski-camp-omada-3.jpg";
+import photoSkiCampOmada4 from "../../assets/images/foog-ski-camp-omada-4.jpg";
+import photoSkiCampOmada5 from "../../assets/images/foog-ski-camp-omada-5.jpg";
+import photoSkiCampOmada6 from "../../assets/images/foog-ski-camp-omada-6.jpg";
+import photoSkiCampXionoaggeloi from "../../assets/images/foog-ski-camp-xionoaggeloi.jpg";
+import photoSkiCampAlexiptoto from "../../assets/images/foog-ski-camp-alexiptoto.jpg";
+import photoSkiCampGyaliaSelfie from "../../assets/images/foog-ski-camp-gyalia-selfie.jpg";
+import photoSnowboardCampJunior from "../../assets/images/foog-snowboard-camp-junior.jpg";
+import photoSkiSxoliKoryfi from "../../assets/images/foog-ski-sxoli-koryfi.jpg";
+import photoBorovetsKoryfi from "../../assets/images/foog-borovets-koryfi-2550.jpg";
+import photoBorovetsTeleferik from "../../assets/images/foog-borovets-teleferik.jpg";
+import photoSkiOmadaPlagia from "../../assets/images/foog-ski-omada-plagia.jpg";
+import photoAnixiatikiPezoporiaLivadi from "../../assets/images/foog-anixiatiki-pezoporia-livadi.jpg";
+import photoPezoporiaDasosStasi from "../../assets/images/foog-pezoporia-dasos-stasi.jpg";
+import photoXeimeriniPezoporiaGynaikes from "../../assets/images/foog-xeimerini-pezoporia-gynaikes.jpg";
+import photoKatafygioAnodos from "../../assets/images/foog-anixiatiki-pezoporia-katafygio-anodos.jpg";
+import photoKatafygioOmada from "../../assets/images/foog-anixiatiki-pezoporia-katafygio-omada.jpg";
+import photoPezoporiaOmadaPoreia from "../../assets/images/foog-anixiatiki-pezoporia-omada-poreia.jpg";
+import photoGlyptoOreivaton from "../../assets/images/foog-glypto-oreivaton.jpg";
+import grammosVideo from "../../assets/videos/foog-grammos-video.mp4";
+import paikoVideo from "../../assets/videos/paiko.mp4";
+import verligkaVideo from "../../assets/videos/verligka.mp4";
+import vardousiaVideo from "../../assets/videos/vardousia.mp4";
+
+interface GalleryItem {
+  title: string;
+  subtitle: string;
+  image?: ImageMetadata;
+  video?: string;
+  poster?: string;
+  alt?: string;
+}
+
+const locale = "en" as const;
+
+const gallery: GalleryItem[] = [
+  {
+    title: "Ski training in Borovets",
+    subtitle: "Skiing · 2024",
+    image: photoBorovets,
+    alt: "F.O.O.G. members on a ski slope in Borovets",
+  },
+  {
+    title: "Mountain trail in Borovets",
+    subtitle: "Skiing & hiking · 2025",
+    image: photoBorovetsHiking,
+    alt: "F.O.O.G. group on a trail in Borovets",
+  },
+  {
+    title: "Endurance trek at Triethnes",
+    subtitle: "Hiking · 2025",
+    image: photoBorovetsHikingTwo,
+    alt: "Members walking along a snowy ridge near Borovets",
+  },
+  {
+    title: "Ascents in Athamania",
+    subtitle: "Mountaineering · 2023",
+    image: photoAthamania,
+    alt: "F.O.O.G. group on the Athamania ridgeline",
+  },
+  {
+    title: "Athamania ridge at first light",
+    subtitle: "Mountaineering · 2024",
+    image: photoAthamaniaRidge,
+    alt: "The Athamania ridgeline with F.O.O.G. members",
+  },
+  {
+    title: "Aetomilitsa at dusk",
+    subtitle: "Hiking · 2024",
+    image: photoAetomilitsa,
+    alt: "F.O.O.G. members at a mountain stop in Aetomilitsa",
+  },
+  {
+    title: "Aetomilitsa - Grammos crossing",
+    subtitle: "Two-day trip · 2024",
+    image: photoAetomilitsaGrammos,
+    alt: "F.O.O.G. flag on Mount Grammos with a panoramic view",
+  },
+  {
+    title: "Snow-capped peaks of Grammos",
+    subtitle: "Mountaineering · 2024",
+    image: photoGrammos,
+    alt: "F.O.O.G. athletes ascending Mount Grammos",
+  },
+  {
+    title: "Gistova Dragon Lake",
+    subtitle: "Video highlight · 2024",
+    video: grammosVideo,
+    alt: "Video of F.O.O.G. members on Mount Grammos",
+  },
+
+  {
+    title: "Verligka Dragon Lake",
+    subtitle: "Video highlight · 2026",
+    video: verligkaVideo,
+    alt: "Video of F.O.O.G. members at Verligka Dragon Lake",
+  },
+
+  {
+    title: "Hunter's Full Moon - Mount Paiko",
+    subtitle: "Video highlight · 2025",
+    video: paikoVideo,
+    alt: "Video of F.O.O.G. members on Mount Paiko",
+  },
+
+  {
+    title: "Vardousia Mountains",
+    subtitle: "Video highlight · 2026",
+    video: vardousiaVideo,
+    alt: "Video of F.O.O.G. members in the Vardousia mountains",
+  },
+  {
+    title: "Trail cleanup on Mount Paiko",
+    subtitle: "Environmental action · 2024",
+    image: photoPaiko,
+    alt: "F.O.O.G. volunteers clearing a trail on Mount Paiko",
+  },
+  {
+    title: "Junior ski team",
+    subtitle: "Learning · 2024",
+    image: photoSkiJunior,
+    alt: "Children in ski gear during a lesson",
+  },
+  {
+    title: "Snow-capped Profitis Ilias on Mount Voras",
+    subtitle: "Summit trek · 2023",
+    image: photoVoras,
+    alt: "F.O.O.G. members next to the flag on Profitis Ilias, Mount Voras",
+  },
+  {
+    title: "At 2550m in Borovets",
+    subtitle: "Skiing · Borovets",
+    image: photoBorovetsKoryfi,
+    alt: "A large F.O.O.G. group at the 2550-meter point in Borovets",
+  },
+  {
+    title: "By cable car through the snowy forest",
+    subtitle: "Borovets",
+    image: photoBorovetsTeleferik,
+    alt: "View from a cable car through snow-covered fir trees in Borovets",
+  },
+  {
+    title: "The whole crew on the slope",
+    subtitle: "Skiing",
+    image: photoSkiOmadaPlagia,
+    alt: "A large group of skiers of all ages on a snowy slope",
+  },
+  {
+    title: "Group at the top of the slope",
+    subtitle: "Ski lesson",
+    image: photoSkiSxoliKoryfi,
+    alt: "A group of skiers and snowboarders at the top of the slope",
+  },
+  {
+    title: "Duo from the competitive team",
+    subtitle: "Competitive skiing",
+    image: photoAgonistikoSki1,
+    alt: "Two young athletes from the competitive ski team with their race numbers",
+  },
+  {
+    title: "Coach with her athletes",
+    subtitle: "Competitive skiing",
+    image: photoAgonistikoSki3,
+    alt: "A coach posing with two young athletes from the competitive ski team",
+  },
+  {
+    title: "A warm welcome on the slope",
+    subtitle: "Junior ski team",
+    image: photoSkiCampOmada1,
+    alt: "Children and coaches waving happily on a snowy slope",
+  },
+  {
+    title: "Celebration on the slope",
+    subtitle: "Junior ski team",
+    image: photoSkiCampOmada2,
+    alt: "A group of children with balloons celebrating at the ski resort",
+  },
+  {
+    title: "Group among snow-covered fir trees",
+    subtitle: "Junior ski team",
+    image: photoSkiCampOmada3,
+    alt: "A group of teenage skiers among snow-covered fir trees",
+  },
+  {
+    title: "Hands up after the lesson",
+    subtitle: "Junior ski team",
+    image: photoSkiCampOmada4,
+    alt: "Children raising their hands happily at the ski resort",
+  },
+  {
+    title: "Big group with balloons",
+    subtitle: "Junior ski team",
+    image: photoSkiCampOmada5,
+    alt: "A large group of children with balloons at the ski resort",
+  },
+  {
+    title: "Group on a cloudy day",
+    subtitle: "Junior ski team",
+    image: photoSkiCampOmada6,
+    alt: "A group of children and teens at the ski resort on a cloudy day",
+  },
+  {
+    title: "Snow angels",
+    subtitle: "Playing in the snow",
+    image: photoSkiCampXionoaggeloi,
+    alt: "Children making snow angels while lying in the snow",
+  },
+  {
+    title: "Playing with the colorful parachute",
+    subtitle: "Playing in the snow",
+    image: photoSkiCampAlexiptoto,
+    alt: "Children playing under a colorful parachute at the ski resort",
+  },
+  {
+    title: "Selfie with snow goggles",
+    subtitle: "Junior ski team",
+    image: photoSkiCampGyaliaSelfie,
+    alt: "Children with snow goggles photographed from above in a circle",
+  },
+  {
+    title: "First steps on a snowboard",
+    subtitle: "Junior snowboard team",
+    image: photoSnowboardCampJunior,
+    alt: "Children with snowboards and a coach on a snowy slope",
+  },
+  {
+    title: "Climbing through a spring meadow",
+    subtitle: "Hiking",
+    image: photoAnixiatikiPezoporiaLivadi,
+    alt: "Hikers crossing a spring meadow with trekking poles",
+  },
+  {
+    title: "Briefing stop in the forest",
+    subtitle: "Hiking",
+    image: photoPezoporiaDasosStasi,
+    alt: "A group of hikers stopping for a briefing in a deciduous forest",
+  },
+  {
+    title: "A group of women in the snowy mountains",
+    subtitle: "Hiking",
+    image: photoXeimeriniPezoporiaGynaikes,
+    alt: "Five women posing with snow-capped peaks in the background",
+  },
+  {
+    title: "Climbing toward the refuge",
+    subtitle: "Hiking",
+    image: photoKatafygioAnodos,
+    alt: "Hikers climbing over patches of snow toward a mountain refuge",
+  },
+  {
+    title: "The group at the refuge",
+    subtitle: "Hiking",
+    image: photoKatafygioOmada,
+    alt: "A large group of hikers posing outside a mountain refuge",
+  },
+  {
+    title: "A big group on the trail",
+    subtitle: "Hiking",
+    image: photoPezoporiaOmadaPoreia,
+    alt: "A large group of hikers celebrating on a mountain trail",
+  },
+  {
+    title: "The mountaineers' sculpture",
+    subtitle: "On the road",
+    image: photoGlyptoOreivaton,
+    alt: "A metal sculpture of two mountaineers on rocks",
+  },
+];
+
+const photoGallery = gallery.filter(
+  (item): item is GalleryItem & { image: ImageMetadata } =>
+    Boolean(item.image) && !item.video,
+);
+const videoGallery = gallery.filter((item) => item.video);
+---
+
+<BaseLayout
+  locale={locale}
+  title="Gallery"
+  description="Photos from F.O.O.G.'s recent mountaineering, ski, and mentoring activities."
+>
+  <section class="section-padding" data-reveal>
+    <SectionHeader
+      eyebrow="Visual"
+      title="Gallery"
+      subtitle="Moments from our trips"
+      level={1}
+    />
+    <div class="space-y-10">
+      <div>
+        <h3
+          class="mb-4 text-sm font-semibold uppercase tracking-wide text-brand-river"
+        >
+          Photos
+        </h3>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            photoGallery.map((item) => (
+              <figure
+                class="group relative h-64 overflow-hidden rounded-2xl"
+                data-reveal
+              >
+                <Image
+                  src={item.image}
+                  alt={item.alt ?? item.title}
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <figcaption class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4">
+                  <p class="text-white font-semibold">{item.title}</p>
+                  <p class="text-sm text-brand-river">{item.subtitle}</p>
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+
+      {
+        videoGallery.length > 0 && (
+          <div>
+            <h3 class="mb-4 text-sm font-semibold uppercase tracking-wide text-brand-river">
+              Video Highlights
+            </h3>
+            <div class="max-w-5xl">
+              <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {videoGallery.map((item) => (
+                  <figure
+                    class="flex w-full max-w-[18rem] flex-col gap-3 text-left"
+                    data-reveal
+                  >
+                    <div class="aspect-[9/16] w-full overflow-hidden rounded-2xl bg-black">
+                      <video
+                        class="h-full w-full object-cover"
+                        preload="metadata"
+                        loop
+                        playsinline
+                        controls
+                        poster={item.poster}
+                        aria-label={item.alt ?? item.title}
+                      >
+                        <source src={item.video} type="video/mp4" />Your
+                        browser does not support HTML5 video.
+                      </video>
+                    </div>
+                    <figcaption>
+                      <p class="font-semibold text-slate-900">{item.title}</p>
+                      <p class="text-sm text-brand-river">{item.subtitle}</p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
+      }
+    </div>
+    <p class="mt-8 text-center text-brand-mist text-sm">
+      These photos are from F.O.O.G.'s recent activities.
+    </p>
+  </section>
+</BaseLayout>

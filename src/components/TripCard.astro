@@ -6,18 +6,22 @@ import { getTripTimelineStatus } from "../types";
 import hikingCardImage from "../assets/cards/hiking-card.jpg";
 import mountaineeringCardImage from "../assets/cards/mountaineering-card.jpg";
 import skiCardImage from "../assets/cards/ski-card.jpg";
-import { withBase } from "../utils/url";
+import { withLocale } from "../utils/url";
+import { useTranslations, defaultLocale, type Locale } from "../i18n/ui";
 
 interface Props {
   trip: Trip;
+  locale?: Locale;
 }
 
-const { trip } = Astro.props;
+const { trip, locale = defaultLocale } = Astro.props;
+const t = useTranslations(locale);
 const difficultyLabelId = `trip-${trip.slug}-difficulty`;
 
-const monthFormatter = new Intl.DateTimeFormat("el-GR", { month: "short" });
-const dayFormatter = new Intl.DateTimeFormat("el-GR", { day: "2-digit" });
-const yearFormatter = new Intl.DateTimeFormat("el-GR", { year: "numeric" });
+const dateLocale = locale === "en" ? "en-GB" : "el-GR";
+const monthFormatter = new Intl.DateTimeFormat(dateLocale, { month: "short" });
+const dayFormatter = new Intl.DateTimeFormat(dateLocale, { day: "2-digit" });
+const yearFormatter = new Intl.DateTimeFormat(dateLocale, { year: "numeric" });
 const startDate = new Date(trip.startDate);
 const endDate = trip.endDate ? new Date(trip.endDate) : null;
 
@@ -43,9 +47,9 @@ const typeStyles: Record<Trip["type"], string> = {
 };
 
 const typeLabels: Record<Trip["type"], string> = {
-  hiking: "Πεζοπορία",
-  mountaineering: "Ορειβασία",
-  ski: "Ski & Snowboard",
+  hiking: t("tripTypes.hiking"),
+  mountaineering: t("tripTypes.mountaineering"),
+  ski: t("tripTypes.ski"),
 };
 const typeImages: Record<Trip["type"], ImageMetadata> = {
   hiking: hikingCardImage,
@@ -56,8 +60,8 @@ const typeImages: Record<Trip["type"], ImageMetadata> = {
 const timelineStatus = getTripTimelineStatus(trip);
 
 const timelineLabels = {
-  upcoming: "Επόμενη",
-  past: "Παλαιότερη",
+  upcoming: t("tripStatus.upcomingTimeline"),
+  past: t("tripStatus.pastTimeline"),
 };
 
 type StatusVariant = "upcoming" | "past" | "canceled";
@@ -66,7 +70,7 @@ const statusVariant: StatusVariant =
   trip.status === "canceled" ? "canceled" : timelineStatus;
 
 const statusLabel =
-  statusVariant === "canceled" ? "Ακυρωμένη" : timelineLabels[timelineStatus];
+  statusVariant === "canceled" ? t("tripStatus.canceledBadge") : timelineLabels[timelineStatus];
 
 const statusTextClasses: Record<StatusVariant, string> = {
   upcoming: "text-brand-mossDark",
@@ -142,10 +146,10 @@ const shouldShowTechnicalStats = trip.type !== "ski";
         shouldShowTechnicalStats && (
           <div class="flex items-center gap-3 text-sm text-brand-mist">
             <span class="uppercase tracking-[0.3em] text-xs text-brand-river">
-              Δυσκολία
+              {t("common.difficulty")}
             </span>
             <span class="sr-only" id={difficultyLabelId}>
-              Επίπεδο δυσκολίας {trip.difficulty} από 5
+              {t("common.difficultyLevelAriaPrefix")} {trip.difficulty} {t("common.difficultyOutOf")}
             </span>
             <div class="flex gap-1" aria-hidden="true">
               {Array.from({ length: 5 }).map((_, index) => (
@@ -162,7 +166,7 @@ const shouldShowTechnicalStats = trip.type !== "ski";
           shouldShowTechnicalStats && (
             <div>
               <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
-                Απόσταση
+                {t("common.distance")}
               </p>
               <p class="text-lg font-semibold heading-font">
                 {trip.distanceKm} km
@@ -174,7 +178,7 @@ const shouldShowTechnicalStats = trip.type !== "ski";
           shouldShowTechnicalStats && (
             <div>
               <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
-                Υψομετρική
+                {t("common.elevation")}
               </p>
               <p class="text-lg font-semibold heading-font">
                 {trip.elevationGain} m
@@ -184,13 +188,13 @@ const shouldShowTechnicalStats = trip.type !== "ski";
         }
         <div>
           <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
-            Αρχηγός
+            {t("common.leader")}
           </p>
           <p class="text-lg font-semibold heading-font">{trip.leader}</p>
         </div>
         <div>
           <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
-            Κατάσταση
+            {t("common.status")}
           </p>
           <p
             class={`text-lg font-semibold heading-font ${statusTextClasses[statusVariant]}`}
@@ -202,11 +206,11 @@ const shouldShowTechnicalStats = trip.type !== "ski";
     </div>
     <div class="pt-2">
       <a
-        href={withBase(`/trips/${trip.slug}`)}
-        aria-label={`Λεπτομέρειες για ${trip.title}`}
+        href={withLocale(locale, `/trips/${trip.slug}`)}
+        aria-label={`${t("common.detailsAriaPrefix")} ${trip.title}`}
         class="inline-flex items-center gap-2 text-sm font-semibold text-brand-pine rounded-full border border-brand-pine/20 px-4 py-2 transition hover:-translate-y-0.5 hover:border-brand-terracotta hover:text-brand-terracotta"
       >
-        Λεπτομέρειες
+        {t("common.details")}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"

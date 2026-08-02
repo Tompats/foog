@@ -1,24 +1,34 @@
 ---
 import { Image } from "astro:assets";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import TripCard from "../components/TripCard.astro";
-import SectionHeader from "../components/SectionHeader.astro";
-import AnnouncementBanner from "../components/AnnouncementBanner.astro";
-import { trips } from "../data/trips";
-import { announcements } from "../data/announcements";
-import { siteMetadata, organizationId, getSiteBaseUrl } from "../data/site";
-import { withBase } from "../utils/url";
-import foogVoras from "../assets/images/foog-voras-profitis-hlias.jpg";
-import heroBorovets from "../assets/images/foog-borovets-hiking-2025.jpg";
-import heroBorovetsTwo from "../assets/images/foog-borovets-hiking-2025-2.jpg";
-import heroGrammos from "../assets/images/foog-aetomilitsa-grammos-1.jpeg";
-import heroBorevetsSki from "../assets/images/foog-borovets.jpg";
-import heroSkiJuniorLesson from "../assets/images/foog-ski-junior.jpg";
-import heroAlexiptoto from "../assets/images/foog-ski-camp-alexiptoto.jpg";
-import heroSnowboardCamp from "../assets/images/foog-snowboard-camp-junior.jpg";
-import { isTripUpcoming, isTripPast, isAnnouncementActive } from "../types";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TripCard from "../../components/TripCard.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import AnnouncementBanner from "../../components/AnnouncementBanner.astro";
+import { trips, getLocalizedTrip } from "../../data/trips";
+import {
+  announcements,
+  getLocalizedAnnouncement,
+} from "../../data/announcements";
+import {
+  siteMetadata,
+  organizationId,
+  getSiteBaseUrl,
+  getLocalizedSiteMetadata,
+} from "../../data/site";
+import { withLocale } from "../../utils/url";
+import foogVoras from "../../assets/images/foog-voras-profitis-hlias.jpg";
+import heroBorovets from "../../assets/images/foog-borovets-hiking-2025.jpg";
+import heroBorovetsTwo from "../../assets/images/foog-borovets-hiking-2025-2.jpg";
+import heroGrammos from "../../assets/images/foog-aetomilitsa-grammos-1.jpeg";
+import heroBorevetsSki from "../../assets/images/foog-borovets.jpg";
+import heroSkiJuniorLesson from "../../assets/images/foog-ski-junior.jpg";
+import heroAlexiptoto from "../../assets/images/foog-ski-camp-alexiptoto.jpg";
+import heroSnowboardCamp from "../../assets/images/foog-snowboard-camp-junior.jpg";
+import { isTripUpcoming, isTripPast, isAnnouncementActive } from "../../types";
 
-const bannerAnnouncement = [...announcements]
+const locale = "en" as const;
+
+const rawBannerAnnouncement = [...announcements]
   .filter((announcement) => isAnnouncementActive(announcement))
   .sort((a, b) => {
     if (!!a.urgent !== !!b.urgent) return a.urgent ? -1 : 1;
@@ -26,13 +36,17 @@ const bannerAnnouncement = [...announcements]
       new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
     );
   })[0];
+const bannerAnnouncement = rawBannerAnnouncement
+  ? getLocalizedAnnouncement(rawBannerAnnouncement, locale)
+  : undefined;
 
 const upcomingTrips = [...trips]
   .filter((trip) => isTripUpcoming(trip))
   .sort(
     (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
   )
-  .slice(0, 4);
+  .slice(0, 4)
+  .map((trip) => getLocalizedTrip(trip, locale));
 
 const latestReports = [...trips]
   .filter((trip) => isTripPast(trip))
@@ -43,23 +57,23 @@ const latestReports = [...trips]
 
 const features = [
   {
-    title: "Εκπαίδευση σκι & χιονοσανίδας",
-    body: "Εβδομαδιαία μαθήματα στο Καϊμάκτσαλαν, τα 3-5 Πηγάδια και το Σέλι, με εξοπλισμό του Ομίλου και πιστοποιημένους προπονητές για κάθε επίπεδο.",
+    title: "Ski & snowboard training",
+    body: "Weekly lessons at Kaimaktsalan, 3-5 Pigadia, and Seli, with the Club's own equipment and certified coaches for every level.",
     iconClass: "fa-solid fa-person-skiing",
   },
   {
-    title: "Εξορμήσεις για κάθε εποχή",
-    body: "Μονοήμερες και πολυήμερες πεζοπορίες από το Πάικο μέχρι τον Όλυμπο, καθώς και διαδρομές trail και αναρρίχησης χωρισμένες ανά επίπεδο δυσκολίας.",
+    title: "Trips for every season",
+    body: "Day trips and multi-day hikes from Paiko all the way to Olympus, plus trail-running and climbing routes graded by difficulty.",
     iconClass: "fa-solid fa-route",
   },
   {
-    title: "Φροντίδα των μονοπατιών μας",
-    body: "Καθαρισμοί, σηματοδότηση, δεντροφυτεύσεις και η στήριξη του καταφυγίου της Αγίας Παρασκευής μάς κρατούν κοντά στο βουνό και στην τοπική κοινότητα.",
+    title: "Caring for our trails",
+    body: "Cleanups, trail marking, tree planting, and support for the Agia Paraskevi refuge keep us close to the mountain and to our local community.",
     iconClass: "fa-solid fa-seedling",
   },
   {
-    title: "Κοινότητα 250+ μελών",
-    body: "Με μόλις 10€ συνδρομή τον χρόνο, οικογένειες, αρχάριοι και παλιά μέλη μοιράζονται μετακινήσεις, διαδρομές και συνεργασίες με ομίλους σε Ελλάδα και Βαλκάνια.",
+    title: "A community of 250+ members",
+    body: "For just €10 a year, families, beginners, and long-time members share rides, routes, and partnerships with clubs across Greece and the Balkans.",
     iconClass: "fa-solid fa-users",
   },
 ];
@@ -69,57 +83,57 @@ const heroStats = [
     target: 30,
     suffix: "+",
     valueClass: "text-3xl text-brand-pine",
-    label: "Εξορμήσεις/έτος",
+    label: "Trips/year",
   },
   {
     target: 250,
     suffix: "+",
     valueClass: "text-3xl text-brand-terracotta",
-    label: "Μέλη",
+    label: "Members",
   },
   {
     target: null,
     display: "∞",
     valueClass: "text-5xl text-brand-moss",
-    label: "Ιστορίες",
+    label: "Stories",
   },
 ];
 
 const heroGallery = [
   {
     image: heroAlexiptoto,
-    alt: "Παιδιά παίζουν κάτω από πολύχρωμο αλεξίπτωτο σε χιονοδρομικό κέντρο",
-    caption: "Παιχνίδι στο χιόνι",
+    alt: "Children playing under a colorful parachute at a ski resort",
+    caption: "Playtime in the snow",
   },
   {
     image: heroBorovets,
-    alt: "Πεζοπορία του Φ.Ο.Ο.Γ. στο Μπόροβιτς",
-    caption: "Μπόροβιτς · Ορειβασία 2025",
+    alt: "F.O.O.G. hiking trip in Borovets",
+    caption: "Borovets · Mountaineering 2025",
   },
   {
     image: heroBorovetsTwo,
-    alt: "Ομάδα βαδίζει προς την κορυφή",
-    caption: "Πεζοπορία · Ρίλα",
+    alt: "Group walking toward the summit",
+    caption: "Hiking · Rila",
   },
   {
     image: heroGrammos,
-    alt: "Ανάβαση του Φ.Ο.Ο.Γ. στον Γράμμο",
-    caption: "Ορειβασία · Γράμμος",
+    alt: "F.O.O.G. ascent of Mount Grammos",
+    caption: "Mountaineering · Grammos",
   },
   {
     image: heroBorevetsSki,
-    alt: "Εκδρομή του Φ.Ο.Ο.Γ. στο Μπόροβιτς",
-    caption: "Μπόροβιτς · 2ήμερο Χιονοδρομίας",
+    alt: "F.O.O.G. trip to Borovets",
+    caption: "Borovets · 2-day ski trip",
   },
   {
     image: heroSkiJuniorLesson,
-    alt: "Προπόνηση μικρής ομάδας στα 3-5 πηγάδια",
-    caption: "Προπόνηση Σκι - 3/5 Πηγάδια",
+    alt: "Small-group training at 3-5 Pigadia",
+    caption: "Ski training - 3/5 Pigadia",
   },
   {
     image: heroSnowboardCamp,
-    alt: "Παιδιά με σανίδες snowboard και προπονητής σε χιονισμένη πλαγιά",
-    caption: "Παιδικό τμήμα Snowboard",
+    alt: "Children with snowboards and a coach on a snowy slope",
+    caption: "Junior snowboard program",
   },
 ];
 
@@ -130,19 +144,17 @@ const homepageStructuredData = {
   url: getSiteBaseUrl(),
   name: siteMetadata.name,
   alternateName: siteMetadata.shortName,
-  inLanguage: siteMetadata.locale,
+  inLanguage: getLocalizedSiteMetadata(locale).inLanguage,
   description: siteMetadata.description,
-  publisher: {
-    "@id": organizationId,
-  },
+  publisher: { "@id": organizationId },
 };
 ---
 
-<BaseLayout structuredData={[homepageStructuredData]}>
+<BaseLayout locale={locale} structuredData={[homepageStructuredData]}>
   {
     bannerAnnouncement && (
       <div class="px-6 sm:px-8 lg:px-12">
-        <AnnouncementBanner announcement={bannerAnnouncement} />
+        <AnnouncementBanner announcement={bannerAnnouncement} locale={locale} />
       </div>
     )
   }
@@ -161,13 +173,15 @@ const homepageStructuredData = {
           <path
             d="M0 360L120 210L200 290L320 150L400 220V400H0Z"
             fill="url(#grad)"></path>
-          <defs>
-            <linearGradient id="grad" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#A7C957" stop-opacity="0.6"></stop>
-              <stop offset="100%" stop-color="#E26D5A" stop-opacity="0.4"
-              ></stop>
-            </linearGradient>
-          </defs>
+          <defs
+            ><linearGradient id="grad" x1="0" x2="1" y1="0" y2="1"
+              ><stop offset="0%" stop-color="#A7C957" stop-opacity="0.6"
+              ></stop><stop
+                offset="100%"
+                stop-color="#E26D5A"
+                stop-opacity="0.4"></stop></linearGradient
+            ></defs
+          >
         </svg>
       </div>
       <div
@@ -175,32 +189,29 @@ const homepageStructuredData = {
       >
         <div>
           <p class="text-sm uppercase tracking-[0.3em] text-brand-pine">
-            Φ.Ο.Ο.Γ · Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών
+            F.O.O.G · Nature-loving Mountaineering Club of Giannitsa
           </p>
           <h1
             class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-semibold text-brand-rocky heading-font max-w-3xl"
           >
-            Τα όρη με καλούν...και πρέπει να πάω.
+            The mountains are calling...and I must go.
           </h1>
           <p class="mt-6 text-lg text-brand-mist max-w-2xl">
-            Ξεκινήσαμε το 1973 από πέντε φίλους στα Γιαννιτσά, και σήμερα
-            είμαστε πάνω από 250 ενεργά μέλη. Μαθήματα σκι, πεζοπορίες και
-            δράσεις για το περιβάλλον. Όποιο κι αν είναι το επίπεδό σου, υπάρχει
-            θέση για σένα.
+            We started in 1973 with five friends in Giannitsa, and today we're
+            more than 250 active members. Ski lessons, hikes, and environmental
+            action. Whatever your level, there's a place for you.
           </p>
           <div class="mt-10 flex flex-wrap gap-4">
             <a
-              href={withBase("/trips")}
+              href={withLocale(locale, "/trips")}
               class="btn-ripple inline-flex items-center justify-center rounded-full bg-brand-terracotta px-8 py-3 text-base font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
+              >See upcoming trips</a
             >
-              Δες τις επόμενες εξορμήσεις
-            </a>
             <a
-              href={withBase("/join")}
+              href={withLocale(locale, "/join")}
               class="btn-ripple inline-flex items-center justify-center rounded-full border border-brand-pine/30 px-8 py-3 text-base font-semibold text-brand-pine hover:border-brand-terracotta hover:text-brand-terracotta transition"
+              >Become a member</a
             >
-              Γίνε μέλος
-            </a>
           </div>
         </div>
         <figure class="relative mt-4 lg:mt-0 lg:w-[700px]" data-tilt="6">
@@ -209,7 +220,7 @@ const homepageStructuredData = {
           >
             <Image
               src={foogVoras}
-              alt="Σημαία του Φ.Ο.Ο.Γ. σε χιονισμένη κορυφή"
+              alt="F.O.O.G. flag on a snow-capped summit"
               class="h-full w-full object-cover"
               loading="lazy"
               quality={70}
@@ -222,7 +233,7 @@ const homepageStructuredData = {
             <figcaption
               class="absolute bottom-4 left-4 text-brand-cloud text-sm font-semibold"
             >
-              Κορυφή Βόρας – Προφήτης Ηλίας
+              Mount Voras – Profitis Ilias summit
             </figcaption>
           </div>
         </figure>
@@ -258,17 +269,17 @@ const homepageStructuredData = {
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p class="text-xs uppercase tracking-[0.3em] text-brand-mist">
-              Φωτογραφικά στιγμιότυπα
+              Snapshots
             </p>
             <h2 class="text-xl font-semibold text-brand-rocky heading-font">
-              Τελευταίες λήψεις από την παρέα
+              Latest photos from the crew
             </h2>
           </div>
           <div class="flex gap-2">
             <button
               type="button"
               class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-brand-river/30 text-brand-mist hover:text-brand-terracotta hover:border-brand-terracotta transition"
-              aria-label="Προηγούμενη φωτογραφία"
+              aria-label="Previous photo"
               data-gallery-prev
             >
               <svg
@@ -278,17 +289,16 @@ const homepageStructuredData = {
                 fill="none"
                 stroke="currentColor"
                 stroke-width="1.5"
-              >
-                <path
+                ><path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  d="M15 6 9 12l6 6"></path>
-              </svg>
+                  d="M15 6 9 12l6 6"></path></svg
+              >
             </button>
             <button
               type="button"
               class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-brand-river/30 text-brand-mist hover:text-brand-terracotta hover:border-brand-terracotta transition"
-              aria-label="Επόμενη φωτογραφία"
+              aria-label="Next photo"
               data-gallery-next
             >
               <svg
@@ -298,12 +308,11 @@ const homepageStructuredData = {
                 fill="none"
                 stroke="currentColor"
                 stroke-width="1.5"
-              >
-                <path
+                ><path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  d="m9 6 6 6-6 6"></path>
-              </svg>
+                  d="m9 6 6 6-6 6"></path></svg
+              >
             </button>
           </div>
         </div>
@@ -312,7 +321,7 @@ const homepageStructuredData = {
             class="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
             data-gallery-track
             role="listbox"
-            aria-label="Γκαλερί φωτογραφιών του Φ.Ο.Ο.Γ."
+            aria-label="F.O.O.G. photo gallery"
           >
             {
               heroGallery.map((photo, index) => (
@@ -353,35 +362,35 @@ const homepageStructuredData = {
 
   <section class="section-padding" id="upcoming-trips" data-reveal>
     <SectionHeader
-      eyebrow="Σχεδιασμός"
-      title="Επερχόμενες περιπέτειες"
-      subtitle="Μικρές ομάδες, άρτια οργάνωση και υποστήριξη προπονητών"
+      eyebrow="Planning"
+      title="Upcoming adventures"
+      subtitle="Small groups, careful planning, and coach support"
     />
     {
       upcomingTrips.length > 0 ? (
         <div class="grid gap-6 lg:grid-cols-2">
           {upcomingTrips.map((trip) => (
-            <TripCard trip={trip} />
+            <TripCard trip={trip} locale={locale} />
           ))}
         </div>
       ) : (
         <div class="glass-panel p-6 text-brand-mist text-center">
           <p class="text-lg font-semibold text-brand-rocky">
-            Δεν υπάρχουν προγραμματισμένες εξορμήσεις αυτή τη στιγμή.
+            There are no trips scheduled right now.
           </p>
           <p class="mt-2">
-            Δες τις προηγούμενες διαδρομές μας ή επικοινώνησε για να ενημερωθείς
-            για τα επόμενα σχέδια.
+            Check out our past trips, or get in touch to hear about what's
+            coming next.
           </p>
         </div>
       )
     }
     <div class="mt-10 text-center">
       <a
-        href={withBase("/trips")}
+        href={withLocale(locale, "/trips")}
         class="inline-flex items-center gap-2 rounded-full border border-brand-cloud/50 px-6 py-3 text-sm font-semibold text-brand-cloud hover:border-brand-terracotta hover:text-brand-terracotta"
       >
-        Όλες οι εξορμήσεις
+        All trips
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -389,12 +398,11 @@ const homepageStructuredData = {
           fill="none"
           stroke="currentColor"
           stroke-width="1.5"
-        >
-          <path
+          ><path
             stroke-linecap="round"
             stroke-linejoin="round"
-            d="M5 12h14m-6-6 6 6-6 6"></path>
-        </svg>
+            d="M5 12h14m-6-6 6 6-6 6"></path></svg
+        >
       </a>
     </div>
   </section>
@@ -403,28 +411,27 @@ const homepageStructuredData = {
     <div class="grid gap-10 lg:grid-cols-[1.1fr,0.9fr] items-center">
       <div>
         <SectionHeader
-          eyebrow="Ταυτότητα"
-          title="Ρίζες στα Γιαννιτσά"
-          subtitle="Από το 1973 φέρνουμε τους ανθρώπους κοντά στη φύση με δράσεις αλληλεγγύης και μάθησης."
+          eyebrow="Identity"
+          title="Rooted in Giannitsa"
+          subtitle="Since 1973 we've brought people closer to nature through solidarity and shared learning."
         />
         <div class="glass-panel p-8 space-y-4 text-brand-mist bg-brand-river/5">
           <p>
-            Σήμερα ο Φ.Ο.Ο.Γ. είναι πάνω από 250 άνθρωποι που μοιράζονται το
-            ίδιο πάθος για το βουνό — από παιδιά που κάνουν τα πρώτα τους βήματα
-            στο σκι μέχρι παλιά μέλη που ανεβαίνουν ακόμα κάθε Σαββατοκύριακο.
-            Έμπειροι συνοδοί και προπονητές φροντίζουν να υπάρχει δρόμος για
-            κάθε επίπεδο, από την πρώτη πεζοπορία μέχρι τις πιο απαιτητικές
-            ορειβατικές αναβάσεις. Καθαρισμοί μονοπατιών, δεντροφυτεύσεις και η
-            φροντίδα του καταφυγίου μας κρατούν δεμένους με τον τόπο μας, όχι
-            μόνο με το βουνό. Συναντιόμαστε κάθε Τετάρτη 18:30–21:00 στο ξύλινο
-            σπιτάκι μας στα Γιαννιτσά, όπου σχεδιάζουμε την επόμενη εξόρμηση και
-            καλωσορίζουμε όποιον θέλει να τη ζήσει μαζί μας.
+            Today F.O.O.G. is more than 250 people who share the same passion
+            for the mountains — from kids taking their first steps on skis to
+            longtime members who still climb every weekend. Experienced guides
+            and coaches make sure there's a path for every level, from a first
+            hike to the most demanding mountaineering ascents. Trail cleanups,
+            tree planting, and caring for our refuge keep us tied to our home,
+            not just to the mountain. We meet every Wednesday 18:30–21:00 at our
+            wooden clubhouse in Giannitsa, where we plan the next trip and
+            welcome anyone who wants to experience it with us.
           </p>
           <a
-            href={withBase("/history")}
+            href={withLocale(locale, "/history")}
             class="inline-flex items-center gap-2 text-brand-pine font-semibold"
           >
-            Δες όλη την ιστορία
+            Read our full story
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-4 w-4"
@@ -432,12 +439,11 @@ const homepageStructuredData = {
               fill="none"
               stroke="currentColor"
               stroke-width="1.5"
-            >
-              <path
+              ><path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M5 12h14m-6-6 6 6-6 6"></path>
-            </svg>
+                d="M5 12h14m-6-6 6 6-6 6"></path></svg
+            >
           </a>
         </div>
       </div>
@@ -467,25 +473,20 @@ const homepageStructuredData = {
         opacity 200ms ease,
         transform 200ms ease;
     }
-
     [data-gallery-card][data-selected="false"] {
       opacity: 0.55;
     }
-
     [data-gallery-card] .carousel-card {
       transition:
         transform 250ms ease,
         box-shadow 250ms ease;
     }
-
     [data-gallery-card][data-selected="false"] .carousel-card {
       transform: scale(0.97);
     }
-
     [data-gallery-card][data-selected="true"] .carousel-card {
       box-shadow: 0 10px 26px rgba(16, 44, 51, 0.25);
     }
-
     .carousel-caption {
       opacity: 0;
       transform: translateY(6px);
@@ -493,7 +494,6 @@ const homepageStructuredData = {
         opacity 250ms ease,
         transform 250ms ease;
     }
-
     [data-gallery-card][data-selected="true"] .carousel-caption {
       opacity: 1;
       transform: translateY(0);
@@ -738,7 +738,7 @@ const homepageStructuredData = {
       const animateValue = (el) => {
         const target = Number(el.dataset.target ?? 0);
         if (prefersReducedMotion) {
-          el.textContent = target.toLocaleString("el-GR");
+          el.textContent = target.toLocaleString("en-GB");
           return;
         }
 
@@ -749,7 +749,7 @@ const homepageStructuredData = {
           const progress = Math.min((now - start) / duration, 1);
           const eased = easeOutCubic(progress);
           const current = Math.round(target * eased);
-          el.textContent = current.toLocaleString("el-GR");
+          el.textContent = current.toLocaleString("en-GB");
           if (progress < 1) requestAnimationFrame(tick);
         };
 

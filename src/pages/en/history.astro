@@ -1,0 +1,135 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { withLocale } from "../../utils/url";
+import heroBase from "../../assets/images/foog-base.jpg";
+import heroEuropeanSkiChampionship from "../../assets/images/foog-prodromos-xanthopoulos-slovenia.jpg";
+
+const locale = "en" as const;
+
+const timeline = [
+  {
+    year: "1973",
+    title: "Five friends start it all",
+    description:
+      "In Giannitsa, a small group of friends founded F.O.O.G. to bring the community closer to nature and to safe mountain activities.",
+  },
+  {
+    year: "1977",
+    title: "Official recognition",
+    description:
+      "A new charter established skiing, mountaineering, and climbing as the Club's core pillars.",
+  },
+  {
+    year: "2000",
+    title: "Trips across Greece",
+    description:
+      "Day trips and two-day expeditions from Paiko to Parnassos built the Club's reputation across Northern Greece.",
+  },
+  {
+    year: "2010",
+    title: "Crisis and revival",
+    description:
+      "The financial crisis scaled back activities, but new members brought fresh energy, kept the program alive, and opened the door to beginners.",
+  },
+  {
+    year: "2023",
+    title: "250+ members in action",
+    description:
+      "Ski lessons, cleanups, tree planting, and partnerships with clubs across Greece and the Balkans show F.O.O.G.'s modern face.",
+  },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  title="About us"
+  description="Discover the decades of commitment, training, and alpine adventures that built F.O.O.G."
+>
+  <section class="section-padding">
+    <div data-reveal>
+      <SectionHeader
+        eyebrow="History"
+        title="Our journey"
+        subtitle="From five friends in 1973 to a community that loves the mountains"
+        level={1}
+      />
+    </div>
+    <div class="glass-panel p-8" data-reveal>
+      <article class="prose max-w-none">
+        <p>
+          F.O.O.G. was born in 1973, when five nature lovers from Giannitsa
+          joined forces to bring the community closer to the mountains. We
+          received official recognition in 1977, and despite the financial
+          crisis of 2010 that made things harder, we kept growing. Today we
+          count 250+ active members who volunteer their support for every
+          activity.
+        </p>
+        <p>
+          Our members have stood on the podium at national ski championships
+          and represented Greece abroad. At the same time, our partnerships
+          with the forestry service, the parks department, and sister clubs,
+          along with the revival of our refuge in Agia Paraskevi, show how
+          seriously we take our relationship with the mountain. From our
+          full-moon night hikes and the memorial route on October 19th to our
+          trips to Borovets in Bulgaria, we keep welcoming both newcomers and
+          old friends who want to fall in love with nature.
+        </p>
+      </article>
+      <div class="mt-10 grid gap-6 lg:grid-cols-2">
+        <Image
+          src={heroBase}
+          alt="The Club's clubhouse"
+          class="rounded-2xl object-cover h-64 w-full"
+          loading="lazy"
+        />
+        <Image
+          src={heroEuropeanSkiChampionship}
+          alt="Skiing downhill"
+          class="rounded-2xl object-cover h-64 w-full"
+          loading="lazy"
+        />
+      </div>
+    </div>
+    <div class="mt-12 space-y-4">
+      {
+        timeline.map((item) => (
+          <div
+            class="glass-panel p-6 flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-8"
+            data-reveal
+          >
+            <p class="text-3xl font-black text-brand-pine">{item.year}</p>
+            <div>
+              <h3 class="text-xl font-semibold text-brand-rocky">
+                {item.title}
+              </h3>
+              <p class="text-brand-mist">{item.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <p class="mt-10 text-center">
+      <a
+        href={withLocale(locale, "/board")}
+        class="inline-flex items-center gap-2 rounded-full border border-brand-cloud/50 px-6 py-3 text-sm font-semibold text-brand-cloud hover:border-brand-terracotta hover:text-brand-terracotta"
+      >
+        Meet the Board of Directors
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 12h14m-6-6 6 6-6 6"></path>
+        </svg>
+      </a>
+    </p>
+  </section>
+</BaseLayout>

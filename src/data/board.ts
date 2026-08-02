@@ -1,4 +1,6 @@
 import type { BoardMember } from '../types';
+import { localizeItem } from '../utils/i18n-content';
+import type { Locale } from '../i18n/ui';
 
 export const board: BoardMember[] = [
   {
@@ -27,3 +29,34 @@ export const board: BoardMember[] = [
     bio: 'Συμμετέχει στην οργάνωση δράσεων και στην υποστήριξη της καθημερινής λειτουργίας του Ομίλου.'
   }
 ];
+
+type BoardMemberTranslation = Partial<Pick<BoardMember, 'role' | 'bio'>>;
+
+// English overrides, keyed by name (board members don't have a slug).
+export const boardTranslations: Record<string, BoardMemberTranslation> = {
+  'Γιώργος Ξανθόπουλος': {
+    role: 'President',
+    bio: "Coordinates the Club's partnerships with organizations and sponsors, and oversees safety on every activity.",
+  },
+  'Ελένη Ιγγλίζογλου': {
+    role: 'Member',
+    bio: 'Oversees the trip calendar, making sure every season includes activities for all levels.',
+  },
+  'Φωτεινή Αρχαγγελίδου': {
+    role: 'Treasurer',
+    bio: "Manages the Club's finances transparently, from membership dues to every trip expense.",
+  },
+  'Γρηγόριος Πατσάνης': {
+    role: 'Secretary',
+    bio: 'Handles equipment checks and keeps the team ready for the unexpected.',
+  },
+  'Αναστασία Παπαδοπούλου': {
+    role: 'Member',
+    bio: "Helps organize activities and supports the Club's day-to-day operations.",
+  },
+};
+
+export const getLocalizedBoardMember = (
+  member: BoardMember,
+  locale: Locale
+): BoardMember => localizeItem(member, boardTranslations[member.name], locale);

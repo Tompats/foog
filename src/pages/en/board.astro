@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import BoardCard from '../../components/BoardCard.astro';
+import { board, getLocalizedBoardMember } from '../../data/board';
+
+const locale = "en" as const;
+---
+<BaseLayout locale={locale} title="Board" description="Meet the Board of Directors who guide F.O.O.G.'s mission and safety.">
+  <section class="section-padding">
+    <div data-reveal>
+      <SectionHeader
+        eyebrow="Board"
+        title="Board of Directors"
+        subtitle="Volunteers elected every two years"
+        level={1}
+      />
+    </div>
+    <div class="grid gap-6">
+      {
+        board.map((member) => (
+          <div data-reveal>
+            <BoardCard member={getLocalizedBoardMember(member, locale)} locale={locale} />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

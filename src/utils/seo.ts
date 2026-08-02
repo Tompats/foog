@@ -1,6 +1,7 @@
-import { siteMetadata } from "../data/site";
+import { siteMetadata, getLocalizedSiteMetadata } from "../data/site";
 import type { Trip } from "../types";
 import { getTripTimelineStatus } from "../types";
+import { defaultLocale, type Locale } from "../i18n/ui";
 
 const siteUrl = new URL(siteMetadata.siteUrl);
 const siteOrigin = siteUrl.origin;
@@ -38,7 +39,11 @@ export const absoluteUrl = (path = "/") => {
   }
 };
 
-export const createTripJsonLd = (trip: Trip, pageUrl: string) => {
+export const createTripJsonLd = (
+  trip: Trip,
+  pageUrl: string,
+  locale: Locale = defaultLocale
+) => {
   const startDate = new Date(trip.startDate).toISOString();
   const endDate = new Date(trip.endDate ?? trip.startDate).toISOString();
   const eventStatus = resolveEventStatus(trip);
@@ -53,7 +58,7 @@ export const createTripJsonLd = (trip: Trip, pageUrl: string) => {
     endDate,
     eventStatus,
     image: absoluteUrl(siteMetadata.defaultSocialImage),
-    inLanguage: siteMetadata.locale,
+    inLanguage: getLocalizedSiteMetadata(locale).inLanguage,
     tourType: trip.type,
     itinerary: trip.activities.map((activity, index) => ({
       "@type": "ListItem",
@@ -84,11 +89,15 @@ export const createTripJsonLd = (trip: Trip, pageUrl: string) => {
   };
 };
 
-export const createCollectionPageJsonLd = (name: string, pageUrl: string) => ({
+export const createCollectionPageJsonLd = (
+  name: string,
+  pageUrl: string,
+  locale: Locale = defaultLocale
+) => ({
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   name,
   url: pageUrl,
-  inLanguage: siteMetadata.locale,
+  inLanguage: getLocalizedSiteMetadata(locale).inLanguage,
   isPartOf: absoluteUrl("/"),
 });

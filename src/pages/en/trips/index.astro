@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import TripsPageContent from "../../../components/TripsPageContent.astro";
+import { createCollectionPageJsonLd } from "../../../utils/seo";
+import { getTripListingData } from "../../../utils/tripPagination";
+import { getLocalizedTrip } from "../../../data/trips";
+
+const locale = "en" as const;
+const { upcomingTrips, pastTrips, pagination } = getTripListingData(1);
+const localizedUpcoming = upcomingTrips.map((trip) => getLocalizedTrip(trip, locale));
+const localizedPast = pastTrips.map((trip) => getLocalizedTrip(trip, locale));
+
+const tripsStructuredData = createCollectionPageJsonLd(
+  "F.O.O.G. Trip Calendar",
+  Astro.url.href,
+  locale
+);
+---
+
+<BaseLayout
+  locale={locale}
+  title="Trips"
+  description="Browse F.O.O.G.'s upcoming and past trips, filter by activity and difficulty, and set your next goal."
+  structuredData={[tripsStructuredData]}
+>
+  <TripsPageContent
+    upcomingTrips={localizedUpcoming}
+    pastTrips={localizedPast}
+    pagination={pagination}
+    locale={locale}
+  />
+</BaseLayout>

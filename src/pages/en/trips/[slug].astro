@@ -1,0 +1,262 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import TripCard from "../../../components/TripCard.astro";
+import SectionHeader from "../../../components/SectionHeader.astro";
+import { trips, getLocalizedTrip } from "../../../data/trips";
+import { withLocale } from "../../../utils/url";
+import { createTripJsonLd } from "../../../utils/seo";
+import type { Trip } from "../../../types";
+import { getTripTimelineStatus } from "../../../types";
+import { useTranslations } from "../../../i18n/ui";
+
+export async function getStaticPaths() {
+  return trips.map((trip) => ({ params: { slug: trip.slug } }));
+}
+
+const locale = "en" as const;
+const t = useTranslations(locale);
+const { slug } = Astro.params;
+const baseTrip = trips.find((item) => item.slug === slug);
+
+if (!baseTrip) {
+  throw new Error("Trip not found");
+}
+
+const trip = getLocalizedTrip(baseTrip, locale);
+
+const relatedTrips = trips
+  .filter((item) => item.slug !== baseTrip.slug && item.type === baseTrip.type)
+  .slice(0, 3)
+  .map((item) => getLocalizedTrip(item, locale));
+
+const startDateLabel = new Date(trip.startDate).toLocaleDateString("en-GB");
+const endDateLabel = trip.endDate
+  ? new Date(trip.endDate).toLocaleDateString("en-GB")
+  : null;
+const hasDistinctEndDate = !!trip.endDate && trip.endDate !== trip.startDate;
+const tripDateLabel =
+  hasDistinctEndDate && endDateLabel
+    ? `${startDateLabel} – ${endDateLabel}`
+    : startDateLabel;
+
+const timelineStatus = getTripTimelineStatus(trip);
+
+type StatusVariant = "upcoming" | "past" | "canceled";
+
+const statusVariant: StatusVariant =
+  trip.status === "canceled" ? "canceled" : timelineStatus;
+
+const showRegistrationCta =
+  trip.status === "active" && timelineStatus === "upcoming";
+
+const detailStatusMessage =
+  statusVariant === "canceled"
+    ? t("tripDetail.canceledMessage")
+    : statusVariant === "past"
+      ? t("tripDetail.pastMessage")
+      : null;
+
+const statusBadgeLabelMap: Record<StatusVariant, string> = {
+  upcoming: t("tripStatus.upcomingBadge"),
+  past: t("tripStatus.pastBadge"),
+  canceled: t("tripStatus.canceledBadge"),
+};
+
+const typeLabelMap: Record<Trip["type"], string> = {
+  hiking: t("tripTypes.hiking"),
+  mountaineering: t("tripTypes.mountaineering"),
+  ski: t("tripTypes.ski"),
+};
+
+const statusBadgeClassMap: Record<StatusVariant, string> = {
+  upcoming: "bg-brand-moss/15 text-brand-moss border-brand-moss/40",
+  past: "bg-brand-river/20 text-brand-river border-brand-river/40",
+  canceled:
+    "bg-brand-terracotta/15 text-brand-terracotta border-brand-terracotta/40",
+};
+
+const tripStructuredData = createTripJsonLd(trip, Astro.url.href, locale);
+---
+
+<BaseLayout
+  locale={locale}
+  title={trip.title}
+  description={trip.shortDescription}
+  structuredData={[tripStructuredData]}
+  ogType="event"
+>
+  <section class="section-padding pt-6">
+    <div
+      class="glass-panel px-8 py-10 lg:py-12 lg:px-12 flex flex-col gap-6 bg-brand-cloud"
+    >
+      <div class="flex flex-wrap items-center gap-3">
+        <span
+          class="playful-pill bg-brand-cloud text-brand-pine border-brand-river/20"
+        >
+          {typeLabelMap[trip.type]}
+        </span>
+        <span
+          class="playful-pill bg-brand-cloud text-brand-pine border-brand-river/20"
+        >
+          {`${t("common.difficulty")} ${trip.difficulty}/5`}
+        </span>
+        <span
+          class={`playful-pill border ${statusBadgeClassMap[statusVariant]}`}
+        >
+          {statusBadgeLabelMap[statusVariant]}
+        </span>
+      </div>
+      <div class="flex flex-col gap-4">
+        <p
+          class="text-m font-bold uppercase tracking-[0.3em] text-brand-mossDark"
+        >
+          {tripDateLabel}
+        </p>
+        <h1
+          class="text-4xl lg:text-5xl font-semibold text-brand-rocky heading-font"
+        >
+          {trip.title}
+        </h1>
+        <p class="text-brand-river text-lg max-w-3xl">
+          {trip.shortDescription}
+        </p>
+        {
+          trip.activities.length > 0 && (
+            <div class="flex flex-wrap gap-2">
+              {trip.activities.map((activity) => (
+                <span class="playful-pill bg-brand-cloud/80 text-brand-pine border-brand-river/30">
+                  {activity}
+                </span>
+              ))}
+            </div>
+          )
+        }
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 text-brand-rocky">
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+            {t("common.location")}
+          </p>
+          <p class="text-xl font-semibold">{trip.location}</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+            {t("common.distance")}
+          </p>
+          <p class="text-xl font-semibold">{trip.distanceKm} km</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+            {t("common.elevation")}
+          </p>
+          <p class="text-xl font-semibold">{trip.elevationGain} m</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+            {t("common.leader")}
+          </p>
+          <p class="text-xl font-semibold">{trip.leader}</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-4">
+        {
+          showRegistrationCta ? (
+            <a
+              href={withLocale(locale, "/contact")}
+              class="inline-flex items-center gap-2 rounded-full bg-brand-terracotta px-6 py-3 font-semibold text-brand-cloud shadow-md shadow-brand-terracotta/40 transition hover:scale-105 hover:text-brand-cloud"
+            >
+              {t("tripDetail.registerCta")}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 12h14m-6-6 6 6-6 6"
+                />
+              </svg>
+            </a>
+          ) : (
+            detailStatusMessage && (
+              <div
+                class={`glass-panel px-5 py-3 border border-brand-cloud/30 ${statusVariant === "canceled" ? "text-brand-terracotta" : "text-brand-mist"}`}
+              >
+                {detailStatusMessage}
+              </div>
+            )
+          )
+        }
+        <a
+          href={withLocale(locale, "/trips")}
+          class="inline-flex items-center gap-2 rounded-full border border-brand-river/40 px-6 py-3 font-semibold text-brand-rocky hover:border-brand-terracotta"
+        >
+          {t("tripDetail.backCta")}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding grid gap-8 lg:grid-cols-2">
+    <div class="glass-panel p-8 space-y-4">
+      <h2 class="text-2xl font-semibold text-brand-rocky heading-font">
+        {t("tripDetail.itineraryHeading")}
+      </h2>
+      <div class="space-y-6 text-brand-mist">
+        {
+          trip.itinerary.map((day) => (
+            <div>
+              <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+                {day.label}
+              </p>
+              <ul class="mt-2 space-y-3">
+                {day.entries.map((item) => (
+                  <li class="flex items-start gap-3">
+                    <span class="mt-1 h-2.5 w-2.5 rounded-full bg-brand-moss shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <div class="glass-panel p-8 space-y-4">
+      <h2 class="text-2xl font-semibold text-brand-rocky heading-font">
+        {t("tripDetail.gearHeading")}
+      </h2>
+      <ul class="space-y-3 text-brand-mist">
+        {
+          trip.gear.map((item) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-1 h-2.5 w-2.5 rounded-md bg-brand-terracotta shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  {
+    relatedTrips.length > 0 && (
+      <section class="section-padding">
+        <SectionHeader
+          eyebrow={t("tripDetail.relatedEyebrow")}
+          title={t("tripDetail.relatedTitle")}
+          subtitle={t("tripDetail.relatedSubtitle")}
+        />
+        <div class="grid gap-6 lg:grid-cols-3">
+          {relatedTrips.map((related) => (
+            <TripCard trip={related} locale={locale} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

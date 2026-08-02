@@ -1,3 +1,5 @@
+import { defaultLocale, type Locale } from "../i18n/ui";
+
 export type SocialLinks = {
   instagram: string;
   facebook: string;
@@ -38,20 +40,26 @@ export const siteMetadata: SiteMetadata = {
     "Εθελοντικός ορειβατικός όμιλος Γιαννιτσών με εξορμήσεις, εκπαίδευση ασφάλειας σε χιόνι και ανοιχτή κοινότητα φυσιολατρών.",
   keywords: [
     "ορειβασία",
-    "Φ.Ο.Ο.Γ",
-    "Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών",
     "πεζοπορία",
     "χιονοδρομία",
     "σκι",
     "snowboard",
+    "Φ.Ο.Ο.Γ",
+    "Φυσιολατρικός Ορειβατικός Όμιλος Γιαννιτσών",
+    "foog",
     "περιβαλλοντικές δράσεις",
     "ορειβατικός σύλλογος",
     "σκι γιαννιτσά",
     "ορειβασία γιαννιτσά",
-    "φοογ",
-    "foog",
-    "f.o.o.g",
-    "φ.ο.ο.γ"
+    // Greeklish (Latin-transliterated Greek) - common when typed from a
+    // non-Greek keyboard layout.
+    "oreivasia giannitsa",
+    "pezoporia giannitsa",
+    "ski giannitsa",
+    "giannitsa ski",
+    "xionodromia giannitsa",
+    "oreivatikos syllogos giannitsa",
+    "foog giannitsa"
   ],
   locale: "el_GR",
   language: "el",
@@ -83,7 +91,7 @@ export const getSiteBaseUrl = () =>
 
 export const organizationId = `${getSiteBaseUrl()}#organization`;
 
-export const getOrganizationJsonLd = () => {
+export const getOrganizationJsonLd = (locale: Locale = defaultLocale) => {
   const baseUrl = getSiteBaseUrl();
   const socialLinks = Object.values(siteMetadata.socials).filter(
     Boolean
@@ -98,7 +106,7 @@ export const getOrganizationJsonLd = () => {
     name: siteMetadata.name,
     alternateName: siteMetadata.shortName,
     url: baseUrl,
-    description: siteMetadata.description,
+    description: getLocalizedSiteMetadata(locale).description,
     logo: `${baseUrl}favicon.png`,
     sameAs: socialLinks,
     foundingDate: `${siteMetadata.foundingYear}-01-01`,
@@ -123,3 +131,50 @@ export const getOrganizationJsonLd = () => {
     },
   };
 };
+
+export interface LocalizedSiteMetadata {
+  /** BCP47 short code used for <html lang> and hreflang. */
+  language: string;
+  /** BCP47 tag used for JSON-LD `inLanguage`. */
+  inLanguage: string;
+  /** og:locale format (underscore-separated). */
+  ogLocale: string;
+  description: string;
+  keywords: string[];
+  socialImageAlt: string;
+}
+
+const localizedSiteMetadata: Record<Locale, LocalizedSiteMetadata> = {
+  el: {
+    language: "el",
+    inLanguage: "el-GR",
+    ogLocale: "el_GR",
+    description: siteMetadata.description,
+    keywords: siteMetadata.keywords,
+    socialImageAlt: siteMetadata.socialImageAlt,
+  },
+  en: {
+    language: "en",
+    inLanguage: "en-US",
+    ogLocale: "en_US",
+    description:
+      "Volunteer hiking and mountaineering club based in Giannitsa, Greece — trips, ski & snowboard training, and a welcoming community of outdoor lovers since 1973.",
+    keywords: [
+      "hiking club Greece",
+      "mountaineering club Greece",
+      "Giannitsa hiking club",
+      "ski lessons Kaimaktsalan",
+      "Voras ski school",
+      "snowboard lessons Greece",
+      "hiking Pella Greece",
+      "FOOG Giannitsa",
+      "outdoor club Macedonia Greece",
+      "trail cleanup volunteering Greece",
+    ],
+    socialImageAlt:
+      "F.O.O.G. members at the snow-capped summit of Profitis Ilias, Mount Voras",
+  },
+};
+
+export const getLocalizedSiteMetadata = (locale: Locale): LocalizedSiteMetadata =>
+  localizedSiteMetadata[locale] ?? localizedSiteMetadata[defaultLocale];

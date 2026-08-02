@@ -1,13 +1,16 @@
 ---
 import type { Announcement } from "../types";
+import { useTranslations, defaultLocale, type Locale } from "../i18n/ui";
 
 interface Props {
   announcement: Announcement;
+  locale?: Locale;
 }
 
-const { announcement } = Astro.props;
+const { announcement, locale = defaultLocale } = Astro.props;
+const t = useTranslations(locale);
 
-const dateFormatter = new Intl.DateTimeFormat("el-GR", {
+const dateFormatter = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "el-GR", {
   day: "2-digit",
   month: "long",
   year: "numeric",
@@ -21,9 +24,9 @@ const categoryStyles: Record<Announcement["category"], string> = {
 };
 
 const categoryLabels: Record<Announcement["category"], string> = {
-  elections: "Εκλογές",
-  schedule: "Πρόγραμμα",
-  general: "Γενικά",
+  elections: t("announcementCategories.elections"),
+  schedule: t("announcementCategories.schedule"),
+  general: t("announcementCategories.general"),
 };
 ---
 
@@ -53,7 +56,7 @@ const categoryLabels: Record<Announcement["category"], string> = {
               d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"
             ></path>
           </svg>
-          Επείγον
+          {t("announcementCard.urgent")}
         </span>
       )
     }

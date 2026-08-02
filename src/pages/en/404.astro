@@ -1,65 +1,60 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import SectionHeader from "../components/SectionHeader.astro";
-import { siteMetadata } from "../data/site";
-import { withBase } from "../utils/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeader from "../../components/SectionHeader.astro";
+import { siteMetadata } from "../../data/site";
+import { withLocale } from "../../utils/url";
+
+const locale = "en" as const;
 
 const quickLinks = [
   {
-    title: "Επόμενες εξορμήσεις",
+    title: "Upcoming trips",
     description:
-      "Γνώρισε τις πεζοπορίες, τις αναρριχητικές και τα τμήματα χιονοδρομίας που έχουμε προγραμματίσει.",
-    href: withBase("/trips"),
+      "Check out the hikes, climbs, and ski sessions we have scheduled.",
+    href: withLocale(locale, "/trips"),
     icon: "fa-solid fa-map-location-dot",
-    cta: "Δες το πρόγραμμα",
+    cta: "See the schedule",
   },
   {
-    title: "Η ιστορία μας",
+    title: "Our story",
     description:
-      "Μάθε πώς από το 1973 μέχρι σήμερα η κοινότητα του Φ.Ο.Ο.Γ. μεγάλωσε και άλλαξε τα βουνά γύρω από τα Γιαννιτσά.",
-    href: withBase("/history"),
+      "Learn how F.O.O.G.'s community has grown since 1973 and shaped the mountains around Giannitsa.",
+    href: withLocale(locale, "/history"),
     icon: "fa-solid fa-timeline",
-    cta: "Γνώρισε τον όμιλο",
+    cta: "Meet the club",
   },
   {
-    title: "Γίνε μέλος",
+    title: "Join us",
     description:
-      "Συμπλήρωσε τη φόρμα εγγραφής, ενημερώσου για τις συνδρομές και ξεκίνα να μοιράζεσαι διαδρομές μαζί μας.",
-    href: withBase("/join"),
+      "Fill out the sign-up form, learn about membership dues, and start sharing trips with us.",
+    href: withLocale(locale, "/join"),
     icon: "fa-solid fa-person-hiking",
-    cta: "Συμπλήρωσε συμμετοχή",
+    cta: "Sign up",
   },
 ];
 
 const supportActions = [
   {
-    label: "Έλεγξε τη διεύθυνση",
+    label: "Double-check the address",
     detail:
-      "Ίσως έγινε κάποιο τυπογραφικό λάθος — δοκίμασε να το ξαναγράψεις ή χρησιμοποίησε το μενού για να βρεις την ενότητα που ζητάς.",
+      "It might be a typo — try retyping it, or use the menu to find the section you're looking for.",
   },
   {
-    label: "Πες μας για το σπασμένο link",
-    detail: `Αν έφτασες εδώ μέσα από κάποιον σύνδεσμο του site μας, γράψε μας στο ${siteMetadata.contactEmail} ή κάλεσε στο ${siteMetadata.phone} για να το διορθώσουμε.`,
+    label: "Tell us about the broken link",
+    detail: `If you got here through a link on our site, email us at ${siteMetadata.contactEmail} or call ${siteMetadata.phone} so we can fix it.`,
   },
 ];
 
 const breadcrumbs = [
-  { label: "Αρχική", href: withBase("/") },
+  { label: "Home", href: withLocale(locale, "/") },
   { label: "404" },
 ];
 ---
 
-<script is:inline>
-  // GitHub Pages only serves this root 404.html for every unmatched path
-  // (per-directory 404s aren't supported), so redirect English-section
-  // 404s to the English 404 page client-side.
-  if (location.pathname === "/en" || location.pathname.startsWith("/en/")) {
-    location.replace("/en/404");
-  }
-</script>
 <BaseLayout
-  title="Σελίδα δεν βρέθηκε"
-  description="Η σελίδα που ζήτησες δεν βρέθηκε. Επιστροφή σε ασφαλές μονοπάτι με καθοδήγηση από τον Φ.Ο.Ο.Γ."
+  locale={locale}
+  title="Page not found"
+  description="The page you requested was not found. Return to a safe path with guidance from F.O.O.G."
   noindex
 >
   <section class="section-padding">
@@ -85,37 +80,37 @@ const breadcrumbs = [
         </nav>
         <div>
           <p class="text-sm uppercase tracking-[0.4em] text-brand-moss">
-            Σφάλμα 404
+            Error 404
           </p>
           <h1 class="mt-4 text-4xl sm:text-5xl font-semibold heading-font text-brand-rocky">
-            Χάθηκε το μονοπάτι σου
+            You've lost the trail
           </h1>
           <p class="mt-5 text-lg text-brand-mist">
-            Η διεύθυνση που πληκτρολόγησες δεν υπάρχει ή έχει μετακινηθεί. Δες
-            τις επιλογές παρακάτω για να βρεις αυτό που ψάχνεις.
+            The address you entered doesn't exist or has moved. Check out
+            the options below to find what you're looking for.
           </p>
         </div>
         <div class="flex flex-wrap gap-4">
           <a
-            href={withBase("/")}
+            href={withLocale(locale, "/")}
             class="btn-ripple inline-flex items-center justify-center rounded-full bg-brand-terracotta px-8 py-3 text-base font-semibold text-brand-cloud shadow-lg shadow-brand-terracotta/40 hover:scale-[1.02] hover:text-brand-cloud"
           >
-            Επιστροφή στην αρχική
+            Back to home
           </a>
           <a
-            href={withBase("/trips")}
+            href={withLocale(locale, "/trips")}
             class="btn-ripple inline-flex items-center justify-center rounded-full border border-brand-pine/40 px-8 py-3 text-base font-semibold text-brand-pine hover:border-brand-terracotta hover:text-brand-terracotta"
           >
-            Δες τις εξορμήσεις
+            See the trips
           </a>
         </div>
       </div>
       <div class="glass-panel px-6 py-10 lg:px-8 flex flex-col gap-10" data-reveal>
         <div>
           <SectionHeader
-            eyebrow="Προτεινόμενα μονοπάτια"
-            title="Τι θα ήθελες να κάνεις;"
-            subtitle="Επίλεξε μια δημοφιλή ενότητα ή μίλησε απευθείας με την ομάδα"
+            eyebrow="Suggested paths"
+            title="What would you like to do?"
+            subtitle="Pick a popular section or talk directly to our team"
             tone="dark"
           />
         </div>
@@ -149,7 +144,7 @@ const breadcrumbs = [
         </div>
         <div class="rounded-3xl border border-brand-river/30 bg-brand-river/5 p-6">
           <p class="text-sm uppercase tracking-[0.4em] text-brand-mist">
-            Κοινότητα Φ.Ο.Ο.Γ
+            F.O.O.G. community
           </p>
           <ul class="mt-4 space-y-4">
             {
@@ -174,7 +169,7 @@ const breadcrumbs = [
             >
               {siteMetadata.contactEmail}
             </a>
-            <p class="mt-4 text-sm text-brand-mist">Τηλέφωνο</p>
+            <p class="mt-4 text-sm text-brand-mist">Phone</p>
             <a
               href={`tel:${siteMetadata.phone.replace(/\s+/g, "")}`}
               class="text-lg font-semibold text-brand-pine"
