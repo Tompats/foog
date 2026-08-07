@@ -20,7 +20,7 @@ const steps = [
 const impactStats = [
   {
     label: "Ενεργά μέλη",
-    value: 82,
+    value: 180,
     suffix: "+",
     description: "συμμετέχουν κάθε σεζόν σε δράσεις",
   },
@@ -140,16 +140,14 @@ const impactStats = [
           </h3>
         </div>
         <p class="max-w-xl text-brand-mist">
-          Κάθε νέο μέλος σημαίνει έναν ακόμη συνοδό, πιο ασφαλείς εξορμήσεις
-          και περισσότερα χέρια για τη φροντίδα του βουνού.
+          Κάθε νέο μέλος σημαίνει έναν ακόμη συνοδό, πιο ασφαλείς εξορμήσεις και
+          περισσότερα χέρια για τη φροντίδα του βουνού.
         </p>
       </div>
       <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         {
           impactStats.map((stat) => (
-            <div
-              class="shimmer-hover rounded-2xl border border-brand-river/25 bg-brand-cloud/80 p-6 text-center shadow-brand-river/10 shadow-lg"
-            >
+            <div class="shimmer-hover rounded-2xl border border-brand-river/25 bg-brand-cloud/80 p-6 text-center shadow-brand-river/10 shadow-lg">
               <p class="text-xs uppercase tracking-[0.35em] text-brand-mist">
                 {stat.label}
               </p>
@@ -162,7 +160,9 @@ const impactStats = [
                   0
                 </span>
                 {stat.suffix && (
-                  <span class="ml-1 text-2xl text-brand-mist">{stat.suffix}</span>
+                  <span class="ml-1 text-2xl text-brand-mist">
+                    {stat.suffix}
+                  </span>
                 )}
               </p>
               <p class="mt-3 text-sm text-brand-mist">{stat.description}</p>
@@ -175,7 +175,7 @@ const impactStats = [
   <script is:inline>
     (() => {
       const prefersReducedMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
+        "(prefers-reduced-motion: reduce)",
       ).matches;
 
       const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
@@ -183,7 +183,7 @@ const impactStats = [
       const animateValue = (el) => {
         const target = Number(el.dataset.target ?? 0);
         if (prefersReducedMotion) {
-          el.textContent = target.toLocaleString('el-GR');
+          el.textContent = target.toLocaleString("el-GR");
           return;
         }
 
@@ -194,7 +194,7 @@ const impactStats = [
           const progress = Math.min((now - start) / duration, 1);
           const eased = easeOutCubic(progress);
           const current = Math.round(target * eased);
-          el.textContent = current.toLocaleString('el-GR');
+          el.textContent = current.toLocaleString("el-GR");
           if (progress < 1) requestAnimationFrame(tick);
         };
 
@@ -202,10 +202,10 @@ const impactStats = [
       };
 
       const initStats = () => {
-        const statElements = document.querySelectorAll('[data-stat-value]');
+        const statElements = document.querySelectorAll("[data-stat-value]");
         if (!statElements.length) return;
 
-        if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+        if (prefersReducedMotion || !("IntersectionObserver" in window)) {
           statElements.forEach((el) => animateValue(el));
           return;
         }
@@ -219,13 +219,13 @@ const impactStats = [
               }
             });
           },
-          { threshold: 0.4, rootMargin: '0px 0px -10% 0px' }
+          { threshold: 0.4, rootMargin: "0px 0px -10% 0px" },
         );
 
         statElements.forEach((el) => observer.observe(el));
       };
 
-      document.addEventListener('astro:page-load', initStats);
+      document.addEventListener("astro:page-load", initStats);
     })();
   </script>
 </BaseLayout>

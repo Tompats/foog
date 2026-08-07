@@ -466,6 +466,21 @@ details summary::-webkit-details-marker {
   bottom: -80px;
 }
 
+/*
+ * Gallery videos are portrait (9:16 Instagram reels) inside a matching 9:16
+ * container, so `object-cover` there is a no-op - the frame already fills
+ * the box edge-to-edge. But native browser fullscreen promotes the <video>
+ * element itself to fill the (usually landscape) screen, and `object-cover`
+ * travels with it: it then crops the portrait frame down to a thin,
+ * heavily zoomed-in strip instead of letterboxing it. Switch to `contain`
+ * only while fullscreen so the whole frame stays visible with black bars.
+ */
+video:fullscreen,
+video:-webkit-full-screen {
+  object-fit: contain;
+  background-color: #000;
+}
+
 .winter-snow {
   position: relative;
   isolation: isolate;
