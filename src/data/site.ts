@@ -63,7 +63,7 @@ export const siteMetadata: SiteMetadata = {
   ],
   locale: "el_GR",
   language: "el",
-  siteUrl: "https://www.foog.gr",
+  siteUrl: "https://foog.gr",
   contactEmail: "fooggiannitson@gmail.com",
   phone: "+30 23820 23121",
   address: {
