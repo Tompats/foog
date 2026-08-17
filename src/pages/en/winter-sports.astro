@@ -4,8 +4,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
 import CoachCard from "../../components/CoachCard.astro";
 import { coaches, getLocalizedCoach } from "../../data/coaches";
-import heroBorevetsSki from "../../assets/images/foog-borovets.jpg";
-import heroSkiJuniorLesson from "../../assets/images/foog-ski-junior.jpg";
+import skiTeam from "../assets/images/foog-ski-camp-omada-1.jpg";
+import heroSkiJuniorLesson from "../assets/images/foog-agonistiko-ski-1.jpg";
 
 const locale = "en" as const;
 ---
@@ -29,9 +29,9 @@ const locale = "en" as const;
           Winter sports at our club
         </p>
         <p>
-          Our winter team organizes ski and snowboard trips for every level —
-          we handle transport and training, and make sure you feel safe on
-          the mountain.
+          Our winter team organizes ski and snowboard trips for every level — we
+          handle transport and training, and make sure you feel safe on the
+          mountain.
         </p>
         <div class="grid gap-4 md:grid-cols-2">
           <div
@@ -42,8 +42,8 @@ const locale = "en" as const;
               3 favorite ski resorts
             </p>
             <p class="text-sm text-brand-mist">
-              We visit three top ski resorts in Northern Greece with
-              organized transport and a route plan.
+              We visit three top ski resorts in Northern Greece with organized
+              transport and a route plan.
             </p>
           </div>
           <div
@@ -54,8 +54,8 @@ const locale = "en" as const;
               Equipment & safety
             </p>
             <p class="text-sm text-brand-mist">
-              We provide basic equipment, rental advice, and safety
-              briefings for ski and snowboard.
+              We provide basic equipment, rental advice, and safety briefings
+              for ski and snowboard.
             </p>
           </div>
           <div
@@ -89,7 +89,7 @@ const locale = "en" as const;
             data-reveal
           >
             <Image
-              src={heroBorevetsSki}
+              src={skiTeam}
               alt="F.O.O.G. team on a ski trip"
               class="h-full w-full object-cover"
               loading="lazy"
@@ -136,7 +136,10 @@ const locale = "en" as const;
         {
           coaches.map((coach) => (
             <div data-reveal>
-              <CoachCard coach={getLocalizedCoach(coach, locale)} locale={locale} />
+              <CoachCard
+                coach={getLocalizedCoach(coach, locale)}
+                locale={locale}
+              />
             </div>
           ))
         }
@@ -200,7 +203,7 @@ const locale = "en" as const;
             sctx.moveTo(branchX, branchY);
             sctx.lineTo(
               branchX + Math.cos(branchAngle) * branchLen,
-              branchY + Math.sin(branchAngle) * branchLen
+              branchY + Math.sin(branchAngle) * branchLen,
             );
             sctx.stroke();
           });
@@ -208,7 +211,11 @@ const locale = "en" as const;
         return sprite;
       };
 
-      const sprites = [makeDotSprite(1.3), makeDotSprite(2.1), makeSnowflakeSprite(4.8)];
+      const sprites = [
+        makeDotSprite(1.3),
+        makeDotSprite(2.1),
+        makeSnowflakeSprite(4.8),
+      ];
 
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       let width = 0;
@@ -280,7 +287,9 @@ const locale = "en" as const;
             continue;
           }
 
-          const sway = Math.sin(timestamp / 1000 * flake.swayFreq + flake.phase) * flake.swayAmp;
+          const sway =
+            Math.sin((timestamp / 1000) * flake.swayFreq + flake.phase) *
+            flake.swayAmp;
           const x = flake.baseX + sway;
           const sprite = sprites[flake.sizeIndex];
 
@@ -331,7 +340,7 @@ const locale = "en" as const;
           document.removeEventListener("visibilitychange", handleVisibility);
           resizeObserver.disconnect();
         },
-        { once: true }
+        { once: true },
       );
     };
 
