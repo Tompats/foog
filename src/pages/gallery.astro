@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeader from "../components/SectionHeader.astro";
@@ -41,6 +41,23 @@ import grammosVideo from "../assets/videos/foog-grammos-video.mp4";
 import paikoVideo from "../assets/videos/paiko.mp4";
 import verligkaVideo from "../assets/videos/verligka.mp4";
 import vardousiaVideo from "../assets/videos/vardousia.mp4";
+import grammosPoster from "../assets/videos/posters/foog-grammos-video.jpg";
+import paikoPoster from "../assets/videos/posters/paiko.jpg";
+import verligkaPoster from "../assets/videos/posters/verligka.jpg";
+import vardousiaPoster from "../assets/videos/posters/vardousia.jpg";
+
+const posterOptions = { width: 480, quality: 70 } as const;
+const [
+  grammosPosterSrc,
+  verligkaPosterSrc,
+  paikoPosterSrc,
+  vardousiaPosterSrc,
+] = await Promise.all([
+  getImage({ src: grammosPoster, ...posterOptions }),
+  getImage({ src: verligkaPoster, ...posterOptions }),
+  getImage({ src: paikoPoster, ...posterOptions }),
+  getImage({ src: vardousiaPoster, ...posterOptions }),
+]).then((images) => images.map((image) => image.src));
 
 interface GalleryItem {
   title: string;
@@ -104,6 +121,7 @@ const gallery: GalleryItem[] = [
     title: "Δρακόλιμνη Γκιστόβα",
     subtitle: "Video highlight · 2024",
     video: grammosVideo,
+    poster: grammosPosterSrc,
     alt: "Βίντεο με μέλη του Φ.Ο.Ο.Γ. στον Γράμμο",
   },
 
@@ -111,6 +129,7 @@ const gallery: GalleryItem[] = [
     title: "Δρακόλιμνη Βερλιγκα",
     subtitle: "Video highlight · 2026",
     video: verligkaVideo,
+    poster: verligkaPosterSrc,
     alt: "Βίντεο με μέλη του Φ.Ο.Ο.Γ. στην δρακόλιμνη Βερλίγκ ",
   },
 
@@ -118,6 +137,7 @@ const gallery: GalleryItem[] = [
     title: "Πανσέληνος Κυνηγού - Πάικο",
     subtitle: "Video highlight · 2025",
     video: paikoVideo,
+    poster: paikoPosterSrc,
     alt: "Βίντεο με μέλη του Φ.Ο.Ο.Γ. στο Πάικο",
   },
 
@@ -125,6 +145,7 @@ const gallery: GalleryItem[] = [
     title: "Βαρδούσια Όρη",
     subtitle: "Video highlight · 2026",
     video: vardousiaVideo,
+    poster: vardousiaPosterSrc,
     alt: "Βίντεο με μέλη του Φ.Ο.Ο.Γ. στα Βαρδούσια όρη",
   },
   {
@@ -322,6 +343,10 @@ const videoGallery = gallery.filter((item) => item.video);
                   alt={item.alt ?? item.title}
                   class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   loading="lazy"
+                  width={800}
+                  widths={[400, 800]}
+                  quality={75}
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 />
                 <figcaption class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-end p-4">
                   <p class="text-white font-semibold">{item.title}</p>
@@ -349,7 +374,7 @@ const videoGallery = gallery.filter((item) => item.video);
                     <div class="aspect-[9/16] w-full overflow-hidden rounded-2xl bg-black">
                       <video
                         class="h-full w-full object-cover"
-                        preload="metadata"
+                        preload="none"
                         loop
                         playsinline
                         controls
