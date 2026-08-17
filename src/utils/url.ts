@@ -7,6 +7,13 @@ const sanitizedBase = baseEnv === "/"
 
 /**
  * Prefix a relative path with Astro's configured base so links work in sub-path deployments.
+ *
+ * Route paths are also normalized to end with a trailing slash, matching how
+ * every page actually gets served (e.g. `/trips/index.html`). Without this,
+ * every internal link points at a URL one hop away from the real page —
+ * GitHub Pages 301-redirects `/trips` to `/trips/` — which wastes crawl
+ * budget and muddies canonical/hreflang signals for Google. File-like paths
+ * (an extension in the last segment, e.g. `/favicon.png`) are left alone.
  */
 export const withBase = (path = "/") => {
   if (!path || path === "/") {
@@ -14,7 +21,11 @@ export const withBase = (path = "/") => {
   }
 
   const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
-  return `${sanitizedBase}/${normalizedPath}`;
+  const lastSegment = normalizedPath.split("/").pop() ?? "";
+  const isFile = lastSegment.includes(".");
+  const pathWithTrailingSlash =
+    isFile || normalizedPath.endsWith("/") ? normalizedPath : `${normalizedPath}/`;
+  return `${sanitizedBase}/${pathWithTrailingSlash}`;
 };
 
 /**

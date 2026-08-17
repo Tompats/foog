@@ -69,7 +69,11 @@ const resolveImagePath = (input?: string | ImageMetadata) => {
 
 const ogImagePath = resolveImagePath(image) ?? siteMetadata.defaultSocialImage;
 const ogImageUrl = ensureAbsoluteUrl(ogImagePath);
-const canonicalUrl = Astro.url.href;
+// Canonical must ignore query strings (tracking params like ?fbclid=,
+// ?utm_source= from social shares) so it doesn't self-canonicalize to a
+// decorated URL — that's untrustworthy to Google and it picks a different
+// canonical instead. Path is already trailing-slash-normalized by Astro.
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).href;
 const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
 const additionalStructuredData = Array.isArray(structuredData)
   ? structuredData.filter(Boolean)
