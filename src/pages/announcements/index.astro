@@ -3,11 +3,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
 import AnnouncementCard from "../../components/AnnouncementCard.astro";
 import { announcements } from "../../data/announcements";
-import { isAnnouncementActive } from "../../types";
 import { createCollectionPageJsonLd, absoluteUrl } from "../../utils/seo";
 
 const sortedAnnouncements = announcements
-  .filter((announcement) => isAnnouncementActive(announcement))
   .sort((a, b) => {
     if (!!a.urgent !== !!b.urgent) return a.urgent ? -1 : 1;
     return new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime();
@@ -32,21 +30,29 @@ const structuredData = createCollectionPageJsonLd("Ανακοινώσεις Φ.�
       />
     </div>
     {
-      sortedAnnouncements.length > 0 ? (
+      sortedAnnouncements.length > 0 && (
         <div class="grid gap-6 max-w-3xl mx-auto">
           {sortedAnnouncements.map((announcement) => (
-            <div data-reveal>
+            <div
+              data-reveal
+              data-announcement-item
+              data-announcement-expires={announcement.expiresDate}
+              style="display: none"
+            >
               <AnnouncementCard announcement={announcement} />
             </div>
           ))}
         </div>
-      ) : (
-        <div class="glass-panel p-6 text-brand-mist text-center max-w-2xl mx-auto">
-          <p class="text-lg font-semibold text-brand-rocky">
-            Δεν υπάρχουν ενεργές ανακοινώσεις αυτή τη στιγμή.
-          </p>
-        </div>
       )
     }
+    <div
+      class="glass-panel p-6 text-brand-mist text-center max-w-2xl mx-auto"
+      data-announcement-empty
+      style="display: none"
+    >
+      <p class="text-lg font-semibold text-brand-rocky">
+        Δεν υπάρχουν ενεργές ανακοινώσεις αυτή τη στιγμή.
+      </p>
+    </div>
   </section>
 </BaseLayout>

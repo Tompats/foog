@@ -1,0 +1,94 @@
+<script>
+  const STORAGE_KEY = "foog:dismissed-announcements";
+  const CLUB_TIME_ZONE = "Europe/Athens";
+
+  const getDismissedAnnouncements = (): string[] => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const parsed: unknown = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed)
+        ? parsed.filter((value): value is string => typeof value === "string")
+        : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const dismissAnnouncement = (slug: string) => {
+    const dismissed = getDismissedAnnouncements();
+    if (dismissed.includes(slug)) return;
+
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...dismissed, slug]));
+    } catch {
+      // The dismissal remains temporary when localStorage is unavailable.
+    }
+  };
+
+  const getCurrentClubDate = () => {
+    const parts = new Intl.DateTimeFormat("en", {
+      timeZone: CLUB_TIME_ZONE,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).formatToParts();
+    const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+    return `${values.year}-${values.month}-${values.day}`;
+  };
+
+  const isActive = (expiresDate: string | undefined, currentDate: string) =>
+    !expiresDate || expiresDate >= currentDate;
+
+  const initAnnouncements = () => {
+    const currentDate = getCurrentClubDate();
+    const dismissed = getDismissedAnnouncements();
+    const banners = document.querySelectorAll<HTMLElement>("[data-announcement-banner]");
+    let visibleBanner: HTMLElement | undefined;
+
+    banners.forEach((banner) => {
+      banner.style.display = "none";
+
+      const slug = banner.dataset.announcementSlug;
+      if (
+        !visibleBanner &&
+        isActive(banner.dataset.announcementExpires, currentDate) &&
+        (!slug || !dismissed.includes(slug))
+      ) {
+        visibleBanner = banner;
+      }
+
+      const dismissButton = banner.querySelector<HTMLElement>("[data-announcement-dismiss]");
+      if (dismissButton && dismissButton.dataset.announcementDismissBound !== "true") {
+        dismissButton.dataset.announcementDismissBound = "true";
+        dismissButton.addEventListener("click", () => {
+          if (slug) dismissAnnouncement(slug);
+          initAnnouncements();
+        });
+      }
+    });
+
+    if (visibleBanner) visibleBanner.style.removeProperty("display");
+
+    const items = document.querySelectorAll<HTMLElement>("[data-announcement-item]");
+    let activeItemCount = 0;
+    items.forEach((item) => {
+      const active = isActive(item.dataset.announcementExpires, currentDate);
+      if (active) {
+        item.style.removeProperty("display");
+      } else {
+        item.style.display = "none";
+      }
+      if (active) activeItemCount += 1;
+    });
+
+    document.querySelectorAll<HTMLElement>("[data-announcement-empty]").forEach((emptyState) => {
+      if (activeItemCount > 0) {
+        emptyState.style.display = "none";
+      } else {
+        emptyState.style.removeProperty("display");
+      }
+    });
+  };
+
+  document.addEventListener("astro:page-load", initAnnouncements);
+</script>

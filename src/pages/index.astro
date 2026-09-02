@@ -16,16 +16,15 @@ import heroBorevetsSki from "../assets/images/foog-borovets.jpg";
 import heroSkiJuniorLesson from "../assets/images/foog-ski-junior.jpg";
 import heroAlexiptoto from "../assets/images/foog-ski-camp-alexiptoto.jpg";
 import heroSnowboardCamp from "../assets/images/foog-snowboard-camp-junior.jpg";
-import { isTripUpcoming, isTripPast, isAnnouncementActive } from "../types";
+import { isTripUpcoming, isTripPast } from "../types";
 
-const bannerAnnouncement = [...announcements]
-  .filter((announcement) => isAnnouncementActive(announcement))
+const bannerAnnouncements = [...announcements]
   .sort((a, b) => {
     if (!!a.urgent !== !!b.urgent) return a.urgent ? -1 : 1;
     return (
       new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
     );
-  })[0];
+  });
 
 const upcomingTrips = [...trips]
   .filter((trip) => isTripUpcoming(trip))
@@ -140,9 +139,11 @@ const homepageStructuredData = {
 
 <BaseLayout structuredData={[homepageStructuredData]}>
   {
-    bannerAnnouncement && (
+    bannerAnnouncements.length > 0 && (
       <div class="px-6 sm:px-8 lg:px-12">
-        <AnnouncementBanner announcement={bannerAnnouncement} />
+        {bannerAnnouncements.map((announcement) => (
+          <AnnouncementBanner announcement={announcement} />
+        ))}
       </div>
     )
   }
