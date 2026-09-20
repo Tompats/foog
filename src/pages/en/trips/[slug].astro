@@ -41,6 +41,15 @@ const tripDateLabel =
 
 const timelineStatus = getTripTimelineStatus(trip);
 
+const isSkiTrip = trip.type === "ski";
+const durationDays = trip.endDate
+  ? Math.round(
+      (new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) /
+        86_400_000,
+    ) + 1
+  : 1;
+const durationLabel = `${durationDays} ${durationDays === 1 ? t("common.day") : t("common.days")}`;
+
 type StatusVariant = "upcoming" | "past" | "canceled";
 
 const statusVariant: StatusVariant =
@@ -139,18 +148,39 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href, locale);
           </p>
           <p class="text-xl font-semibold">{trip.location}</p>
         </div>
-        <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
-            {t("common.distance")}
-          </p>
-          <p class="text-xl font-semibold">{trip.distanceKm} km</p>
-        </div>
-        <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
-            {t("common.elevation")}
-          </p>
-          <p class="text-xl font-semibold">{trip.elevationGain} m</p>
-        </div>
+        {
+          isSkiTrip ? (
+            <>
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+                  {t("common.duration")}
+                </p>
+                <p class="text-xl font-semibold">{durationLabel}</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+                  {t("common.difficulty")}
+                </p>
+                <p class="text-xl font-semibold">{trip.difficulty}/5</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+                  {t("common.distance")}
+                </p>
+                <p class="text-xl font-semibold">{trip.distanceKm} km</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+                  {t("common.elevation")}
+                </p>
+                <p class="text-xl font-semibold">{trip.elevationGain} m</p>
+              </div>
+            </>
+          )
+        }
         <div>
           <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
             {t("common.leader")}
