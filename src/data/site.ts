@@ -50,6 +50,7 @@ export const siteMetadata: SiteMetadata = {
     "περιβαλλοντικές δράσεις",
     "ορειβατικός σύλλογος",
     "σκι γιαννιτσά",
+    "μαθήματα σκι γιαννιτσά",
     "ορειβασία γιαννιτσά",
     // Greeklish (Latin-transliterated Greek) - common when typed from a
     // non-Greek keyboard layout.
@@ -164,6 +165,7 @@ const localizedSiteMetadata: Record<Locale, LocalizedSiteMetadata> = {
       "mountaineering club Greece",
       "Giannitsa hiking club",
       "ski lessons Kaimaktsalan",
+      "ski lessons Giannitsa",
       "Voras ski school",
       "snowboard lessons Greece",
       "hiking Pella Greece",
