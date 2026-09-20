@@ -31,6 +31,8 @@ const el = {
   "footer.heading": "Πάντα έτοιμοι για περιπέτεια.",
   "footer.subtitle":
     "Ανακαλύπτουμε το βουνό, μοιραζόμαστε στιγμές, αφήνουμε μόνο τα ίχνη μας.",
+  "footer.federationNote":
+    "Αναγνωρισμένο αθλητικό σωματείο, μέλος της Ελληνικής Ομοσπονδίας Χειμερινών Αθλημάτων (Ε.Ο.Χ.Α.).",
   "footer.linksAriaLabel": "Σύνδεσμοι υποσέλιδου",
   "footer.trips": "Εξορμήσεις",
   "footer.announcements": "Ανακοινώσεις",
@@ -136,6 +138,8 @@ const en: Record<keyof typeof el, string> = {
   "footer.heading": "Always ready for adventure.",
   "footer.subtitle":
     "We discover the mountain, share moments, and leave only our footprints.",
+  "footer.federationNote":
+    "A recognized athletic association, member of the Hellenic Federation of Winter Sports (EOXA).",
   "footer.linksAriaLabel": "Footer links",
   "footer.trips": "Trips",
   "footer.announcements": "Announcements",
