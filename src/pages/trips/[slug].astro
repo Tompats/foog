@@ -35,6 +35,15 @@ const tripDateLabel =
 
 const timelineStatus = getTripTimelineStatus(trip);
 
+const isSkiTrip = trip.type === "ski";
+const durationDays = trip.endDate
+  ? Math.round(
+      (new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) /
+        86_400_000,
+    ) + 1
+  : 1;
+const durationLabel = `${durationDays} ${durationDays === 1 ? "ημέρα" : "ημέρες"}`;
+
 type StatusVariant = "upcoming" | "past" | "canceled";
 
 const statusVariant: StatusVariant =
@@ -132,18 +141,39 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
           </p>
           <p class="text-xl font-semibold">{trip.location}</p>
         </div>
-        <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
-            Απόσταση
-          </p>
-          <p class="text-xl font-semibold">{trip.distanceKm} km</p>
-        </div>
-        <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
-            Υψομετρική
-          </p>
-          <p class="text-xl font-semibold">{trip.elevationGain} m</p>
-        </div>
+        {
+          isSkiTrip ? (
+            <>
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+                  Διάρκεια
+                </p>
+                <p class="text-xl font-semibold">{durationLabel}</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+                  Δυσκολία
+                </p>
+                <p class="text-xl font-semibold">{trip.difficulty}/5</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+                  Απόσταση
+                </p>
+                <p class="text-xl font-semibold">{trip.distanceKm} km</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
+                  Υψομετρική
+                </p>
+                <p class="text-xl font-semibold">{trip.elevationGain} m</p>
+              </div>
+            </>
+          )
+        }
         <div>
           <p class="text-xs uppercase tracking-[0.3em] text-brand-river">
             Αρχηγός
