@@ -2,8 +2,18 @@ backend:
   name: github
   repo: Tompats/foog
   branch: master
+  # Only used once the CMS is opened over the public URL (see docs/CMS_SETUP.md).
+  # Not needed for local editing — see `local_backend` below.
   base_url: https://REPLACE-WITH-YOUR-NETLIFY-SITE.netlify.app
   auth_endpoint: auth
+
+# Lets the CMS run against your local checkout with `npm run cms` + `npm run
+# dev`, writing files straight to disk with no GitHub login at all — see
+# "Local editing (no OAuth)" in docs/CMS_SETUP.md. Only active when the admin
+# page is opened from localhost; the public /admin/ still needs the OAuth
+# setup below (or is effectively locked out until then, which is fine while
+# only one person is editing).
+local_backend: true
 
 # Entries are committed straight to `master`, same as pushing directly today.
 # Switch to `editorial_workflow` later if you want a draft/review step before
