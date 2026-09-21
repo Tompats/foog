@@ -4,7 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import TripCard from "../../components/TripCard.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
 import AnnouncementBanner from "../../components/AnnouncementBanner.astro";
-import { trips, getLocalizedTrip } from "../../data/trips";
+import { getTrips, getLocalizedTrip } from "../../data/trips";
 import {
   announcements,
   getLocalizedAnnouncement,
@@ -27,6 +27,7 @@ import heroSnowboardCamp from "../../assets/images/foog-snowboard-camp-junior.jp
 import { isTripUpcoming, isTripPast } from "../../types";
 
 const locale = "en" as const;
+const trips = await getTrips();
 
 const bannerAnnouncements = [...announcements]
   .sort((a, b) => {

@@ -5,7 +5,7 @@ import { createCollectionPageJsonLd } from "../../../utils/seo";
 import { getTripListingData, getPastTripTotalPages } from "../../../utils/tripPagination";
 
 export async function getStaticPaths() {
-  const totalPages = getPastTripTotalPages();
+  const totalPages = await getPastTripTotalPages();
   const paths = [];
   for (let page = 2; page <= totalPages; page += 1) {
     paths.push({ params: { page: String(page) } });
@@ -20,7 +20,7 @@ if (!Number.isInteger(pageNumber) || pageNumber < 1) {
   throw new Error("Invalid page number");
 }
 
-const { upcomingTrips, pastTrips, pagination } = getTripListingData(pageNumber);
+const { upcomingTrips, pastTrips, pagination } = await getTripListingData(pageNumber);
 
 const pageTitle = `Εξορμήσεις · Σελίδα ${pagination.currentPage}`;
 const pageDescription = `Δες τις εξορμήσεις του Φ.Ο.Ο.Γ. - σελίδα ${pagination.currentPage} της αρχειοθήκης προηγούμενων διαδρομών.`;

@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import TripCard from "../components/TripCard.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import AnnouncementBanner from "../components/AnnouncementBanner.astro";
-import { trips } from "../data/trips";
+import { getTrips } from "../data/trips";
 import { announcements } from "../data/announcements";
 import { siteMetadata, organizationId, getSiteBaseUrl } from "../data/site";
 import { withBase } from "../utils/url";
@@ -17,6 +17,8 @@ import heroSkiJuniorLesson from "../assets/images/foog-ski-junior.jpg";
 import heroAlexiptoto from "../assets/images/foog-ski-camp-alexiptoto.jpg";
 import heroSnowboardCamp from "../assets/images/foog-snowboard-camp-junior.jpg";
 import { isTripUpcoming, isTripPast } from "../types";
+
+const trips = await getTrips();
 
 const bannerAnnouncements = [...announcements]
   .sort((a, b) => {

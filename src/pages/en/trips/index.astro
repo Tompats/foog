@@ -6,7 +6,7 @@ import { getTripListingData } from "../../../utils/tripPagination";
 import { getLocalizedTrip } from "../../../data/trips";
 
 const locale = "en" as const;
-const { upcomingTrips, pastTrips, pagination } = getTripListingData(1);
+const { upcomingTrips, pastTrips, pagination } = await getTripListingData(1);
 const localizedUpcoming = upcomingTrips.map((trip) => getLocalizedTrip(trip, locale));
 const localizedPast = pastTrips.map((trip) => getLocalizedTrip(trip, locale));
 

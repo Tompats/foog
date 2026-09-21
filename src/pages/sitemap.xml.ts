@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { trips } from "../data/trips";
+import { getTrips } from "../data/trips";
 import { absoluteUrl } from "../utils/seo";
 import { isTripUpcoming } from "../types";
 import { getPastTripTotalPages } from "../utils/tripPagination";
@@ -53,9 +53,10 @@ ${xDefaultLink}
     .join("\n");
 };
 
-export const GET: APIRoute = () => {
+export const GET: APIRoute = async () => {
   const now = new Date().toISOString();
-  const totalPastTripPages = getPastTripTotalPages();
+  const trips = await getTrips();
+  const totalPastTripPages = await getPastTripTotalPages();
 
   const entries: UrlEntry[] = [
     ...staticPages.map((page) => ({
