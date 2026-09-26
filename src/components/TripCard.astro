@@ -64,17 +64,27 @@ const timelineLabels = {
   past: t("tripStatus.pastTimeline"),
 };
 
-type StatusVariant = "upcoming" | "past" | "canceled";
+type StatusVariant = "upcoming" | "past" | "postponed" | "canceled";
 
 const statusVariant: StatusVariant =
-  trip.status === "canceled" ? "canceled" : timelineStatus;
+  trip.status === "canceled" || trip.status === "postponed"
+    ? trip.status
+    : timelineStatus;
+
+const statusLabelMap: Record<"postponed" | "canceled", string> = {
+  postponed: t("tripStatus.postponedBadge"),
+  canceled: t("tripStatus.canceledBadge"),
+};
 
 const statusLabel =
-  statusVariant === "canceled" ? t("tripStatus.canceledBadge") : timelineLabels[timelineStatus];
+  statusVariant === "postponed" || statusVariant === "canceled"
+    ? statusLabelMap[statusVariant]
+    : timelineLabels[timelineStatus];
 
 const statusTextClasses: Record<StatusVariant, string> = {
   upcoming: "text-brand-mossDark",
   past: "text-brand-river",
+  postponed: "text-brand-terracotta",
   canceled: "text-brand-terracotta",
 };
 

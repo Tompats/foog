@@ -44,10 +44,12 @@ const durationDays = trip.endDate
   : 1;
 const durationLabel = `${durationDays} ${durationDays === 1 ? "ημέρα" : "ημέρες"}`;
 
-type StatusVariant = "upcoming" | "past" | "canceled";
+type StatusVariant = "upcoming" | "past" | "postponed" | "canceled";
 
 const statusVariant: StatusVariant =
-  trip.status === "canceled" ? "canceled" : timelineStatus;
+  trip.status === "canceled" || trip.status === "postponed"
+    ? trip.status
+    : timelineStatus;
 
 const showRegistrationCta =
   trip.status === "active" && timelineStatus === "upcoming";
@@ -55,13 +57,16 @@ const showRegistrationCta =
 const detailStatusMessage =
   statusVariant === "canceled"
     ? "Η εξόρμηση ακυρώθηκε και δεν δέχεται νέες συμμετοχές."
-    : statusVariant === "past"
-      ? "Η εξόρμηση ολοκληρώθηκε. Μείνε συντονισμένος για τις επόμενες περιπέτειες!"
-      : null;
+    : statusVariant === "postponed"
+      ? "Η εξόρμηση αναβλήθηκε. Θα ανακοινωθεί νέα ημερομηνία σύντομα."
+      : statusVariant === "past"
+        ? "Η εξόρμηση ολοκληρώθηκε. Μείνε συντονισμένος για τις επόμενες περιπέτειες!"
+        : null;
 
 const statusBadgeLabelMap: Record<StatusVariant, string> = {
   upcoming: "Διαθέσιμες θέσεις",
   past: "Ολοκληρωμένη",
+  postponed: "Αναβλήθηκε",
   canceled: "Ακυρωμένη",
 };
 
@@ -74,6 +79,8 @@ const typeLabelMap: Record<Trip["type"], string> = {
 const statusBadgeClassMap: Record<StatusVariant, string> = {
   upcoming: "bg-brand-moss/15 text-brand-moss border-brand-moss/40",
   past: "bg-brand-river/20 text-brand-river border-brand-river/40",
+  postponed:
+    "bg-brand-terracotta/15 text-brand-terracotta border-brand-terracotta/40",
   canceled:
     "bg-brand-terracotta/15 text-brand-terracotta border-brand-terracotta/40",
 };
@@ -207,7 +214,7 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
           ) : (
             detailStatusMessage && (
               <div
-                class={`glass-panel px-5 py-3 border border-brand-cloud/30 ${statusVariant === "canceled" ? "text-brand-terracotta" : "text-brand-mist"}`}
+                class={`glass-panel px-5 py-3 border border-brand-cloud/30 ${statusVariant === "canceled" || statusVariant === "postponed" ? "text-brand-terracotta" : "text-brand-mist"}`}
               >
                 {detailStatusMessage}
               </div>

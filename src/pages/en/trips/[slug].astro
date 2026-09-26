@@ -50,10 +50,12 @@ const durationDays = trip.endDate
   : 1;
 const durationLabel = `${durationDays} ${durationDays === 1 ? t("common.day") : t("common.days")}`;
 
-type StatusVariant = "upcoming" | "past" | "canceled";
+type StatusVariant = "upcoming" | "past" | "postponed" | "canceled";
 
 const statusVariant: StatusVariant =
-  trip.status === "canceled" ? "canceled" : timelineStatus;
+  trip.status === "canceled" || trip.status === "postponed"
+    ? trip.status
+    : timelineStatus;
 
 const showRegistrationCta =
   trip.status === "active" && timelineStatus === "upcoming";
@@ -61,13 +63,16 @@ const showRegistrationCta =
 const detailStatusMessage =
   statusVariant === "canceled"
     ? t("tripDetail.canceledMessage")
-    : statusVariant === "past"
-      ? t("tripDetail.pastMessage")
-      : null;
+    : statusVariant === "postponed"
+      ? t("tripDetail.postponedMessage")
+      : statusVariant === "past"
+        ? t("tripDetail.pastMessage")
+        : null;
 
 const statusBadgeLabelMap: Record<StatusVariant, string> = {
   upcoming: t("tripStatus.upcomingBadge"),
   past: t("tripStatus.pastBadge"),
+  postponed: t("tripStatus.postponedBadge"),
   canceled: t("tripStatus.canceledBadge"),
 };
 
@@ -80,6 +85,8 @@ const typeLabelMap: Record<Trip["type"], string> = {
 const statusBadgeClassMap: Record<StatusVariant, string> = {
   upcoming: "bg-brand-moss/15 text-brand-moss border-brand-moss/40",
   past: "bg-brand-river/20 text-brand-river border-brand-river/40",
+  postponed:
+    "bg-brand-terracotta/15 text-brand-terracotta border-brand-terracotta/40",
   canceled:
     "bg-brand-terracotta/15 text-brand-terracotta border-brand-terracotta/40",
 };
@@ -214,7 +221,7 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href, locale);
           ) : (
             detailStatusMessage && (
               <div
-                class={`glass-panel px-5 py-3 border border-brand-cloud/30 ${statusVariant === "canceled" ? "text-brand-terracotta" : "text-brand-mist"}`}
+                class={`glass-panel px-5 py-3 border border-brand-cloud/30 ${statusVariant === "canceled" || statusVariant === "postponed" ? "text-brand-terracotta" : "text-brand-mist"}`}
               >
                 {detailStatusMessage}
               </div>
