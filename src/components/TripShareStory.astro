@@ -616,74 +616,83 @@ const shareData = {
     });
   };
 
-  document.querySelectorAll<HTMLElement>("[data-trip-share]").forEach((root) => {
-    const dataElement = root.querySelector("[data-trip-share-data]");
-    const errorElement = root.querySelector("[data-trip-share-error]");
-    const openButton = root.querySelector<HTMLButtonElement>("[data-trip-share-open]");
-    const dialog = root.querySelector<HTMLDialogElement>("[data-trip-share-dialog]");
-    const closeButton = root.querySelector<HTMLButtonElement>("[data-trip-share-close]");
-    const preview = root.querySelector<HTMLImageElement>("[data-trip-share-preview]");
-    const status = root.querySelector<HTMLElement>("[data-trip-share-status]");
-    const nativeButton = root.querySelector<HTMLButtonElement>("[data-trip-share-native]");
-    const downloadLink = root.querySelector<HTMLAnchorElement>("[data-trip-share-download]");
-    if (
-      !dataElement || !openButton || !dialog || !closeButton || !preview ||
-      !status || !nativeButton || !downloadLink
-    ) {
-      return;
-    }
+  // The site uses Astro's ClientRouter, so bind on every page load (not just
+  // the first) and skip roots that are already wired up.
+  const initTripShare = () => {
+    document.querySelectorAll<HTMLElement>("[data-trip-share]").forEach((root) => {
+      if (root.dataset.tripShareReady) return;
+      root.dataset.tripShareReady = "true";
 
-    const data = JSON.parse(dataElement.textContent ?? "{}") as ShareData;
-    const errorMessage = JSON.parse(errorElement?.textContent ?? '""') as string;
-    const fileName = `foog-${data.slug}-story.jpg`;
-    let file: File | null = null;
-    let rendering: Promise<void> | null = null;
-
-    const render = () => {
-      rendering ??= renderStory(data)
-        .then((blob) => {
-          file = new File([blob], fileName, { type: "image/jpeg" });
-          const url = URL.createObjectURL(blob);
-          preview.src = url;
-          preview.classList.remove("hidden");
-          status.classList.add("hidden");
-
-          downloadLink.href = url;
-          downloadLink.download = fileName;
-          downloadLink.removeAttribute("aria-disabled");
-          downloadLink.classList.remove("pointer-events-none", "opacity-60");
-
-          if (navigator.canShare?.({ files: [file] })) {
-            nativeButton.classList.remove("hidden");
-            nativeButton.classList.add("inline-flex");
-            nativeButton.disabled = false;
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          status.textContent = errorMessage;
-          rendering = null;
-        });
-      return rendering;
-    };
-
-    openButton.addEventListener("click", () => {
-      dialog.showModal();
-      render();
-    });
-
-    closeButton.addEventListener("click", () => dialog.close());
-    dialog.addEventListener("click", (event) => {
-      if (event.target === dialog) dialog.close();
-    });
-
-    nativeButton.addEventListener("click", async () => {
-      if (!file) return;
-      try {
-        await navigator.share({ files: [file], title: data.title });
-      } catch (error) {
-        if ((error as DOMException).name !== "AbortError") console.error(error);
+      const dataElement = root.querySelector("[data-trip-share-data]");
+      const errorElement = root.querySelector("[data-trip-share-error]");
+      const openButton = root.querySelector<HTMLButtonElement>("[data-trip-share-open]");
+      const dialog = root.querySelector<HTMLDialogElement>("[data-trip-share-dialog]");
+      const closeButton = root.querySelector<HTMLButtonElement>("[data-trip-share-close]");
+      const preview = root.querySelector<HTMLImageElement>("[data-trip-share-preview]");
+      const status = root.querySelector<HTMLElement>("[data-trip-share-status]");
+      const nativeButton = root.querySelector<HTMLButtonElement>("[data-trip-share-native]");
+      const downloadLink = root.querySelector<HTMLAnchorElement>("[data-trip-share-download]");
+      if (
+        !dataElement || !openButton || !dialog || !closeButton || !preview ||
+        !status || !nativeButton || !downloadLink
+      ) {
+        return;
       }
+
+      const data = JSON.parse(dataElement.textContent ?? "{}") as ShareData;
+      const errorMessage = JSON.parse(errorElement?.textContent ?? '""') as string;
+      const fileName = `foog-${data.slug}-story.jpg`;
+      let file: File | null = null;
+      let rendering: Promise<void> | null = null;
+
+      const render = () => {
+        rendering ??= renderStory(data)
+          .then((blob) => {
+            file = new File([blob], fileName, { type: "image/jpeg" });
+            const url = URL.createObjectURL(blob);
+            preview.src = url;
+            preview.classList.remove("hidden");
+            status.classList.add("hidden");
+
+            downloadLink.href = url;
+            downloadLink.download = fileName;
+            downloadLink.removeAttribute("aria-disabled");
+            downloadLink.classList.remove("pointer-events-none", "opacity-60");
+
+            if (navigator.canShare?.({ files: [file] })) {
+              nativeButton.classList.remove("hidden");
+              nativeButton.classList.add("inline-flex");
+              nativeButton.disabled = false;
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            status.textContent = errorMessage;
+            rendering = null;
+          });
+        return rendering;
+      };
+
+      openButton.addEventListener("click", () => {
+        dialog.showModal();
+        render();
+      });
+
+      closeButton.addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+
+      nativeButton.addEventListener("click", async () => {
+        if (!file) return;
+        try {
+          await navigator.share({ files: [file], title: data.title });
+        } catch (error) {
+          if ((error as DOMException).name !== "AbortError") console.error(error);
+        }
+      });
     });
-  });
+  };
+
+  document.addEventListener("astro:page-load", initTripShare);
 </script>
