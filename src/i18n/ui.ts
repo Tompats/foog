@@ -119,8 +119,8 @@ const el = {
   "tripDetail.pastMessage":
     "Η εξόρμηση ολοκληρώθηκε. Μείνε συντονισμένος για τις επόμενες περιπέτειες!",
 
-  "tripShare.button": "Κοινοποίηση σε Story",
-  "tripShare.dialogTitle": "Instagram Story",
+  "tripShare.button": "Κοινοποίηση",
+  "tripShare.dialogTitle": "Κοινοποίηση εξόρμησης",
   "tripShare.close": "Κλείσιμο",
   "tripShare.generating": "Δημιουργία γραφικού…",
   "tripShare.error": "Δεν ήταν δυνατή η δημιουργία του γραφικού. Δοκίμασε ξανά.",
@@ -241,8 +241,8 @@ const en: Record<keyof typeof el, string> = {
   "tripDetail.pastMessage":
     "This trip has already taken place. Stay tuned for the next adventure!",
 
-  "tripShare.button": "Share to Story",
-  "tripShare.dialogTitle": "Instagram Story",
+  "tripShare.button": "Share",
+  "tripShare.dialogTitle": "Share trip",
   "tripShare.close": "Close",
   "tripShare.generating": "Creating graphic…",
   "tripShare.error": "Couldn't create the graphic. Please try again.",

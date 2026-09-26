@@ -13,9 +13,11 @@ import { useTranslations, defaultLocale, type Locale } from "../i18n/ui";
 interface Props {
   trip: Trip;
   locale?: Locale;
+  /** "button" for the trip detail hero, "compact" for trip cards. */
+  variant?: "button" | "compact";
 }
 
-const { trip, locale = defaultLocale } = Astro.props;
+const { trip, locale = defaultLocale, variant = "button" } = Astro.props;
 const t = useTranslations(locale);
 
 const cardImageMap: Record<Trip["type"], ImageMetadata> = {
@@ -112,24 +114,38 @@ const shareData = {
 ---
 
 <div data-trip-share class="contents">
-  <button
-    type="button"
-    data-trip-share-open
-    class="inline-flex items-center gap-2 rounded-full border border-brand-river/40 px-6 py-3 font-semibold text-brand-rocky transition hover:border-brand-terracotta"
-  >
-    <i class="fa-brands fa-instagram text-lg" aria-hidden="true"></i>
-    {t("tripShare.button")}
-  </button>
+  {
+    variant === "compact" ? (
+      <button
+        type="button"
+        data-trip-share-open
+        aria-label={`${t("tripShare.button")}: ${trip.title}`}
+        class="inline-flex items-center gap-2 rounded-full border border-brand-pine/20 px-4 py-2 text-sm font-semibold text-brand-pine transition hover:-translate-y-0.5 hover:border-brand-terracotta hover:text-brand-terracotta"
+      >
+        {t("tripShare.button")}
+        <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+      </button>
+    ) : (
+      <button
+        type="button"
+        data-trip-share-open
+        class="inline-flex items-center gap-2 rounded-full border border-brand-river/40 px-6 py-3 font-semibold text-brand-rocky transition hover:border-brand-terracotta"
+      >
+        <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+        {t("tripShare.button")}
+      </button>
+    )
+  }
 
   <dialog
     data-trip-share-dialog
-    aria-labelledby={`trip-share-title-${trip.slug}`}
+    aria-labelledby={`trip-share-title-${variant}-${trip.slug}`}
     class="w-[min(92vw,26rem)] rounded-[28px] border border-brand-river/25 bg-brand-cloud p-0 text-brand-rocky shadow-xl backdrop:bg-brand-rocky/70 backdrop:backdrop-blur-sm"
   >
     <div class="flex flex-col gap-4 p-5">
       <div class="flex items-center justify-between gap-4">
         <h2
-          id={`trip-share-title-${trip.slug}`}
+          id={`trip-share-title-${variant}-${trip.slug}`}
           class="text-xl font-semibold heading-font"
         >
           {t("tripShare.dialogTitle")}
@@ -522,8 +538,12 @@ const shareData = {
     ctx.shadowColor = "transparent";
     y += titleLines.length * titleLineHeight + 28;
 
-    drawPin(ctx, PADDING + 14, y + 4);
     ctx.font = `600 38px ${BODY_FONT}`;
+    // Centre the 40px pin on the capital height of the first location line.
+    const capMetrics = ctx.measureText("H");
+    const capCenter =
+      y + (capMetrics.actualBoundingBoxDescent - capMetrics.actualBoundingBoxAscent) / 2;
+    drawPin(ctx, PADDING + 14, capCenter - 20);
     ctx.fillStyle = "rgba(253, 250, 246, 0.9)";
     locationLines.forEach((line, index) => {
       ctx.fillText(line, PADDING + 56, y + index * 50);
@@ -546,8 +566,11 @@ const shareData = {
       ctx.stroke();
 
       ctx.textBaseline = "top";
-      ctx.font = `700 22px ${BODY_FONT}`;
       ctx.letterSpacing = "4px";
+      let labelSize = 22;
+      do {
+        ctx.font = `700 ${labelSize}px ${BODY_FONT}`;
+      } while (ctx.measureText(tile.label).width > statWidth - 60 && --labelSize > 14);
       ctx.fillStyle = COLORS.mistLight;
       ctx.fillText(tile.label, x + 30, y + 32);
       ctx.letterSpacing = "0px";

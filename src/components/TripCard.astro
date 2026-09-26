@@ -6,6 +6,7 @@ import { getTripTimelineStatus } from "../types";
 import hikingCardImage from "../assets/cards/hiking-card.jpg";
 import mountaineeringCardImage from "../assets/cards/mountaineering-card.jpg";
 import skiCardImage from "../assets/cards/ski-card.jpg";
+import TripShareStory from "./TripShareStory.astro";
 import { withLocale } from "../utils/url";
 import { useTranslations, defaultLocale, type Locale } from "../i18n/ui";
 
@@ -218,7 +219,7 @@ const shouldShowTechnicalStats = trip.type !== "ski";
         </div>
       </div>
     </div>
-    <div class="pt-2">
+    <div class="pt-2 flex flex-wrap items-center gap-3">
       <a
         href={withLocale(locale, `/trips/${trip.slug}`)}
         aria-label={`${t("common.detailsAriaPrefix")} ${trip.title}`}
@@ -239,6 +240,7 @@ const shouldShowTechnicalStats = trip.type !== "ski";
             d="M5 12h14m-6-6 6 6-6 6"></path>
         </svg>
       </a>
+      <TripShareStory trip={trip} locale={locale} variant="compact" />
     </div>
   </div>
 </article>
