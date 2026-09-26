@@ -1,4 +1,4 @@
-import { trips } from "../data/trips";
+import { getTrips } from "../data/trips";
 import type { Trip } from "../types";
 import { isTripUpcoming, isTripPast } from "../types";
 
@@ -14,12 +14,14 @@ const sortPastTrips = (list: Trip[]) =>
     .filter((trip) => isTripPast(trip))
     .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
-export const getPastTripTotalPages = () => {
+export const getPastTripTotalPages = async () => {
+  const trips = await getTrips();
   const totalPastTrips = sortPastTrips(trips).length;
   return Math.max(1, Math.ceil(totalPastTrips / PAST_TRIPS_PAGE_SIZE));
 };
 
-export const getTripListingData = (pageNumber: number) => {
+export const getTripListingData = async (pageNumber: number) => {
+  const trips = await getTrips();
   const upcomingTrips = sortUpcomingTrips(trips);
   const pastTripsOrdered = sortPastTrips(trips);
   const totalPastTrips = pastTripsOrdered.length;

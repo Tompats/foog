@@ -6,7 +6,7 @@ import { getTripListingData, getPastTripTotalPages } from "../../../../utils/tri
 import { getLocalizedTrip } from "../../../../data/trips";
 
 export async function getStaticPaths() {
-  const totalPages = getPastTripTotalPages();
+  const totalPages = await getPastTripTotalPages();
   const paths = [];
   for (let page = 2; page <= totalPages; page += 1) {
     paths.push({ params: { page: String(page) } });
@@ -22,7 +22,7 @@ if (!Number.isInteger(pageNumber) || pageNumber < 1) {
 }
 
 const locale = "en" as const;
-const { upcomingTrips, pastTrips, pagination } = getTripListingData(pageNumber);
+const { upcomingTrips, pastTrips, pagination } = await getTripListingData(pageNumber);
 const localizedUpcoming = upcomingTrips.map((trip) => getLocalizedTrip(trip, locale));
 const localizedPast = pastTrips.map((trip) => getLocalizedTrip(trip, locale));
 

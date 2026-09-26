@@ -1,0 +1,155 @@
+backend:
+  name: github
+  repo: Tompats/foog
+  branch: master
+  # Only used once the CMS is opened over the public URL (see docs/CMS_SETUP.md).
+  # Not needed for local editing — see `local_backend` below.
+  base_url: https://REPLACE-WITH-YOUR-NETLIFY-SITE.netlify.app
+  auth_endpoint: auth
+
+# Lets the CMS run against your local checkout with `npm run cms` + `npm run
+# dev`, writing files straight to disk with no GitHub login at all — see
+# "Local editing (no OAuth)" in docs/CMS_SETUP.md. Only active when the admin
+# page is opened from localhost; the public /admin/ still needs the OAuth
+# setup below (or is effectively locked out until then, which is fine while
+# only one person is editing).
+local_backend: true
+
+# Entries are committed straight to `master`, same as pushing directly today.
+# Switch to `editorial_workflow` later if you want a draft/review step before
+# a new trip goes live.
+publish_mode: simple
+
+media_folder: public/uploads
+public_folder: /uploads
+
+locale: el
+
+collections:
+  - name: trips
+    label: Εξορμήσεις
+    label_singular: Εξόρμηση
+    folder: src/content/trips
+    create: true
+    delete: true
+    identifier_field: slug
+    slug: '{{fields.slug}}'
+    extension: md
+    format: frontmatter
+    summary: '{{title}} — {{startDate}}'
+    sortable_fields: [startDate, title, status]
+    fields:
+      - label: Αναγνωριστικό διεύθυνσης (slug)
+        name: slug
+        widget: string
+        hint: 'Λατινικοί χαρακτήρες, πεζά, με παύλες. Π.χ. paiko-braduni-pezoporia-2026. Δεν αλλάζει μετά τη δημιουργία.'
+        pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Μόνο πεζά λατινικά, αριθμοί και παύλες']
+      - label: Τίτλος
+        name: title
+        widget: string
+      - label: Ημερομηνία έναρξης
+        name: startDate
+        widget: date
+        format: 'YYYY-MM-DD'
+        date_format: 'DD/MM/YYYY'
+        time_format: false
+        picker_utc: true
+      - label: Ημερομηνία λήξης
+        name: endDate
+        widget: date
+        format: 'YYYY-MM-DD'
+        date_format: 'DD/MM/YYYY'
+        time_format: false
+        picker_utc: true
+        required: false
+        hint: 'Άδειο για μονοήμερη εξόρμηση'
+      - label: Τύπος
+        name: type
+        widget: select
+        options:
+          - { label: Πεζοπορία, value: hiking }
+          - { label: Ορειβασία, value: mountaineering }
+          - { label: Σκι / Snowboard, value: ski }
+      - label: Δυσκολία (1-5)
+        name: difficulty
+        widget: select
+        options: [1, 2, 3, 4, 5]
+        value_type: int
+      - label: Υψομετρική διαφορά (m)
+        name: elevationGain
+        widget: number
+        value_type: int
+        min: 0
+      - label: Απόσταση (km)
+        name: distanceKm
+        widget: number
+        value_type: float
+        min: 0
+      - label: Αρχηγός εξόρμησης
+        name: leader
+        widget: string
+      - label: Κατάσταση
+        name: status
+        widget: select
+        options:
+          - { label: Ενεργή, value: active }
+          - { label: Αναβλήθηκε, value: postponed }
+          - { label: Ακυρωμένη, value: canceled }
+        default: active
+      - label: Σύντομη περιγραφή
+        name: shortDescription
+        widget: text
+      - label: Τοποθεσία
+        name: location
+        widget: string
+      - label: Δραστηριότητες
+        name: activities
+        widget: list
+        field: { label: Δραστηριότητα, name: activity, widget: string }
+      - label: Απαραίτητος εξοπλισμός
+        name: gear
+        widget: list
+        field: { label: Αντικείμενο, name: item, widget: string }
+      - label: Πρόγραμμα
+        name: itinerary
+        widget: list
+        label_singular: Ημέρα
+        summary: '{{fields.label}}'
+        fields:
+          - { label: Τίτλος ημέρας, name: label, widget: string, hint: 'π.χ. Ημέρα 1' }
+          - label: Σημεία προγράμματος
+            name: entries
+            widget: list
+            field: { label: Σημείο, name: entry, widget: string }
+      - label: Αγγλική μετάφραση (προαιρετικό)
+        name: en
+        widget: object
+        required: false
+        collapsed: true
+        hint: 'Άφησε ένα πεδίο κενό για να χρησιμοποιηθεί αυτόματα η ελληνική εκδοχή στο english.foog.gr'
+        fields:
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: Short description, name: shortDescription, widget: text, required: false }
+          - { label: Location, name: location, widget: string, required: false }
+          - label: Activities
+            name: activities
+            widget: list
+            required: false
+            field: { label: Activity, name: activity, widget: string }
+          - label: Gear
+            name: gear
+            widget: list
+            required: false
+            field: { label: Item, name: item, widget: string }
+          - label: Itinerary
+            name: itinerary
+            widget: list
+            required: false
+            label_singular: Day
+            summary: '{{fields.label}}'
+            fields:
+              - { label: Day title, name: label, widget: string, hint: 'e.g. Day 1' }
+              - label: Itinerary entries
+                name: entries
+                widget: list
+                field: { label: Entry, name: entry, widget: string }

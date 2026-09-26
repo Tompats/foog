@@ -2,17 +2,19 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TripCard from "../../components/TripCard.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
-import { trips } from "../../data/trips";
+import { getTrips } from "../../data/trips";
 import { withBase } from "../../utils/url";
 import { createTripJsonLd } from "../../utils/seo";
 import type { Trip } from "../../types";
 import { getTripTimelineStatus } from "../../types";
 
 export async function getStaticPaths() {
+  const trips = await getTrips();
   return trips.map((trip) => ({ params: { slug: trip.slug } }));
 }
 
 const { slug } = Astro.params;
+const trips = await getTrips();
 const trip = trips.find((item) => item.slug === slug);
 
 if (!trip) {

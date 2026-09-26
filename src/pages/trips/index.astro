@@ -4,7 +4,7 @@ import TripsPageContent from "../../components/TripsPageContent.astro";
 import { createCollectionPageJsonLd } from "../../utils/seo";
 import { getTripListingData } from "../../utils/tripPagination";
 
-const { upcomingTrips, pastTrips, pagination } = getTripListingData(1);
+const { upcomingTrips, pastTrips, pagination } = await getTripListingData(1);
 
 const tripsStructuredData = createCollectionPageJsonLd(
   "Χάρτης εξορμήσεων Φ.Ο.Ο.Γ.",
