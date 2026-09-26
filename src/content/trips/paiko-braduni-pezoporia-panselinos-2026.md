@@ -6,8 +6,8 @@ difficulty: 1
 elevationGain: 200
 distanceKm: 6
 leader: Αναστασία Παπαδοπούλου
-status: active
-shortDescription: Βραδινή πεζοπορία στο Πάικο παρέα με την πανσέληνο, μέσω του δασικού δρόμου ως τη θέση "Παρά Πέντε". Εύκολη διαδρομή, κατάλληλη και για μικρά παιδιά, ανοιχτή σε μέλη και φίλους του συλλόγου.
+status: canceled
+shortDescription: Αναβλήθηκε λόγω καιρικών συνθηκών. Βραδινή πεζοπορία στο Πάικο παρέα με την πανσέληνο, μέσω του δασικού δρόμου ως τη θέση "Παρά Πέντε". Εύκολη διαδρομή, κατάλληλη και για μικρά παιδιά, ανοιχτή σε μέλη και φίλους του συλλόγου.
 location: Ελευθεροχώρι (κεραίες), Πάικο, Πέλλα
 activities:
   - Βραδινή πεζοπορία με φως πανσελήνου
@@ -26,7 +26,7 @@ itinerary:
       - Άφιξη στη θέση "Παρά Πέντε" με κέρασμα από τον σύλλογο
 en:
   title: Evening Full Moon Hike on Mount Paiko
-  shortDescription: An evening hike on Mount Paiko under the full moon, via the forest road to the "Para Pente" spot. An easy route, suitable for young children too, open to club members and friends alike.
+  shortDescription: Postponed due to weather conditions. An evening hike on Mount Paiko under the full moon, via the forest road to the "Para Pente" spot. An easy route, suitable for young children too, open to club members and friends alike.
   location: Eleftherochori (antennas), Paiko, Pella
   activities:
     - Evening hike under the light of the full moon
