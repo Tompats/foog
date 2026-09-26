@@ -2,6 +2,7 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import TripCard from "../../../components/TripCard.astro";
 import SectionHeader from "../../../components/SectionHeader.astro";
+import TripShareStory from "../../../components/TripShareStory.astro";
 import { trips, getLocalizedTrip } from "../../../data/trips";
 import { withLocale } from "../../../utils/url";
 import { createTripJsonLd } from "../../../utils/seo";
@@ -234,6 +235,7 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href, locale);
         >
           {t("tripDetail.backCta")}
         </a>
+        <TripShareStory trip={trip} locale={locale} />
       </div>
     </div>
   </section>

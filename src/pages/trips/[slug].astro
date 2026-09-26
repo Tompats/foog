@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TripCard from "../../components/TripCard.astro";
 import SectionHeader from "../../components/SectionHeader.astro";
+import TripShareStory from "../../components/TripShareStory.astro";
 import { trips } from "../../data/trips";
 import { withBase } from "../../utils/url";
 import { createTripJsonLd } from "../../utils/seo";
@@ -227,6 +228,7 @@ const tripStructuredData = createTripJsonLd(trip, Astro.url.href);
         >
           Πίσω στις εξορμήσεις
         </a>
+        <TripShareStory trip={trip} />
       </div>
     </div>
   </section>

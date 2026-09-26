@@ -119,6 +119,18 @@ const el = {
   "tripDetail.pastMessage":
     "Η εξόρμηση ολοκληρώθηκε. Μείνε συντονισμένος για τις επόμενες περιπέτειες!",
 
+  "tripShare.button": "Κοινοποίηση σε Story",
+  "tripShare.dialogTitle": "Instagram Story",
+  "tripShare.close": "Κλείσιμο",
+  "tripShare.generating": "Δημιουργία γραφικού…",
+  "tripShare.error": "Δεν ήταν δυνατή η δημιουργία του γραφικού. Δοκίμασε ξανά.",
+  "tripShare.previewAlt": "Γραφικό Instagram Story",
+  "tripShare.hint": "Μοιράσου το στο Instagram Story σου ή κατέβασέ το και ανέβασέ το χειροκίνητα. Μην ξεχάσεις να κάνεις tag τον όμιλο!",
+  "tripShare.share": "Κοινοποίηση",
+  "tripShare.download": "Λήψη",
+  "tripShare.upcomingTagline": "Έλα μαζί μας!",
+  "tripShare.pastTagline": "Ήμασταν εκεί!",
+
   "boardCard.noPhotoAlt": "Φωτογραφία μέλους δεν είναι διαθέσιμη",
   "coachCard.noPhotoAlt": "Φωτογραφία προπονητή δεν είναι διαθέσιμη",
 };
@@ -228,6 +240,18 @@ const en: Record<keyof typeof el, string> = {
     "This trip has been postponed. A new date will be announced soon.",
   "tripDetail.pastMessage":
     "This trip has already taken place. Stay tuned for the next adventure!",
+
+  "tripShare.button": "Share to Story",
+  "tripShare.dialogTitle": "Instagram Story",
+  "tripShare.close": "Close",
+  "tripShare.generating": "Creating graphic…",
+  "tripShare.error": "Couldn't create the graphic. Please try again.",
+  "tripShare.previewAlt": "Instagram Story graphic",
+  "tripShare.hint": "Share it to your Instagram Story, or download it and upload it manually. Don't forget to tag the club!",
+  "tripShare.share": "Share",
+  "tripShare.download": "Download",
+  "tripShare.upcomingTagline": "Join us!",
+  "tripShare.pastTagline": "We were there!",
 
   "boardCard.noPhotoAlt": "Member photo not available",
   "coachCard.noPhotoAlt": "Coach photo not available",
