@@ -140,9 +140,11 @@ const shareData = {
   <dialog
     data-trip-share-dialog
     aria-labelledby={`trip-share-title-${variant}-${trip.slug}`}
-    class="w-[min(92vw,26rem)] rounded-[28px] border border-brand-river/25 bg-brand-cloud p-0 text-brand-rocky shadow-xl backdrop:bg-brand-rocky/70 backdrop:backdrop-blur-sm"
+    class="w-[min(92vw,26rem)] overflow-hidden rounded-[28px] border border-brand-river/25 bg-brand-cloud/80 p-0 text-brand-rocky shadow-xl shadow-brand-river/30 backdrop-blur-md backdrop:bg-brand-rocky/70 backdrop:backdrop-blur-sm"
   >
-    <div class="flex flex-col gap-4 p-5">
+    <div
+      class="flex flex-col gap-4 p-5 bg-gradient-to-br from-brand-river/10 via-brand-cloud to-brand-river/5"
+    >
       <div class="flex items-center justify-between gap-4">
         <h2
           id={`trip-share-title-${variant}-${trip.slug}`}
