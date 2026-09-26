@@ -10,10 +10,15 @@ const siteBasePath = siteUrl.pathname.replace(/\/$/, "") || "";
 const scheduledStatus = "https://schema.org/EventScheduled";
 const completedStatus = "https://schema.org/EventCompleted";
 const cancelledStatus = "https://schema.org/EventCancelled";
+const postponedStatus = "https://schema.org/EventPostponed";
 
 const resolveEventStatus = (trip: Trip) => {
   if (trip.status === "canceled") {
     return cancelledStatus;
+  }
+
+  if (trip.status === "postponed") {
+    return postponedStatus;
   }
 
   return getTripTimelineStatus(trip) === "upcoming"

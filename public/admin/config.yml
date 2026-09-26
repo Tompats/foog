@@ -93,6 +93,7 @@ collections:
         widget: select
         options:
           - { label: Ενεργή, value: active }
+          - { label: Αναβλήθηκε, value: postponed }
           - { label: Ακυρωμένη, value: canceled }
         default: active
       - label: Σύντομη περιγραφή

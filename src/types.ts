@@ -2,7 +2,7 @@ import type { ImageMetadata } from 'astro';
 
 export type TripType = 'hiking' | 'mountaineering' | 'ski';
 
-export type TripStatus = 'active' | 'canceled';
+export type TripStatus = 'active' | 'postponed' | 'canceled';
 
 export interface Trip {
   slug: string;

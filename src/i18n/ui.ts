@@ -68,6 +68,7 @@ const el = {
 
   "tripStatus.upcomingBadge": "Διαθέσιμες θέσεις",
   "tripStatus.pastBadge": "Ολοκληρωμένη",
+  "tripStatus.postponedBadge": "Αναβλήθηκε",
   "tripStatus.canceledBadge": "Ακυρωμένη",
   "tripStatus.upcomingTimeline": "Επόμενη",
   "tripStatus.pastTimeline": "Παλαιότερη",
@@ -113,6 +114,8 @@ const el = {
   "tripDetail.backCta": "Πίσω στις εξορμήσεις",
   "tripDetail.canceledMessage":
     "Η εξόρμηση ακυρώθηκε και δεν δέχεται νέες συμμετοχές.",
+  "tripDetail.postponedMessage":
+    "Η εξόρμηση αναβλήθηκε. Θα ανακοινωθεί νέα ημερομηνία σύντομα.",
   "tripDetail.pastMessage":
     "Η εξόρμηση ολοκληρώθηκε. Μείνε συντονισμένος για τις επόμενες περιπέτειες!",
 
@@ -175,6 +178,7 @@ const en: Record<keyof typeof el, string> = {
 
   "tripStatus.upcomingBadge": "Spots available",
   "tripStatus.pastBadge": "Completed",
+  "tripStatus.postponedBadge": "Postponed",
   "tripStatus.canceledBadge": "Canceled",
   "tripStatus.upcomingTimeline": "Upcoming",
   "tripStatus.pastTimeline": "Past",
@@ -220,6 +224,8 @@ const en: Record<keyof typeof el, string> = {
   "tripDetail.backCta": "Back to trips",
   "tripDetail.canceledMessage":
     "This trip has been canceled and is no longer accepting sign-ups.",
+  "tripDetail.postponedMessage":
+    "This trip has been postponed. A new date will be announced soon.",
   "tripDetail.pastMessage":
     "This trip has already taken place. Stay tuned for the next adventure!",
 

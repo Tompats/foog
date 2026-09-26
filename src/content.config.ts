@@ -33,7 +33,7 @@ const trips = defineCollection({
     elevationGain: z.number(),
     distanceKm: z.number(),
     leader: z.string(),
-    status: z.enum(['active', 'canceled']),
+    status: z.enum(['active', 'postponed', 'canceled']),
     shortDescription: z.string(),
     location: z.string(),
     activities: z.array(z.string()),
