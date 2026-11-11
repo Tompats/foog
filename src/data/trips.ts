@@ -286,6 +286,32 @@ export const trips: Trip[] = [
         entries: ['Πρωινή βόλτα στη Βοβούσα', 'Επιστροφή στα Γιαννιτσά']
       }
     ]
+  },
+  {
+    slug: 'limni-plastira-voutsikaki-2026',
+    title: 'Λίμνη Πλαστήρα - Κορυφή Βουτσικάκη',
+    startDate: '2026-11-14',
+    endDate: '2026-11-15',
+    type: 'hiking',
+    difficulty: 3,
+    elevationGain: 1000,
+    distanceKm: 12.89,
+    leader: 'Αναστασία Παπαδοπούλου',
+    status: 'active',
+    shortDescription: 'Πεζοπορικό - ορειβατικό διήμερο στη Λίμνη Πλαστήρα και στην κορυφή Βουτσικάκη (2.154μ.), την τρίτη ψηλότερη κορυφή των Αγράφων, με επιλογή απαιτητικής ή εύκολης διαδρομής τη δεύτερη μέρα.',
+    location: 'Λίμνη Πλαστήρα - Βουτσικάκη, Άγραφα, Καρδίτσα',
+    activities: ['Απαλή πεζοπορία γύρω από τη Λίμνη Πλαστήρα', 'Ανάβαση στην κορυφή Βουτσικάκη (2.154μ.) μέσω Τέμπλας', 'Εναλλακτική εύκολη πεζοπορική διαδρομή'],
+    gear: ['Σακίδιο 30-35L', 'Μπατόν πεζοπορίας', 'Αδιάβροχο μπουφάν', 'Παπούτσια πεζοπορίας υψηλού λαιμού', 'Θερμικά ρούχα'],
+    itinerary: [
+      {
+        label: 'Ημέρα 1',
+        entries: ['Αναχώρηση με 35θέσιο λεωφορείο από τα Γιαννιτσά', 'Απαλή διαδρομή προς τη Λίμνη Πλαστήρα', 'Τακτοποίηση σε ξενοδοχείο (δίκλινα, τρίκλινα και τετράκλινα δωμάτια)']
+      },
+      {
+        label: 'Ημέρα 2',
+        entries: ['Επιλογή Α (απαιτητική): από το καταφύγιο Αγράφων στην κορυφή Βουτσικάκη (2.154μ.) μέσω Τέμπλας, 12,89 χλμ. κυκλική διαδρομή με 1.000μ. ανάβαση (περίπου 3 ώρες ανάβαση) και θέα σε όλα τα Άγραφα και τη Λίμνη Πλαστήρα', 'Επιλογή Β (εύκολη): καθαρά πεζοπορική διαδρομή για όσους προτιμούν πιο χαλαρό ρυθμό', 'Επιστροφή στα Γιαννιτσά']
+      }
+    ]
   }
 ];
 
@@ -674,6 +700,42 @@ export const tripTranslations: Record<string, TripTranslation> = {
       {
         label: 'Day 2',
         entries: ['Morning stroll around Vovousa', 'Return to Giannitsa'],
+      },
+    ],
+  },
+  'limni-plastira-voutsikaki-2026': {
+    title: 'Lake Plastira - Voutsikaki Summit',
+    shortDescription:
+      'A two-day hiking/mountaineering trip to Lake Plastira and the summit of Voutsikaki (2,154m), the third-highest peak in the Agrafa mountains, with a choice between a demanding or an easy route on the second day.',
+    location: 'Lake Plastira - Voutsikaki, Agrafa, Karditsa',
+    activities: [
+      'Easy hike around Lake Plastira',
+      'Ascent to the Voutsikaki summit (2,154m) via Templa',
+      'Alternative easy hiking route',
+    ],
+    gear: [
+      '30-35L backpack',
+      'Trekking poles',
+      'Waterproof jacket',
+      'High-ankle hiking boots',
+      'Thermal clothing',
+    ],
+    itinerary: [
+      {
+        label: 'Day 1',
+        entries: [
+          'Departure by 35-seat coach from Giannitsa',
+          'Easy hike toward Lake Plastira',
+          'Check-in at a hotel (twin, triple, and quad rooms available)',
+        ],
+      },
+      {
+        label: 'Day 2',
+        entries: [
+          'Option A (demanding): from the Agrafa refuge to the Voutsikaki summit (2,154m) via Templa, a 12.89km loop with 1,000m of ascent (about 3 hours climbing), with views across Agrafa and Lake Plastira',
+          'Option B (easy): a purely hiking route for a more relaxed pace',
+          'Return to Giannitsa',
+        ],
       },
     ],
   },
